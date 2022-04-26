@@ -1,0 +1,23 @@
+package edu.whut.bear.panda.service;
+
+import com.github.pagehelper.PageInfo;
+import edu.whut.bear.panda.pojo.Book;
+import org.springframework.stereotype.Service;
+
+/**
+ * @author Spring-_-Bear
+ * @datetime 2022/4/26 20:08
+ */
+@Service
+public interface BookService {
+    /**
+     * Get a book page data randomly
+     *
+     * @param title           The title of the book which user want to search
+     * @param pageNum         The page num
+     * @param pageSize        Data size per page
+     * @param navigationPages Navigation pages
+     * @return Book page info
+     */
+    PageInfo<Book> getBookPageData(String title, Integer pageNum, Integer pageSize, Integer navigationPages);
+}
