@@ -7,6 +7,7 @@
     <select id="getAllBooks" resultType="Book">
         select *
         from t_book
+        where book_state = 0
     </select>
 
     <!-- List<Book> getBooksByTitle(@Param("title") String title); -->
@@ -14,5 +15,13 @@
         select *
         from t_book
         where title like '%${title}%'
+          and book_state = 0
+    </select>
+
+    <!-- int getBookTotalCounts(); -->
+    <select id="getBookTotalCounts" resultType="java.lang.Integer">
+        select count(*)
+        from t_book
+        where book_state = 0
     </select>
 </mapper>

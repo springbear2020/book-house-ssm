@@ -11,8 +11,8 @@ import java.util.Date;
  * @author Spring-_-Bear
  * @datetime 2022/4/26 20:07
  */
-@Component
 @Data
+@Component
 public class Book {
     public static final int ON = 0;
     public static final int OFF = 1;
@@ -28,7 +28,7 @@ public class Book {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date uploadTime;
-    private Integer bookState = ON;
+    private Integer bookState;
     private String bookPath;
     private String coverPath;
     private String comments;

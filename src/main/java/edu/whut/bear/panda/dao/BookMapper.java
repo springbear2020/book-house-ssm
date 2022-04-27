@@ -26,4 +26,11 @@ public interface BookMapper {
      * @return Book list or null
      */
     List<Book> getBooksByTitle(@Param("title") String title);
+
+    /**
+     * Get the total count of the book record
+     *
+     * @return Book total count
+     */
+    int getBookTotalCounts();
 }

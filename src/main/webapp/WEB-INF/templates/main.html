@@ -17,6 +17,7 @@
     <link th:href="@{/static/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link th:href="@{/static/css/index.css}" rel="stylesheet">
+    <link th:href="@{/static/css/main.css}" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -26,48 +27,10 @@
 
     <script th:src="@{/static/js/jquery-1.7.2.js}"></script>
     <script th:src="@{/static/js/book.js}"></script>
-    <script th:src="@{/static/js/index.js}"></script>
-
 </head>
 <body>
 <!-- Context path -->
 <span id="span-context-path" th:text="@{/}" style="display: none;opacity: 100%"></span>
-
-<!-- Login modal -->
-<div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="modal-login">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header" style="text-align: center">
-                <button type="button" id="btn-login-modal-close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><strong>欢迎回来</strong></h4>
-            </div>
-            <div class="modal-body">
-                <form id="form-login">
-                    <div class="form-group has-feedback">
-                        <label for="input-login-username" class="control-label sr-only"></label>
-                        <input type="text" id="input-login-username" class="form-control" name="username" placeholder="用户名">
-                        <span class="help-block"></span>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <label for="input-login-password" class="control-label sr-only"></label>
-                        <input type="password" id="input-login-password" class="form-control" name="password" placeholder="密码">
-                        <span class="help-block"></span>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    </div>
-                    <button type="button" id="btn-login" class="btn btn-primary btn-block">立即登录</button>
-                </form>
-            </div>
-            <hr/>
-            <div>
-                <a th:href="@{/}" target="_blank"><img th:src="@{/static/img/WeChat.ico}" alt="" style="margin-left: 55px" src=""></a>
-                <a th:href="@{/}" target="_blank"><img th:src="@{/static/img/GitHub.ico}" alt="" style="margin-left: 40px" src=""></a>
-                <a th:href="@{/}" target="_blank"><img th:src="@{/static/img/QQ.ico}" alt="" style="margin-left: 40px" src=""></a>
-            </div>
-            <hr/>
-        </div>
-    </div>
-</div>
 
 <!-- Notification modal -->
 <div class="modal fade" id="div-modal-notice" tabindex="-1" role="dialog" aria-labelledby="modal-notice" aria-hidden="true">
@@ -90,13 +53,14 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="navbar-brand">
-                <a th:href="@{/}"><img alt="Brand" th:src="@{/static/img/panda.png}" style="height: 40px;width: 40px" src=""></a>
+                <a th:href="@{/dispatcher}"><img alt="Brand" th:src="@{/static/img/panda.png}" style="height: 40px;width: 40px" src=""></a>
             </div>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="text-center"><a href="#">注册</a></li>
-                <li class="text-center"><a role="button" id="link-login">登录</a></li>
+                <li class="nav-item"><a href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span></a></li>
+                <li class="nav-item"><a href="#" style="padding: 5px"><img alt="Portrait" th:src="${session.user.portraitPath}" src=""></a></li>
+                <li class="nav-item"><a href="#"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a> </li>
             </ul>
             <form class="navbar-form navbar-right" role="search">
                 <div class="input-group">

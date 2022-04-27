@@ -20,4 +20,12 @@ public interface BookService {
      * @return Book page info
      */
     PageInfo<Book> getBookPageData(String title, Integer pageNum, Integer pageSize, Integer navigationPages);
+
+    /**
+     * Get the number of book record total pages
+     *
+     * @param pageSize Page size
+     * @return Number of book data total pages
+     */
+    int getTotalPages(int pageSize);
 }

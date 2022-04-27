@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@PropertySource("classpath:panda.properties")
 @PropertySource("classpath:jdbc.properties")
+@PropertySource("classpath:panda.properties")
 public class PropertyUtils {
     /**
      * JDBC property
