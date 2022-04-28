@@ -10,4 +10,17 @@
         where username = #{username}
           and password = #{password}
     </select>
+
+    <!-- User getUserByEmail(@Param("email") String email); -->
+    <select id="getUserByEmail" resultType="User">
+        select *
+        from t_user
+        where email = #{email}
+    </select>
+
+    <!-- int saveUser(User user); -->
+    <insert id="saveUser">
+        insert into t_user(username, password, email, type, status, portrait_path, register_date)
+        values (#{username}, #{password}, #{email}, #{type}, #{status}, #{portraitPath}, #{registerDate})
+    </insert>
 </mapper>

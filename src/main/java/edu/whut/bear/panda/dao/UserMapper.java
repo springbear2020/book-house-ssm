@@ -18,4 +18,20 @@ public interface UserMapper {
      * @return User or null
      */
     User getUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+
+    /**
+     * Get the user info by the email address
+     *
+     * @param email Email address
+     * @return User or null
+     */
+    User getUserByEmail(@Param("email") String email);
+
+    /**
+     * Save user
+     *
+     * @param user User
+     * @return 1 - Save successfully
+     */
+    int saveUser(User user);
 }

@@ -16,7 +16,7 @@ import java.util.Date;
 public class User {
     public static final int USER_TYPE_COMMON = 0;
     public static final int USER_TYPE_ADMIN = 1;
-    public static final int  USER_STATUS_NORMAL = 0;
+    public static final int USER_STATUS_NORMAL = 0;
     public static final int USER_STATUS_ABNORMAL = 1;
     public static final String DEFAULT_PORTRAIT_PATH = "static/img/portrait.png";
 
@@ -24,10 +24,10 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private Integer type;
-    private Integer status;
+    private Integer type = USER_TYPE_COMMON;
+    private Integer status = USER_STATUS_NORMAL;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date registerDate;
-    private String portraitPath;
+    private Date registerDate = new Date();
+    private String portraitPath = DEFAULT_PORTRAIT_PATH;
 }

@@ -19,4 +19,9 @@ public class UserServiceImpl implements UserService {
     public User verifyUsernameAndPassword(String username, String password) {
         return userMapper.getUserByUsernameAndPassword(username, password);
     }
+
+    @Override
+    public boolean saveUser(User user) {
+        return userMapper.saveUser(user) == 1;
+    }
 }

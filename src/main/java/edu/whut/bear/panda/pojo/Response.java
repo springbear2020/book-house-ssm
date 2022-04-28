@@ -13,19 +13,29 @@ import java.util.Map;
 @Data
 @Component
 public class Response {
-    public static final int FAILED = 100;
-    public static final int SUCCESS = 200;
+    public static final int INFO = 0;
+    public static final int SUCCESS = 1;
+    public static final int WARNING = 2;
+    public static final int ERROR = 3;
 
     private Integer code;
     private String msg;
     private Map<String, Object> resultMap;
 
+    public static Response info(String msg, Object obj) {
+        return getResponse(msg, obj, INFO);
+    }
+
+    public static Response warning(String msg, Object obj) {
+        return getResponse(msg, obj, WARNING);
+    }
+
     public static Response success(String msg, Object obj) {
         return getResponse(msg, obj, SUCCESS);
     }
 
-    public static Response failed(String msg, Object obj) {
-        return getResponse(msg, obj, FAILED);
+    public static Response error(String msg, Object obj) {
+        return getResponse(msg, obj, ERROR);
     }
 
     private static Response getResponse(String msg, Object obj, int code) {

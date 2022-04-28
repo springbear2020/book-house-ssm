@@ -36,7 +36,7 @@ public class BookController {
         PageInfo<Book> bookPageInfo = bookService.getBookPageData(title, pageNum, pageSize, navigationPages);
         // No book data queried
         if (bookPageInfo == null || bookPageInfo.getList() == null || bookPageInfo.getList().size() == 0) {
-            return Response.failed("您查询的图书暂无数据", null);
+            return Response.info("您查询的图书暂无数据", null);
         }
         return Response.success("", bookPageInfo);
     }

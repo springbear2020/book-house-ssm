@@ -17,4 +17,12 @@ public interface UserService {
      * @return User or null
      */
     User verifyUsernameAndPassword(String username, String password);
+
+    /**
+     * Save user info entered by user
+     *
+     * @param user User
+     * @return true - Save successfully
+     */
+    boolean saveUser(User user);
 }

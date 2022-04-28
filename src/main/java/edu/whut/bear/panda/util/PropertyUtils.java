@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @PropertySource("classpath:jdbc.properties")
+@PropertySource("classpath:email.properties")
 @PropertySource("classpath:panda.properties")
 public class PropertyUtils {
     /**
@@ -30,7 +31,19 @@ public class PropertyUtils {
      * Panda data config property
      */
     @Value("${panda.bookPageSize}")
-    private int pageSize;
+    private Integer pageSize;
     @Value("${panda.navigationPages}")
-    private int navigationPages;
+    private Integer navigationPages;
+
+    /**
+     * Email data config property
+     */
+    @Value("${email.fromEmail}")
+    private String fromEmail;
+    @Value("${email.password}")
+    private String emailPassword;
+    @Value("${email.smtpHost}")
+    private String smtpHost;
+    @Value("${email.codeLength}")
+    private Integer codeLength;
 }

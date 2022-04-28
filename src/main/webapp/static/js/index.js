@@ -1,250 +1,72 @@
-/* ====================================== Show Book Info ====================================== */
 $(function () {
+    /* ====================================================== Commons =============================================== */
     // Obtain current project context path dynamically
     var contextPath = $("#span-context-path").text();
+    // Response code from server
+    var RESPONSE_INFO_CODE = 0;
+    var RESPONSE_SUCCESS_CODE = 1;
+    var RESPONSE_WARNING_CODE = 2;
+    var RESPONSE_ERROR_CODE = 3;
 
-    /*
-    * After load page successfully,
-    * send an ajax request to server for get book info data in json type,
-    * parse the response json data then build some element to display data for user
-    */
-    $.ajax({
-        url: contextPath + "book/page/1",
-        type: "get",
-        data: "title=",
-        dataType: "json",
-        success: function (response) {
-            if (200 === response.code) {
-                // Build book module to display book info from server
-                build_book_module(response);
-                // Build the navigation page
-                build_nav_module(response);
-                // To top
-                $("body, html").animate({scrollTop: 0}, 1);
-            } else {
-                show_notice_modal(response.msg, "alert-info");
-            }
-        },
-        error: function () {
-            show_notice_modal("获取图书数据失败", "alert-danger");
-        }
+    // Prevent the default submit action of form
+    $("form").on("submit", function () {
+        return false;
     });
-
-    // Deal with the next and last page click event
-    var deal_turn_page_event = function (element, response, pageNum) {
-        element.click(function () {
-            var title = $("#input-book-search-title").val();
-            $.ajax({
-                url: contextPath + "book/page/" + pageNum,
-                type: "get",
-                data: "title=" + title,
-                dataType: "json",
-                success: function (response) {
-                    if (200 === response.code) {
-                        $("#div-main-display").empty();
-                        build_book_module(response);
-                        build_nav_module(response);
-                    } else {
-                        show_notice_modal(response.msg, "alert-info");
-                    }
-                    // To top
-                    $("body, html").animate({scrollTop: 0}, 1);
-                },
-                error: function () {
-                    show_notice_modal("获取图书数据失败", "alert-danger");
-                }
-            })
-        });
-    };
-
-    /*
-     * Search book by title
-     */
-    $("#btn-book-search").click(function () {
-        var $input_search = $("#input-book-search-title");
-        var title = $input_search.val();
-
-        // Send an ajax to server for get books by title
-        $.ajax({
-            url: contextPath + "book/page/1",
-            type: "get",
-            data: "title=" + title,
-            dataType: "json",
-            success: function (response) {
-                if (200 === response.code) {
-                    $("#div-main-display").empty();
-                    build_book_module(response);
-                    build_nav_module(response);
-                } else {
-                    show_notice_modal(response.msg, "alert-info");
-                }
-                // To top
-                $("body, html").animate({scrollTop: 0}, 1);
-            },
-            error: function () {
-                show_notice_modal("获取图书数据失败", "alert-danger");
-            }
-        })
-    });
-
-    // Build the book info display module
-    var build_book_module = function (response) {
-        var bookList = response.resultMap.content.list;
-        var isCoverLeft = true;
-        $.each(bookList, function (index, item) {
-            // Build the dividing line
-            var $hr = $("<hr/>").addClass("featurette-divider");
-            $hr.appendTo("#div-main-display");
-
-            var $book_Info_parent = $("<div></div>");
-            if (isCoverLeft) {
-                $book_Info_parent.addClass("col-md-7 col-md-push-5");
-            } else {
-                $book_Info_parent.addClass("col-md-7");
-            }
-            // Build the title element <p></p>
-            var $title_strong = $("<strong></strong>").append("书&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：");
-            var $title_span = $("<span></span>").append(item.title);
-            var $title_p = $("<p></p>").addClass("lead");
-            $title_p.append($title_strong).append($title_span);
-            $book_Info_parent.append($title_p);
-            // Build the author element <p></p>
-            var $author_strong = $("<strong></strong>").append("作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者：");
-            var $author_span = $("<span></span>").append(item.author);
-            var $author_p = $("<p></p>").addClass("lead");
-            $author_p.append($author_strong).append($author_span);
-            $book_Info_parent.append($author_p);
-            // Build the translator element <p></p>
-            var $translator_strong = $("<strong></strong>").append("译&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者：");
-            var $translator_span = $("<span></span>").append(item.translator);
-            var $translator_p = $("<p></p>").addClass("lead");
-            $translator_p.append($translator_strong).append($translator_span);
-            $book_Info_parent.append($translator_p);
-            // Build the downloads element <p></p>
-            var $download_strong = $("<strong></strong>").append("下&nbsp;&nbsp;载&nbsp;&nbsp;量：");
-            var $download_span = $("<span></span>").append(item.downloads);
-            var $download_a_span = $("<span></span>").addClass("glyphicon glyphicon-save").attr("aria-hidden", "true");
-            var $download_a = $("<a></a>").attr("href", "#");
-            $download_a.append($download_a_span);
-            var $download_p = $("<p></p>").addClass("lead");
-            $download_p.append($download_strong).append($download_a).append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;").append($download_span);
-            $book_Info_parent.append($download_p);
-            // Build the collections element <p></p>
-            var $collection_strong = $("<strong></strong>").append("收&nbsp;&nbsp;藏&nbsp;&nbsp;量：");
-            var $collection_span = $("<span></span>").append(item.collections);
-            var $collection_a_span = $("<span></span>").addClass("glyphicon glyphicon-heart").attr("aria-hidden", "true");
-            var $collection_a = $("<a></a>").attr("href", "#");
-            $collection_a.append($collection_a_span);
-            var $collection_p = $("<p></p>").addClass("lead");
-            $collection_p.append($collection_strong).append($collection_a).append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;").append($collection_span);
-            $book_Info_parent.append($collection_p);
-            // Build the upload username element <p></p>
-            var $upload_username_strong = $("<strong></strong>").append("上传用户：");
-            var $upload_username_span = $("<span></span>").append(item.uploadUsername);
-            var $upload_username_p = $("<p></p>").addClass("lead");
-            $upload_username_p.append($upload_username_strong).append($upload_username_span);
-            $book_Info_parent.append($upload_username_p);
-            // Build the upload time element <p></p>
-            var $upload_time_strong = $("<strong></strong>").append("上传时间：");
-            var $upload_time_span = $("<span></span>").append(item.uploadTime);
-            var $upload_time_p = $("<p></p>").addClass("lead");
-            $upload_time_p.append($upload_time_strong).append($upload_time_span);
-            $book_Info_parent.append($upload_time_p);
-            // Build the comments element <p></p>
-            var $comment_strong = $("<strong></strong>").append("图书评价：");
-            var $comment_span = $("<span></span>").append(item.comments);
-            var $comment_p = $("<p></p>").addClass("lead");
-            $comment_p.append($comment_strong).append($comment_span);
-            $book_Info_parent.append($comment_p);
-
-            var $cover_parent = $("<div></div>");
-            if (isCoverLeft) {
-                $cover_parent.addClass("col-md-5 col-md-pull-7");
-            } else {
-                $cover_parent.addClass("col-md-5");
-            }
-            // Build the cover image
-            var $cover_img = $("<img/>");
-            $cover_img.addClass("featurette-image img-responsive center-block");
-            $cover_img.attr("data-src", "holder.js/500x500/auto");
-            $cover_img.attr("th:src", "@{/" + item.coverPath + "}");
-            $cover_img.attr("alt", "Generic placeholder image");
-            $cover_img.attr("src", item.coverPath)
-            $cover_parent.append($cover_img);
-
-            var $parent = $("<div></div>").addClass("row featurette");
-            $parent.append($book_Info_parent).append($cover_parent).appendTo("#div-main-display");
-            isCoverLeft = !isCoverLeft;
-        });
-    };
-
-    // Build the page navigation
-    var build_nav_module = function (response) {
-        var $hr = $("<hr/>").addClass("featurette-divider");
-        $hr.appendTo("#div-main-display");
-
-        var $ul_page_parent_1 = $("<ul></ul>").addClass("pager");
-        // Build the current page
-        var $cur_page_num_span = $("<span></span>").append(response.resultMap.content.pageNum);
-        var $total_pages_span = $("<span></span>").append(response.resultMap.content.pages);
-        var $cur_page_a = $("<a></a>").append("第 ").append($cur_page_num_span).append(" / ").append($total_pages_span).append(" 页");
-        var $cur_page_li = $("<li></li>").append($cur_page_a);
-        $ul_page_parent_1.append($cur_page_li);
-        // Build the total record counts
-        var $total_counts_span = $("<span></span>").append(response.resultMap.content.total);
-        var $total_counts_a = $("<a></a>").append("共 ").append($total_counts_span).append(" 条");
-        var $total_counts_li = $("<li></li>").append($total_counts_a);
-        $ul_page_parent_1.append($total_counts_li);
-        // Next line
-        var $ul_page_parent_2 = $("<ul></ul>").addClass("pager");
-        // Build the last page
-        var $last_page_span = $("<span></span>").addClass("glyphicon glyphicon-chevron-left").attr("aria-hidden", "true");
-        var $last_page_a = $("<a></a>").append($last_page_span).append("上一页");
-        var $last_page_li = $("<li></li>").append($last_page_a);
-        $ul_page_parent_2.append($last_page_li);
-        // Build the next page
-        var $next_page_span = $("<span></span>").addClass("glyphicon glyphicon-chevron-right").attr("aria-hidden", "true");
-        var $next_page_a = $("<a></a>").append("下一页").append($next_page_span);
-        var $next_page_li = $("<li></li>").append($next_page_a);
-        $ul_page_parent_2.append($next_page_li);
-
-        // Add the nav parent
-        $("<nav></nav>").append($ul_page_parent_1).append($ul_page_parent_2).appendTo("#div-main-display");
-
-        // Deal with the last and next page click event
-        if (response.resultMap.content.hasPreviousPage) {
-            $last_page_a.attr("role", "button").attr("id", "link-last-page");
-            deal_turn_page_event($("#link-last-page"), response, response.resultMap.content.prePage);
-        }
-        if (response.resultMap.content.hasNextPage) {
-            $next_page_a.attr("role", "button").attr("id", "link-next-page");
-            deal_turn_page_event($("#link-next-page"), response, response.resultMap.content.nextPage);
-        }
-    };
 
     // Show the notice modal
-    var show_notice_modal = function (msg, style) {
+    var show_notice_modal = function (responseCode, msg) {
         var $modalObj = $("#div-modal-notice");
         var $noticeObj = $("#h-notice-content");
         // Clear the existed style of the notice object
         $noticeObj.parent().removeClass("alert-info alert-success alert-warning alert-danger");
-        $noticeObj.parent().addClass(style);
+        if (RESPONSE_INFO_CODE === responseCode) {
+            $noticeObj.parent().addClass("alert-info");
+        } else if (RESPONSE_SUCCESS_CODE === responseCode) {
+            $noticeObj.parent().addClass("alert-success");
+        } else if (RESPONSE_WARNING_CODE === responseCode) {
+            $noticeObj.parent().addClass("alert-warning");
+        } else if (RESPONSE_ERROR_CODE === responseCode) {
+            $noticeObj.parent().addClass("alert-danger");
+        }
         $noticeObj.text(msg);
         $modalObj.modal('show');
     };
 
-    // Prevent the default submit action of form
-    $("form").on("submit", function (e) {
-        return false;
-    });
-});
+    /* ========================================= Login and Register Common ========================================== */
+    // Validation type
+    var VALIDATION_SUCCESS_STATUS = "success";
+    var VALIDATION_WARNING_STATUS = "warning"
+    var VALIDATION_ERROR_STATUS = "error";
 
-/* =========================================== TODO Login =========================================== */
+    // Show validate msg of the form item
+    var show_form_item_validate_msg = function (element, status, msg) {
+        // Reset the existing style and clear the notice msg
+        element.parent().removeClass("has-success has-error has-warning");
+        element.next("span").next("span").removeClass("glyphicon-ok glyphicon-remove glyphicon-warning-sign");
+        element.next("span").text("");
 
-$(function () {
-    // Obtain current project context path dynamically
-    var contextPath = $("#context-path").text();
+        if (VALIDATION_SUCCESS_STATUS === status) {
+            element.parent().addClass("has-success");
+            element.next("span").next("span").addClass("glyphicon-ok");
+        } else if (VALIDATION_ERROR_STATUS === status) {
+            element.parent().addClass("has-error");
+            element.next("span").next("span").addClass("glyphicon-remove");
+        } else if (VALIDATION_WARNING_STATUS === status) {
+            element.parent().addClass("has-warning");
+            element.next("span").next("span").addClass("glyphicon-warning-sign");
+        }
+        element.next("span").text(msg);
+    };
 
+    // Remove the existed data and style, clear the validate notice msg
+    var modal_item_reset_default = function (element) {
+        element.val("");
+        element.next("span").text("");
+        element.parent().removeClass("has-success has-error has-warning");
+        element.next("span").next("span").removeClass("glyphicon-ok glyphicon-remove glyphicon-warning-sign");
+    };
+
+    /* ==================================================== Login =================================================== */
     // Open the login modal when click login link
     $("#link-login").click(function () {
         // Can not close it unless click close symbol
@@ -255,105 +77,307 @@ $(function () {
 
     // Login button event
     $("#btn-login").click(function () {
-        // Fix the problem when user login with do nothing after opening the modal
-        if (!verify_username_format()) {
+        /*
+         * Verify the username and password again,
+         * to fix the problem when user login with do nothing after opening the modal,
+         * return false to prevent the send request
+         */
+        if (!verify_login_username_format()) {
             return false;
         }
-        if (!verify_password_format()) {
+        if (!verify_login_password_format()) {
             return false;
         }
 
-        // Send an ajax request the verify the username and password for user login
-        var username = $("#input-login-username").val();
-        var password = $("#input-login-password").val();
+        // Send an ajax request the verify the username and password
         $.ajax({
             url: contextPath + "user",
             method: "get",
             data: $("#form-login").serialize(),
             dataType: "json",
             success: function (response) {
-                if ("200" == response.status) {
-                    location.href = contextPath + "user/main";
+                // Username and password are correct, resend an request to server for page redirect
+                if (RESPONSE_SUCCESS_CODE === response.code) {
+                    location.href = contextPath + "login";
                 } else {
-                    show_notice_modal("100", response.msg);
+                    show_notice_modal(response.code, response.msg);
                 }
             },
             error: function () {
-                show_notice_modal("100", "登录失败，请稍后重试");
+                show_notice_modal(RESPONSE_ERROR_CODE, "请求登录失败，请稍后重试",);
             }
         })
     });
 
+    // Login modal close symbol click event,
+    // reset the style and clean notice content, close the login modal finally
+    $("#btn-login-modal-close").click(function () {
+        // Clear the style and content of the login form item
+        modal_item_reset_default($("#input-login-username"));
+        modal_item_reset_default($("#input-login-password"));
+    });
+
     // Verify the format of the username when content has changed
     $("#input-login-username").change(function () {
-        if (!verify_username_format()) {
-            return false;
-        }
+        verify_login_username_format();
     });
-
-    // Verify the format of the password when content has changed
-    $("#input-login-password").change(function () {
-        if (!verify_password_format()) {
-            return false;
-        }
-    });
-
-    // Verify username format
-    var verify_username_format = function () {
+    // Verify login username format
+    var verify_login_username_format = function () {
         var $usernameObj = $("#input-login-username");
         var username = $usernameObj.val();
         if (username.length <= 0) {
-            show_validate_msg($usernameObj, "error", "用户名不能为空");
+            show_form_item_validate_msg($usernameObj, VALIDATION_ERROR_STATUS, "用户名不能为空");
             return false;
         } else {
-            show_validate_msg($usernameObj, "success", "");
+            show_form_item_validate_msg($usernameObj, VALIDATION_SUCCESS_STATUS, "");
             return true;
         }
     };
 
-    // Verify_password_format
-    var verify_password_format = function () {
+    // Verify the format of the password when content has changed
+    $("#input-login-password").change(function () {
+        verify_login_password_format();
+    });
+    // Verify login password format
+    var verify_login_password_format = function () {
         var $passwordObj = $("#input-login-password");
         var password = $passwordObj.val();
         if (password.length <= 0) {
-            show_validate_msg($passwordObj, "error", "密码不能为空");
+            show_form_item_validate_msg($passwordObj, VALIDATION_ERROR_STATUS, "密码不能为空");
             return false;
         } else {
-            show_validate_msg($passwordObj, "success", "");
+            show_form_item_validate_msg($passwordObj, VALIDATION_SUCCESS_STATUS, "");
             return true;
         }
     };
 
-    // Show the notice modal
-    var show_notice_modal = function (status, msg) {
-        var $modalObj = $("#modal-notice");
-        var $noticeObj = $("#notice-content");
-        // Clear the existed style of the notice object
-        $noticeObj.parent().removeClass("alert-info alert-success alert-warning alert-danger");
-        // Judge the status in order to add different style of the notice
-        if ("200" == status) {
-            $noticeObj.parent().addClass("alert-success");
-        } else {
-            $noticeObj.parent().addClass("alert-danger");
+    /* =================================================== Register ================================================= */
+    // Open the register modal when click register link
+    $("#link-register").click(function () {
+        // Can not close it unless click close symbol
+        $("#modal-register").modal({
+            backdrop: "static"
+        });
+    });
+
+    // Ajax verify the existence of email
+    var isEmailExists = true;
+    var isObtainBtnClicked = false;
+    $("#input-register-email").change(function () {
+        // Verify the format of email at first
+        if (!verify_email_format()) {
+            $("#btn-obtain-code").attr("disabled", "disabled");
+            return false;
         }
-        $noticeObj.text(msg);
-        $modalObj.modal('show');
+
+        // Send an ajax request to server for verifying whether this email has been used
+        var $emailObj = $("#input-register-email");
+        var email = $emailObj.val();
+        $.ajax({
+            url: contextPath + "email/" + email,
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                if (RESPONSE_SUCCESS_CODE === response.code) {
+                    isEmailExists = false;
+                    show_form_item_validate_msg($emailObj, VALIDATION_SUCCESS_STATUS, response.msg);
+
+                    // If the obtain button has not clicked, unblock it
+                    if (!isObtainBtnClicked) {
+                        $("#btn-obtain-code").attr("disabled", false);
+                    }
+                } else {
+                    isEmailExists = true;
+                    $("#btn-obtain-code").attr("disabled", "disabled");
+                    show_form_item_validate_msg($emailObj, VALIDATION_WARNING_STATUS, response.msg);
+                }
+            },
+            error: function () {
+                show_notice_modal( RESPONSE_ERROR_CODE,"请求验证邮箱可用性失败");
+            }
+        });
+    })
+    // Verify email format
+    var verify_email_format = function () {
+        var $emailObj = $("#input-register-email");
+        let email = $emailObj.val();
+        let regExp = new RegExp("^([a-z0-9_-]+)@([\\da-z-]+)\\.([a-z]{2,6})$");
+        if (!regExp.test(email)) {
+            show_form_item_validate_msg($emailObj, VALIDATION_ERROR_STATUS, "无效的邮箱地址");
+            return false;
+        } else {
+            show_form_item_validate_msg($emailObj, VALIDATION_SUCCESS_STATUS, "");
+            return true;
+        }
+    };
+    // Ajax obtain email verify code  button click event
+    $("#btn-obtain-code").on('click', function () {
+        // Verify the format of the email
+        if (!verify_email_format()) {
+            return false;
+        }
+
+        // Let the status of the current button start counting down
+        isObtainBtnClicked = true;
+        let $registerBtn = $(this);
+        $registerBtn.attr("disabled", 'disabled');
+        // Block the obtain code button until time out
+        let countingTime = 120;
+        let time = setInterval(function () {
+            countingTime--;
+            $registerBtn.val(countingTime);
+            if (countingTime <= 0) {
+                isObtainBtnClicked = false;
+                $registerBtn.val("获取");
+                $registerBtn.attr("disabled", false);
+                clearInterval(time);
+            }
+        }, 1000)
+
+        // Send an ajax to obtain code from server
+        var email = $("#input-register-email").val();
+        $.ajax({
+            url: contextPath + "email",
+            data: "email=" + email,
+            type: "get",
+            dataType: "json",
+            success: function (response) {
+                // If the email code don't sent successfully, give user some notice info
+                if (RESPONSE_SUCCESS_CODE !== response.code) {
+                    show_notice_modal(response.code, response.msg);
+                }
+            },
+            error: function () {
+                show_notice_modal(RESPONSE_ERROR_CODE, "请求发送邮箱验证码失败");
+            }
+        })
+    });
+
+    // Register button event
+    $("#btn-register").click(function () {
+        // Fix the problem that user do nothing after opening the modal
+        if (!verify_register_username_format()) {
+            return false;
+        }
+        if (!verify_register_password_format()) {
+            return false;
+        }
+        if (!verify_email_format()) {
+            return false;
+        }
+        if (isEmailExists) {
+            show_form_item_validate_msg($("#input-register-email"), VALIDATION_WARNING_STATUS, "邮箱已被占用，请重新输入");
+            return false;
+        } else {
+            show_form_item_validate_msg($("#input-register-email"), VALIDATION_SUCCESS_STATUS, "");
+        }
+        if (!verify_code_format()) {
+            return false;
+        }
+
+        // Send an ajax request to server for user register
+        $.ajax({
+            url: contextPath + "user",
+            type: "post",
+            data: $("#form-register").serialize(),
+            dataType: "json",
+            success: function (response) {
+                if (RESPONSE_SUCCESS_CODE === response.code) {
+                    show_notice_modal(response.code, response.msg);
+                } else {
+                    show_notice_modal(response.code, response.msg);
+                }
+            },
+            error: function () {
+                show_notice_modal(RESPONSE_ERROR_CODE, "请求注册失败，请稍后重试",);
+            }
+        });
+    });
+
+    // Register modal close event
+    $("#btn-register-modal-close").click(function () {
+        // Clear the style and content of the register form item
+        modal_item_reset_default($("#input-register-username"));
+        modal_item_reset_default($("#input-register-password"));
+        modal_item_reset_default($("#input-register-email"));
+        // The verify code input text is a special one
+        input_register_verify_code($("#input-register-verify-code"));
+    });
+    // Remove the style and data of the input-register-verify-code
+    var input_register_verify_code = function (element) {
+        element.val("");
+        var $helpObj = element.parent().next("span");
+        var $commonParentObj = element.parent().parent();
+        // Reset the style and clean content
+        $helpObj.text("");
+        $commonParentObj.removeClass("has-error has-success has-warning");
     };
 
-    // Show validate msg of the form item
-    var show_validate_msg = function (element, status, msg) {
-        // Clear the existing style and restore the default value of the prompt message
-        element.parent().removeClass("has-success has-error");
-        element.next("span").text("");
-        element.next("span").next("span").removeClass("glyphicon-ok glyphicon-remove");
-        if ("success" === status) {
-            element.parent().addClass("has-success");
-            element.next("span").next("span").addClass("glyphicon-ok");
+    // Verify the format of the username
+    $("#input-register-username").change(function () {
+        verify_register_username_format();
+    });
+    // Verify register username format
+    var verify_register_username_format = function () {
+        var $usernameObj = $("#input-register-username");
+        var username = $usernameObj.val();
+        if (username.length < 2 || username.length > 16) {
+            show_form_item_validate_msg($usernameObj, VALIDATION_ERROR_STATUS, "用户名为 2-16 位中英文字符");
+            return false;
         } else {
-            element.parent().addClass("has-error");
-            element.next("span").next("span").addClass("glyphicon-remove");
-            element.next("span").text(msg);
+            show_form_item_validate_msg($usernameObj, VALIDATION_SUCCESS_STATUS, "");
+            return true;
         }
+    };
+
+    // Verify the format of password
+    $("#input-register-password").change(function () {
+        verify_register_password_format();
+    });
+    // Verify password format
+    var verify_register_password_format = function () {
+        var $passwordObj = $("#input-register-password");
+        var password = $passwordObj.val();
+        if (password.length < 6 || password.length > 16) {
+            show_form_item_validate_msg($passwordObj, VALIDATION_ERROR_STATUS, "密码为 6-16 位字符");
+            return false;
+        } else {
+            show_form_item_validate_msg($passwordObj, VALIDATION_SUCCESS_STATUS, "")
+            return true;
+        }
+    };
+
+    // Verify the format of the verify code
+    $("#input-register-verify-code").change(function () {
+        verify_code_format();
+    });
+    // Verify register verify code format
+    var verify_code_format = function () {
+        var $codeObj = $("#input-register-verify-code");
+        var code = $codeObj.val();
+        if (code.length < 6) {
+            show_validate_email_code_msg($codeObj, VALIDATION_ERROR_STATUS, "验证码长度不正确");
+            return false;
+        } else {
+            show_validate_email_code_msg($codeObj, VALIDATION_SUCCESS_STATUS, "");
+            return true;
+        }
+    };
+    // Show the verify msg of the email verify code
+    var show_validate_email_code_msg = function (element, status, msg) {
+        var $helpObj = element.parent().next("span");
+        var $parentObj = element.parent().parent();
+        // Reset the style and clear content
+        $helpObj.text("");
+        $parentObj.removeClass("has-error has-success has-warning");
+
+        if (VALIDATION_SUCCESS_STATUS === status) {
+            $parentObj.addClass("has-success");
+        } else if (VALIDATION_ERROR_STATUS === status) {
+            $parentObj.addClass("has-error");
+        } else if (VALIDATION_WARNING_STATUS === status) {
+            $parentObj.addClass("has-warning");
+        }
+        $helpObj.text(msg);
     };
 });
-
