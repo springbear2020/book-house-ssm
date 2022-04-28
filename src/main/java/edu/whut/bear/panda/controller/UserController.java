@@ -42,8 +42,8 @@ public class UserController {
         return Response.success("", null);
     }
 
-    @GetMapping("/login")
-    public String loginPageRedirect(HttpSession session) {
+    @GetMapping("/dispatcher")
+    public String pageDispatcher(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/";
@@ -65,6 +65,7 @@ public class UserController {
         }
         // Save user to the database table
         if (userService.saveUser(user)) {
+            session.removeAttribute("verifyCode");
             return Response.success("注册成功，赶快返回登录吧", null);
         }
         return Response.error("注册失败，请稍后重试", null);

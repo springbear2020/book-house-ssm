@@ -1,0 +1,29 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+    padding-top: 50px;
+}
+
+/* My customize style */
+.navbar-brand {
+    float: left;
+    height: 50px;
+    width: 50px;
+    padding: 5px 5px;;
+    font-size: 18px;
+    line-height: 20px
+}
+
+/*
+ * Footer
+ */
+.blog-footer {
+    padding: 25px 0;
+    color: #999;
+    text-align: center;
+    background-color: #222;
+    border-top: 1px solid #e5e5e5;
+}
+
+.blog-footer p:last-child {
+    margin-bottom: 0;
+}

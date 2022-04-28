@@ -44,7 +44,7 @@ public class EmailController {
         if (verifyCode == null) {
             return Response.warning("服务器繁忙，验证码发送失败", null);
         }
-        // TODO 设置验证码有效时间
+        // TODO Set the verify code effective time 10 minutes
         session.setAttribute("verifyCode", verifyCode);
         return Response.success("", null);
     }

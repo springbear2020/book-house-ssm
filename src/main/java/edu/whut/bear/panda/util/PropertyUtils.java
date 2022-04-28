@@ -12,11 +12,12 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @PropertySource("classpath:jdbc.properties")
+@PropertySource("classpath:qiniu.properties")
 @PropertySource("classpath:email.properties")
 @PropertySource("classpath:panda.properties")
 public class PropertyUtils {
     /**
-     * JDBC property
+     * JDBC config data
      */
     @Value("${jdbc.driverClass}")
     private String driverClass;
@@ -28,7 +29,7 @@ public class PropertyUtils {
     private String password;
 
     /**
-     * Panda data config property
+     * Panda config data
      */
     @Value("${panda.bookPageSize}")
     private Integer pageSize;
@@ -36,7 +37,7 @@ public class PropertyUtils {
     private Integer navigationPages;
 
     /**
-     * Email data config property
+     * Email config data
      */
     @Value("${email.fromEmail}")
     private String fromEmail;
@@ -46,4 +47,14 @@ public class PropertyUtils {
     private String smtpHost;
     @Value("${email.codeLength}")
     private Integer codeLength;
+
+    /**
+     * Qiniu config data
+     */
+    @Value("${qiniu.accessKey}")
+    private String accessKey;
+    @Value("${qiniu.secretKey}")
+    private String secretKey;
+    @Value("${qiniu.bucketName}")
+    private String bucketName;
 }

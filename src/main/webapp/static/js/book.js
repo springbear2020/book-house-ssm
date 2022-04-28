@@ -33,23 +33,6 @@ $(function () {
     };
 
     /* ================================================= Show Book ================================================== */
-    // After load page successfully, send an ajax request to server for get book info data in json type
-    // get_book_page_data("", 1);
-
-    // Deal with the next and last page click event
-    var deal_turn_page_event = function (element, pageNum) {
-        element.click(function () {
-            var title = $("#input-book-search-title").val();
-            get_book_page_data(title, pageNum);
-        });
-    };
-
-    // Search book by title button click event
-    $("#btn-book-search").click(function () {
-        var title = $("#input-book-search-title").val();
-        get_book_page_data(title, 1);
-    });
-
     // Get book page data though book title and the page number
     var get_book_page_data = function (title, pageNum) {
         // Send an ajax to server for get books by title
@@ -75,6 +58,23 @@ $(function () {
             }
         })
     };
+
+    // After load page successfully, send an ajax request to server for get book info data in json type
+    get_book_page_data("", 1);
+
+    // Deal with the next and last page click event
+    var deal_turn_page_event = function (element, pageNum) {
+        element.click(function () {
+            var title = $("#input-book-search-title").val();
+            get_book_page_data(title, pageNum);
+        });
+    };
+
+    // Search book by title button click event
+    $("#btn-book-search").click(function () {
+        var title = $("#input-book-search-title").val();
+        get_book_page_data(title, 1);
+    });
 
     // Build the book info display module
     var build_book_module = function (response) {

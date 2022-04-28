@@ -18,4 +18,15 @@ public class DateUtils {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return dateFormat.format(date);
     }
+
+    /**
+     * java.util.Date format to file name format like 202204222300
+     *
+     * @param date java.util.Date
+     * @return Date format string like 202204222300
+     */
+    public static String dateIntoFileName(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        return dateFormat.format(date);
+    }
 }

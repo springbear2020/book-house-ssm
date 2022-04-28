@@ -7,6 +7,7 @@ body {
     padding-top: 50px;
     /*background-color: #222222;*/
     /*border-color: #080808*/
+    /*background-color: #222;*/
 }
 
 /*
@@ -34,7 +35,7 @@ body {
     padding: 25px 0;
     color: #999;
     text-align: center;
-    background-color: #f9f9f9;
+    background-color: #222;
     border-top: 1px solid #e5e5e5;
 }
 

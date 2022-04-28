@@ -26,11 +26,33 @@
     <![endif]-->
 
     <script th:src="@{/static/js/jquery-1.7.2.js}"></script>
+    <script th:src="@{/static/js/qiniu.min.js}"></script>
     <script th:src="@{/static/js/book.js}"></script>
+    <script th:src="@{/static/js/main.js}"></script>
 </head>
 <body>
 <!-- Context path -->
 <span id="span-context-path" th:text="@{/}" style="display: none;opacity: 100%"></span>
+
+<!-- Upload book modal -->
+<div class="modal fade" id="modal-upload-book" tabindex="-1" role="dialog" aria-labelledby="modal-upload-book">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center">
+                <button type="button" id="btn-book-upload-modal-close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>图书上传</strong></h4>
+            </div>
+            <input type="file" class="btn btn-block btn-info" accept="application/pdf" id="input-book-upload"/>
+            <hr class="featurette-divider">
+            <div id="div-book-choose-upload" style="display: none">
+                <button class="btn btn-block btn-primary" id="btn-book-start-upload">开始上传</button>
+            </div>
+            <div class="progress" style="display: none">
+                <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Notification modal -->
 <div class="modal fade" id="div-modal-notice" tabindex="-1" role="dialog" aria-labelledby="modal-notice" aria-hidden="true">
@@ -43,7 +65,7 @@
 </div>
 
 <!-- START THE NAVBAR-->
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -57,10 +79,16 @@
             </div>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
+<!--            <ul class="nav navbar-nav navbar-left"></ul>-->
             <ul class="nav navbar-nav navbar-right">
-                <li class="nav-item text-center"><a href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span></a></li>
-                <li class="nav-item text-center"><a href="#" style="padding: 5px"><img alt="Portrait" th:src="${session.user.portraitPath}" src=""></a></li>
-                <li class="nav-item text-center"><a href="#"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a> </li>
+                <li class="nav-item"><a id="link-upload-book"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> </a> </li>
+                <li class="nav-item"><a href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span></a></li>
+                <li class="nav-item"><a href="#"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a></li>
+                <li class="nav-item"><a href="#"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></li>
+                <li class="nav-item"><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a> </li>
+                <li class="nav-item"><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a> </li>
+                <li class="nav-item"><a href="#"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a> </li>
+                <li class="nav-item"><a href="#" style="padding: 5px"><img alt="Portrait" th:src="${session.user.portraitPath}" src=""></a></li>
             </ul>
             <form class="navbar-form navbar-right" role="search">
                 <div class="input-group">
