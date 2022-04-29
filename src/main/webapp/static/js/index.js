@@ -91,14 +91,14 @@ $(function () {
 
         // Send an ajax request the verify the username and password
         $.ajax({
-            url: contextPath + "user",
+            url: contextPath + "user/" + $("#input-login-username").val(),
             method: "get",
             data: $("#form-login").serialize(),
             dataType: "json",
             success: function (response) {
                 // Username and password are correct, resend an request to server for page redirect
                 if (RESPONSE_SUCCESS_CODE === response.code) {
-                    location.href = contextPath + "dispatcher";
+                    location.href = contextPath + "dispatcher/login";
                 } else {
                     show_notice_modal(response.code, response.msg);
                 }
@@ -193,7 +193,7 @@ $(function () {
                 }
             },
             error: function () {
-                show_notice_modal( RESPONSE_ERROR_CODE,"请求验证邮箱可用性失败");
+                show_notice_modal(RESPONSE_ERROR_CODE, "请求验证邮箱可用性失败");
             }
         });
     })

@@ -5,10 +5,7 @@ import edu.whut.bear.panda.pojo.User;
 import edu.whut.bear.panda.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,8 +19,8 @@ public class UserController {
     private UserService userService;
 
     @ResponseBody
-    @GetMapping("/user")
-    public Response login(@RequestParam("username") String username, @RequestParam("password") String password, HttpSession session) {
+    @GetMapping("/user/{username}")
+    public Response login(@PathVariable("username") String username, @RequestParam("password") String password, HttpSession session) {
         // Empty username or password parameters
         if (username == null || username.length() == 0 || password == null || password.length() == 0) {
             return Response.warning("用户名或密码不能为空", null);
@@ -42,17 +39,8 @@ public class UserController {
         return Response.success("", null);
     }
 
-    @GetMapping("/dispatcher")
-    public String pageDispatcher(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/";
-        }
-        return User.USER_TYPE_ADMIN == user.getType() ? "redirect:/admin" : "redirect:/main";
-    }
-
-    @PostMapping("/user")
     @ResponseBody
+    @PostMapping("/user")
     public Response register(@RequestParam("verifyCode") String codeByUser, User user, HttpSession session) {
         // Verify the correctness of the email verify code entered by user
         String codeBySystem = (String) session.getAttribute("verifyCode");
@@ -69,5 +57,14 @@ public class UserController {
             return Response.success("注册成功，赶快返回登录吧", null);
         }
         return Response.error("注册失败，请稍后重试", null);
+    }
+
+    @GetMapping("/user")
+    public String toUserMainPage(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || user.getType() != User.USER_TYPE_COMMON) {
+            return "redirect:/";
+        }
+        return "user_main";
     }
 }
