@@ -23,4 +23,11 @@
         insert into t_user(username, password, email, type, status, portrait_path, register_date)
         values (#{username}, #{password}, #{email}, #{type}, #{status}, #{portraitPath}, #{registerDate})
     </insert>
+
+    <!-- User getUserByUsername(@Param("username") String username); -->
+    <select id="getUserByUsername" resultType="User">
+        select *
+        from t_user
+        where username = #{username}
+    </select>
 </mapper>

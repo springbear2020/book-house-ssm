@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
  * @datetime 2022/4/28 20:46
  */
 @Controller
-public class DispatcherController {
+public class PageDispatchController {
 
     @GetMapping("/dispatcher/login")
     public String loginDispatcher(HttpSession session) {
@@ -20,5 +20,23 @@ public class DispatcherController {
             return "redirect:/";
         }
         return User.USER_TYPE_ADMIN == user.getType() ? "redirect:/admin" : "redirect:/user";
+    }
+
+    @GetMapping("/user")
+    public String toUserMainPage(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || user.getType() != User.USER_TYPE_COMMON) {
+            return "redirect:/";
+        }
+        return "user_main";
+    }
+
+    @GetMapping("/admin")
+    public String toAdminLoginPage(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || user.getType() != User.USER_TYPE_ADMIN) {
+            return "redirect:/";
+        }
+        return "admin_login";
     }
 }

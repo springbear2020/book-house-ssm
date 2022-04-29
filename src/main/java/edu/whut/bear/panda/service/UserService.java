@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
     /**
-     * Verify the correctness of the username and password
+     * Get user by username and password
      *
      * @param username username
      * @param password password
      * @return User or null
      */
-    User verifyUsernameAndPassword(String username, String password);
+    User getUserByUsernameAndPassword(String username, String password);
 
     /**
      * Save user info entered by user
@@ -25,4 +25,20 @@ public interface UserService {
      * @return true - Save successfully
      */
     boolean saveUser(User user);
+
+    /**
+     * Get user by username
+     *
+     * @param username Username
+     * @return User or null
+     */
+    User getUserByUsername(String username);
+
+    /**
+     * Get user by email
+     *
+     * @param email Email address
+     * @return User or null
+     */
+    User getUserByEmail(String email);
 }

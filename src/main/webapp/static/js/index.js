@@ -91,7 +91,7 @@ $(function () {
 
         // Send an ajax request the verify the username and password
         $.ajax({
-            url: contextPath + "user/" + $("#input-login-username").val(),
+            url: contextPath + "user/login",
             method: "get",
             data: $("#form-login").serialize(),
             dataType: "json",
@@ -253,11 +253,55 @@ $(function () {
         })
     });
 
+    // Verify the format of the username
+    var isUsernameExists = true;
+    $("#input-register-username").change(function () {
+        if (!verify_register_username_format()) {
+            return false;
+        }
+
+        // Send an ajax to server for verifying the existence of the username entered by user
+        var $usernameObj = $("#input-register-username");
+        var username = $usernameObj.val();
+        $.ajax({
+            url: contextPath + "user/" + username,
+            type: "get",
+            dataType: "json",
+            success: function (response) {
+                if (RESPONSE_SUCCESS_CODE === response.code) {
+                    isUsernameExists = false;
+                    show_form_item_validate_msg($usernameObj, VALIDATION_SUCCESS_STATUS, response.msg);
+                } else {
+                    isUsernameExists = true;
+                    show_form_item_validate_msg($usernameObj, VALIDATION_WARNING_STATUS, response.msg);
+                }
+            },
+            error: function () {
+                show_notice_modal(RESPONSE_ERROR_CODE, "请求验证用户名可用性失败");
+            }
+        })
+    });
+    // Verify register username format
+    var verify_register_username_format = function () {
+        var $usernameObj = $("#input-register-username");
+        var username = $usernameObj.val();
+        if (username.length < 2 || username.length > 16) {
+            show_form_item_validate_msg($usernameObj, VALIDATION_ERROR_STATUS, "用户名为 2-16 位中英文字符");
+            return false;
+        } else {
+            show_form_item_validate_msg($usernameObj, VALIDATION_SUCCESS_STATUS, "");
+            return true;
+        }
+    };
+
     // Register button event
     $("#btn-register").click(function () {
         // Fix the problem that user do nothing after opening the modal
-        if (!verify_register_username_format()) {
+        if (isUsernameExists) {
+            show_form_item_validate_msg($("#input-register-username"), VALIDATION_WARNING_STATUS, "用户名已被占用，请重新输入");
             return false;
+        } else {
+            show_form_item_validate_msg($("#input-register-username"), VALIDATION_SUCCESS_STATUS, "");
         }
         if (!verify_register_password_format()) {
             return false;
@@ -313,23 +357,6 @@ $(function () {
         $commonParentObj.removeClass("has-error has-success has-warning");
     };
 
-    // Verify the format of the username
-    $("#input-register-username").change(function () {
-        verify_register_username_format();
-    });
-    // Verify register username format
-    var verify_register_username_format = function () {
-        var $usernameObj = $("#input-register-username");
-        var username = $usernameObj.val();
-        if (username.length < 2 || username.length > 16) {
-            show_form_item_validate_msg($usernameObj, VALIDATION_ERROR_STATUS, "用户名为 2-16 位中英文字符");
-            return false;
-        } else {
-            show_form_item_validate_msg($usernameObj, VALIDATION_SUCCESS_STATUS, "");
-            return true;
-        }
-    };
-
     // Verify the format of password
     $("#input-register-password").change(function () {
         verify_register_password_format();
@@ -363,6 +390,7 @@ $(function () {
             return true;
         }
     };
+
     // Show the verify msg of the email verify code
     var show_validate_email_code_msg = function (element, status, msg) {
         var $helpObj = element.parent().next("span");

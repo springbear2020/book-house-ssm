@@ -45,4 +45,9 @@ public class UserMapperTest {
         user.setPortraitPath(User.DEFAULT_PORTRAIT_PATH);
         System.out.println(userMapper.saveUser(user));
     }
+
+    @Test
+    public void getUserByUsername() {
+        System.out.println(userMapper.getUserByUsername("bear"));
+    }
 }

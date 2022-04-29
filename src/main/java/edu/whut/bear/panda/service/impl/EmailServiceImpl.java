@@ -1,6 +1,5 @@
 package edu.whut.bear.panda.service.impl;
 
-import edu.whut.bear.panda.dao.UserMapper;
 import edu.whut.bear.panda.service.EmailService;
 import edu.whut.bear.panda.util.EmailUtils;
 import edu.whut.bear.panda.util.NumberUtils;
@@ -14,14 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailServiceImpl implements EmailService {
     @Autowired
-    private UserMapper userMapper;
-    @Autowired
     private EmailUtils emailUtils;
-
-    @Override
-    public boolean isEmailExists(String email) {
-        return userMapper.getUserByEmail(email) != null;
-    }
 
     @Override
     public String sendEmailVerifyCode(String receiverEmail, int codeLength) {

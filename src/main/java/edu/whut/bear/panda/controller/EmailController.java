@@ -1,7 +1,9 @@
 package edu.whut.bear.panda.controller;
 
 import edu.whut.bear.panda.pojo.Response;
+import edu.whut.bear.panda.pojo.User;
 import edu.whut.bear.panda.service.EmailService;
+import edu.whut.bear.panda.service.UserService;
 import edu.whut.bear.panda.util.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ import javax.servlet.http.HttpSession;
 @RestController
 public class EmailController {
     @Autowired
+    private UserService userService;
+    @Autowired
     private EmailService emailService;
     @Autowired
     private PropertyUtils propertyUtils;
@@ -24,8 +28,13 @@ public class EmailController {
         if (email == null || email.length() == 0) {
             return Response.error("邮箱地址不能为空", null);
         }
+        if (!email.matches("^([a-z0-9A-Z]+[-|.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$")) {
+            return Response.error("无效的邮箱地址", null);
+        }
+
         // Verify the existence of email
-        if (emailService.isEmailExists(email)) {
+        User user = userService.getUserByEmail(email);
+        if (user != null) {
             return Response.warning("邮箱已被占用，请重新输入", null);
         }
         return Response.success("", null);
@@ -39,6 +48,7 @@ public class EmailController {
         if (!email.matches("^([a-z0-9A-Z]+[-|.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$")) {
             return Response.error("无效的邮箱地址", null);
         }
+
         // Send an verify code email to the specified email address
         String verifyCode = emailService.sendEmailVerifyCode(email, propertyUtils.getCodeLength());
         if (verifyCode == null) {

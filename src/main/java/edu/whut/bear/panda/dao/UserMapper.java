@@ -34,4 +34,12 @@ public interface UserMapper {
      * @return 1 - Save successfully
      */
     int saveUser(User user);
+
+    /**
+     * Get user by the username
+     *
+     * @param username Username
+     * @return User or null
+     */
+    User getUserByUsername(@Param("username") String username);
 }

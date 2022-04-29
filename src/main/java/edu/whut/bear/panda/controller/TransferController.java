@@ -27,6 +27,7 @@ public class TransferController {
     public Response getQiniuToken(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
+            // TODO upload other type files
             return Response.error("登录后方可上传图书", null);
         }
         Auth auth = Auth.create(propertyUtils.getAccessKey(), propertyUtils.getSecretKey());

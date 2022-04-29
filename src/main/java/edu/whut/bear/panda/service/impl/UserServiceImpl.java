@@ -16,12 +16,22 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public User verifyUsernameAndPassword(String username, String password) {
+    public User getUserByUsernameAndPassword(String username, String password) {
         return userMapper.getUserByUsernameAndPassword(username, password);
     }
 
     @Override
     public boolean saveUser(User user) {
         return userMapper.saveUser(user) == 1;
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userMapper.getUserByUsername(username);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userMapper.getUserByEmail(email);
     }
 }

@@ -21,7 +21,7 @@ import java.util.Properties;
  */
 @Configuration
 @MapperScan("edu.whut.bear.panda.dao")
-@ComponentScan(basePackages = {"edu.whut.bear.panda.service", "edu.whut.bear.panda.dao", "edu.whut.bear.panda.pojo", "edu.whut.bear.panda.util"})
+@ComponentScan(basePackages = {"edu.whut.bear.panda.pojo", "edu.whut.bear.panda.dao", "edu.whut.bear.panda.service", "edu.whut.bear.panda.util"})
 public class SpringConfig {
     @Autowired
     private PropertyUtils propertyUtils;

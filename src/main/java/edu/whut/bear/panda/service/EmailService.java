@@ -9,14 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface EmailService {
     /**
-     * Verify the existence of the email address
-     *
-     * @param email Email address
-     * @return true - exists
-     */
-    boolean isEmailExists(String email);
-
-    /**
      * Send an email verify code to the specified email address
      *
      * @param receiverEmail Receiver email address

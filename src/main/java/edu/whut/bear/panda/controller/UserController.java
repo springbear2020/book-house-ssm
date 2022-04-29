@@ -19,13 +19,14 @@ public class UserController {
     private UserService userService;
 
     @ResponseBody
-    @GetMapping("/user/{username}")
-    public Response login(@PathVariable("username") String username, @RequestParam("password") String password, HttpSession session) {
+    @GetMapping("/user/login")
+    public Response login(@RequestParam("username") String username, @RequestParam("password") String password, HttpSession session) {
         // Empty username or password parameters
         if (username == null || username.length() == 0 || password == null || password.length() == 0) {
             return Response.warning("用户名或密码不能为空", null);
         }
-        User user = userService.verifyUsernameAndPassword(username, password);
+
+        User user = userService.getUserByUsernameAndPassword(username, password);
         // Wrong username or password
         if (user == null) {
             return Response.error("用户名不存在或密码错误", null);
@@ -40,8 +41,24 @@ public class UserController {
     }
 
     @ResponseBody
+    @GetMapping("user/{username}")
+    public Response verifyUsernameExistence(@PathVariable("username") String username) {
+        if (username == null || username.length() == 0) {
+            return Response.error("用户名不能为空", null);
+        }
+
+        User user = userService.getUserByUsername(username);
+        // Username has been used by other user
+        if (user != null) {
+            return Response.warning("用户名已被占用，请重新输入", null);
+        }
+        return Response.success("", null);
+    }
+
+    @ResponseBody
     @PostMapping("/user")
     public Response register(@RequestParam("verifyCode") String codeByUser, User user, HttpSession session) {
+
         // Verify the correctness of the email verify code entered by user
         String codeBySystem = (String) session.getAttribute("verifyCode");
         // The email is sending but not failed, will be sending successfully later
@@ -57,14 +74,5 @@ public class UserController {
             return Response.success("注册成功，赶快返回登录吧", null);
         }
         return Response.error("注册失败，请稍后重试", null);
-    }
-
-    @GetMapping("/user")
-    public String toUserMainPage(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null || user.getType() != User.USER_TYPE_COMMON) {
-            return "redirect:/";
-        }
-        return "user_main";
     }
 }

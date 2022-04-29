@@ -28,11 +28,13 @@ public class BookController {
         title = title.replace(" ", "");
         int pageSize = propertyUtils.getPageSize();
         int navigationPages = propertyUtils.getNavigationPages();
+
         // If the page number is wrong, get the first page data by default
         int maxPageNum = bookService.getTotalPages(pageSize);
         if (pageNum <= 0 || pageNum > maxPageNum) {
             pageNum = 1;
         }
+
         PageInfo<Book> bookPageInfo = bookService.getBookPageData(title, pageNum, pageSize, navigationPages);
         // No book data queried
         if (bookPageInfo == null || bookPageInfo.getList() == null || bookPageInfo.getList().size() == 0) {
