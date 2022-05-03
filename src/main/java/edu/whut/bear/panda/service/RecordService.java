@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
  * @datetime 2022/5/3 9:14
  */
 @Service
-public interface UploadService {
+public interface RecordService {
     /**
      * Save upload record
      *

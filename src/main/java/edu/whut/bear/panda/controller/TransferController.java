@@ -5,7 +5,7 @@ import com.qiniu.util.StringMap;
 import edu.whut.bear.panda.pojo.Response;
 import edu.whut.bear.panda.pojo.Upload;
 import edu.whut.bear.panda.pojo.User;
-import edu.whut.bear.panda.service.UploadService;
+import edu.whut.bear.panda.service.RecordService;
 import edu.whut.bear.panda.util.DateUtils;
 import edu.whut.bear.panda.util.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class TransferController {
     @Autowired
     private PropertyUtils propertyUtils;
     @Autowired
-    private UploadService uploadService;
+    private RecordService recordService;
 
     @GetMapping("/upload/{type}")
     public Response upload(@PathVariable("type") Integer type, HttpSession session) {
@@ -33,7 +33,7 @@ public class TransferController {
         if (user == null) {
             return Response.error("登录后方可上传文件", null);
         }
-        // Set different config info by the file type
+        // TODO Set different config info by the file type
         String key;
         String fileSuffix = ".png";
         String mimeLimit = "image/*";
@@ -71,7 +71,7 @@ public class TransferController {
 
         // Save the upload record to database
         Upload upload = new Upload(null, user.getId(), user.getType(), user.getUsername(), type, Upload.STATUS_UNPROCESSED, new Date(), domain, key, bucket);
-        if (uploadService.saveUpload(upload)) {
+        if (recordService.saveUpload(upload)) {
             return Response.success("", res);
         }
         return Response.error("请求上传文件失败", null);

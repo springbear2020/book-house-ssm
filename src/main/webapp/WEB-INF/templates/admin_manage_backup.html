@@ -7,24 +7,24 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" th:href="@{/static/img/panda.png}">
+    <link rel="icon" href="../../static/img/panda.png">
 
     <title>熊猫书屋</title>
 
     <!-- Bootstrap core CSS -->
-    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link th:href="@{/static/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
+    <link href="../../static/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link th:href="@{/static/css/admin-manage.css}" rel="stylesheet">
+    <link href="../../static/css/admin-manage.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script th:src="@{/static/js/html5shiv.min.js}"></script>
-    <script th:src="@{/static/js/respond.min.js}"></script>
+    <script src="../../static/js/html5shiv.min.js"></script>
+    <script src="../../static/js/respond.min.js"></script>
     <![endif]-->
-    <script th:src="@{/static/js/jquery-1.7.2.js}"></script>
-    <script th:src="@{/static/js/admin-manage.js}"></script>
+    <script src="../../static/js/jquery-1.7.2.js"></script>
+    <script src="../../static/js/admin-manage.js"></script>
 </head>
 
 <body>
@@ -52,7 +52,7 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="navbar-brand">
-                <a th:href="@{/manage}"><img alt="Brand" th:src="@{/static/img/panda.png}" style="height: 40px;width: 40px" src=""></a>
+                <a href="#"><img alt="Brand" src="../../static/img/panda.png" style="height: 40px;width: 40px"></a>
             </div>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
@@ -82,22 +82,57 @@
                 <li><a>下载记录</a></li>
                 <li><a>登录记录</a></li>
             </ul>
+
         </div>
 
         <!-- Display different content though java script-->
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="div-admin-manage-content"></div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="div-admin-manage-content">
+
+            <h3 class="sub-header">图书上传</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>记录编号</th>
+                        <th>用户编号</th>
+                        <th>用户名</th>
+                        <th>用户类型</th>
+                        <th>上传时间</th>
+                        <th>文件类型</th>
+                        <th>空间名</th>
+                        <th>访问地址</th>
+                        <th>状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>bear</td>
+                        <td>普通用户</td>
+                        <td>2022-05-03</td>
+                        <td>头像</td>
+                        <td>panda-images</td>
+                        <td><a href="http://rb7la1ia5.hn-bkt.clouddn.com/user/20220503091844-2.pdf" target="_blank"><span
+                                class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></td>
+                        <td>未处理</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script th:src="@{/static/js/jquery-1.12.4.min.js}"></script>
-<script>window.jQuery || document.write('<script th:src="@{/static/js/jquery.min.js}"><\/script>')</script>
-<script th:src="@{/static/js/bootstrap.min.js}"></script>
+<script src="../../static/js/jquery-1.12.4.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../static/js/jquery.min.js"><\/script>')</script>
+<script src="../../static/js/bootstrap.min.js"></script>
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-<script th:src="@{/static/js/holder.min.js}"></script>
+<script src="../../static/js/holder.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script th:src="@{/static/js/ie10-viewport-bug-workaround.js}"></script>
+<script src="../../static/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

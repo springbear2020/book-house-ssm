@@ -2,7 +2,7 @@ package edu.whut.bear.panda.service.impl;
 
 import edu.whut.bear.panda.dao.UploadMapper;
 import edu.whut.bear.panda.pojo.Upload;
-import edu.whut.bear.panda.service.UploadService;
+import edu.whut.bear.panda.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * @datetime 2022/5/3 9:15
  */
 @Service
-public class UploadServiceImpl implements UploadService {
+public class RecordServiceImpl implements RecordService {
     @Autowired
     private UploadMapper uploadMapper;
 

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.Comparator;
 
 /**
  * @author Spring-_-Bear
@@ -26,7 +27,7 @@ public class PageDispatchController {
     @GetMapping("/user")
     public String toUserMainPage(HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if (user == null || user.getType() != User.USER_TYPE_COMMON || user.getStatus() == User.USER_STATUS_ABNORMAL) {
+        if (user == null || user.getType() != User.USER_TYPE_COMMON || user.getStatus() != User.USER_STATUS_NORMAL) {
             return "redirect:/";
         }
         return "user_main";
@@ -35,7 +36,7 @@ public class PageDispatchController {
     @GetMapping("/admin")
     public String toAdminLoginPage(HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if (user == null || user.getType() != User.USER_TYPE_ADMIN || user.getStatus() == User.USER_STATUS_ABNORMAL) {
+        if (user == null || user.getType() != User.USER_TYPE_ADMIN || user.getStatus() != User.USER_STATUS_NORMAL) {
             return "redirect:/";
         }
         return "admin_login";
@@ -43,10 +44,15 @@ public class PageDispatchController {
 
     @GetMapping("/manage")
     public String toAdminManagePage(HttpSession session) {
-        Admin admin = (Admin) session.getAttribute("admin");
-        if (admin == null || admin.getStatus() == Admin.ADMIN_STATUS_ABNORMAL) {
-            return "redirect:/admin";
-        }
+        // Admin admin = (Admin) session.getAttribute("admin");
+        // User user = (User) session.getAttribute("user");
+        // if (user == null || user.getType() != User.USER_TYPE_ADMIN || user.getStatus() != User.USER_STATUS_NORMAL) {
+        //   TODO  return "redirect:/";
+        // }
+        // if (admin == null || admin.getStatus() != Admin.ADMIN_STATUS_NORMAL) {
+        //     return "redirect:/admin";
+        // }
+
         return "admin_manage";
     }
 }
