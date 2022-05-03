@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.whut.bear.panda.dao.UploadMapper">
+    <!-- int saveUpload(Upload upload); -->
+    <insert id="saveUpload">
+        insert into t_upload(user_id, user_type, username, type, status, upload_time, domain, `key`, bucket)
+        VALUES (#{userId}, #{userType}, #{username}, #{type}, #{status}, #{uploadTime}, #{domain}, #{key}, #{bucket})
+    </insert>
+</mapper>

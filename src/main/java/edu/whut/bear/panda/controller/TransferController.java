@@ -1,13 +1,15 @@
 package edu.whut.bear.panda.controller;
 
 import com.qiniu.util.Auth;
+import com.qiniu.util.StringMap;
 import edu.whut.bear.panda.pojo.Response;
+import edu.whut.bear.panda.pojo.Upload;
 import edu.whut.bear.panda.pojo.User;
+import edu.whut.bear.panda.service.UploadService;
 import edu.whut.bear.panda.util.DateUtils;
 import edu.whut.bear.panda.util.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -22,21 +24,56 @@ import java.util.List;
 public class TransferController {
     @Autowired
     private PropertyUtils propertyUtils;
+    @Autowired
+    private UploadService uploadService;
 
-    @GetMapping("/upload")
-    public Response getQiniuToken(HttpSession session) {
+    @GetMapping("/upload/{type}")
+    public Response upload(@PathVariable("type") Integer type, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            // TODO upload other type files
-            return Response.error("登录后方可上传图书", null);
+            return Response.error("登录后方可上传文件", null);
         }
+        // Set different config info by the file type
+        String key;
+        String fileSuffix = ".png";
+        String mimeLimit = "image/*";
+        String domain = propertyUtils.getImgDomain();
+        String bucket = propertyUtils.getImgBucket();
+        switch (type) {
+            case Upload.TYPE_BOOK:
+                fileSuffix = ".pdf";
+                mimeLimit = "application/pdf";
+                bucket = propertyUtils.getBookBucket();
+                domain = propertyUtils.getBookDomain();
+                key = user.getType() == User.USER_TYPE_COMMON ? "user/" : "admin/";
+                break;
+            case Upload.TYPE_COVER:
+                key = "cover/";
+                break;
+            case Upload.TYPE_PORTRAIT:
+                key = "portrait/";
+                break;
+            case Upload.TYPE_BACKGROUND:
+                key = "background/";
+                break;
+            default:
+                return Response.warning("请上传正确格式的文件", null);
+        }
+
+        // Rename the save file name
+        key = key + DateUtils.dateIntoFileName(new Date()) + "-" + user.getId() + fileSuffix;
         Auth auth = Auth.create(propertyUtils.getAccessKey(), propertyUtils.getSecretKey());
-        // Rename the file upload by user e.g directory/ datetime-userId.pdf
-        String key = "upload/" + DateUtils.dateIntoFileName(new Date()) + "-" + user.getId() + ".pdf";
-        String uploadToken = auth.uploadToken(propertyUtils.getBucketName(), key);
-        List<String> responseList = new ArrayList<>();
-        responseList.add(key);
-        responseList.add(uploadToken);
-        return Response.success("", responseList);
+        // Limit the file type uploaded by the user
+        String uploadToken = auth.uploadToken(bucket, key, 1800, new StringMap().put("mimeLimit", mimeLimit));
+        List<String> res = new ArrayList<>();
+        res.add(key);
+        res.add(uploadToken);
+
+        // Save the upload record to database
+        Upload upload = new Upload(null, user.getId(), user.getType(), user.getUsername(), type, Upload.STATUS_UNPROCESSED, new Date(), domain, key, bucket);
+        if (uploadService.saveUpload(upload)) {
+            return Response.success("", res);
+        }
+        return Response.error("请求上传文件失败", null);
     }
 }

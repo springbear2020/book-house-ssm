@@ -44,27 +44,24 @@ $(function () {
     // Listening the content change of the file choose input element
     $("#input-book-upload").on("change", function (e) {
         var file = e.target.files[0];
-        // Display the upload book button element
+        var srcFileName = $("#input-book-upload").val();
+        var suffix = srcFileName.substring(srcFileName.lastIndexOf("."));
         $("#div-book-choose-upload").attr("style", "display: block");
-        var $btn_book_start_upload = $("#btn-book-start-upload")
+        var $btn_book_start_upload = $("#btn-book-start-upload");
         // Start uploading book button event
         $btn_book_start_upload.click(function () {
-            var fileName = $("#input-book-upload").val();
-            var suffix = fileName.substring(fileName.lastIndexOf("."));
             if (".pdf" !== suffix) {
                 show_notice_modal(RESPONSE_ERROR_CODE, "请选择 PDF 图书文件")
                 return false;
             }
-            $btn_book_start_upload.attr("style", "display: none");
             // Send an ajax request to server for getting qiniu token
             $.ajax({
-                url: contextPath + "upload",
+                url: contextPath + "upload/0",
                 dataType: "json",
                 success: function (response) {
                     if (RESPONSE_SUCCESS_CODE === response.code) {
-                        var newFileName = response.resultMap.content[0];
-                        var token = response.resultMap.content[1];
-                        qiniu_upload(file, token, fileName, newFileName);
+                        $("#div-book-choose-upload").attr("style", "display: none");
+                        qiniu_upload(file, response.resultMap.content[1], response.resultMap.content[0]);
                     } else {
                         show_notice_modal(response.code, response.msg);
                     }
@@ -73,27 +70,27 @@ $(function () {
         });
     });
 
-
     // File upload service by Qiniu Cloud
-    var qiniu_upload = function (file, token, srcFileName, newFileName) {
+    var qiniu_upload = function (file, token, key) {
+        // Config info
         var putExtra = {
-            fname: srcFileName,
+            fname: {key},
             params: {},
             mimeType: ["application/pdf"]
         }
-
         var config = {
             shouldUseQiniuFileName: false,
             region: qiniu.region.z2,
             forceDirect: true,
         };
 
-        var observable = qiniu.upload(file, newFileName, token, putExtra, config);
+        // Get a upload service obj
+        var observable = qiniu.upload(file, key, token, putExtra, config);
 
         var observer = {
             next(res) {
-                var rate = res.total.percent + "";
                 // Show the progress of the book upload
+                var rate = res.total.percent + "";
                 show_process(rate.substring(0, rate.indexOf(".") + 3));
             },
             error() {
@@ -101,7 +98,7 @@ $(function () {
             },
             complete() {
                 show_notice_modal(RESPONSE_SUCCESS_CODE, "图书上传成功，感谢您的共享");
-               // Upload book process stay at 100%
+                // Upload book process stay at 100%
                 show_process(100);
             }
         }
@@ -119,12 +116,11 @@ $(function () {
         $process_bar.text(rate + "%");
     };
 
-
     // Close the upload modal event
     $("#btn-book-upload-modal-close").click(function () {
         // Hide the start upload button and the process bar
         $(".progress").attr("style", "display: none");
-        $("#btn-book-start-upload").attr("style", "display: none");
+        $("#div-book-choose-upload").attr("style", "display: none");
         // Clear the content of the input file element
         $("#input-book-upload").val("");
     });

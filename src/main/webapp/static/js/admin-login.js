@@ -8,6 +8,30 @@ $(function () {
     var RESPONSE_WARNING_CODE = 2;
     var RESPONSE_ERROR_CODE = 3;
 
+    // Prevent the default submit action of form
+    $("form").on("submit", function () {
+        return false;
+    });
+
+    // Show the notice modal
+    var show_notice_modal = function (responseCode, msg) {
+        var $modalObj = $("#div-modal-notice");
+        var $noticeObj = $("#h-notice-content");
+        // Clear the existed style of the notice object
+        $noticeObj.parent().removeClass("alert-info alert-success alert-warning alert-danger");
+        if (RESPONSE_INFO_CODE === responseCode) {
+            $noticeObj.parent().addClass("alert-info");
+        } else if (RESPONSE_SUCCESS_CODE === responseCode) {
+            $noticeObj.parent().addClass("alert-success");
+        } else if (RESPONSE_WARNING_CODE === responseCode) {
+            $noticeObj.parent().addClass("alert-warning");
+        } else if (RESPONSE_ERROR_CODE === responseCode) {
+            $noticeObj.parent().addClass("alert-danger");
+        }
+        $noticeObj.text(msg);
+        $modalObj.modal('show');
+    };
+
     /* ====================================================== Login =============================================== */
     // Validation type
     var VALIDATION_SUCCESS_STATUS = "success";
@@ -76,14 +100,29 @@ $(function () {
         if (!verify_password_format()) {
             return false;
         }
-
-        return false;
-        // TODO admin login
+        var username = $("#input-admin-username").val();
+        var password = $("#input-admin-password").val();
+        $.ajax({
+            url: contextPath + "admin/login",
+            data: "username=" + username + "&password=" + password,
+            dataType: "json",
+            method: "get",
+            success: function (response) {
+                console.log(response)
+                if (RESPONSE_SUCCESS_CODE === response.code) {
+                    location.href = contextPath + "manage";
+                } else {
+                    show_notice_modal(response.code, response.msg);
+                }
+            },
+            error: function () {
+                show_notice_modal(RESPONSE_ERROR_CODE, "请求登录失败，请稍后重试");
+            }
+        })
     });
 
     /* ================================================ Show Background ============================================= */
     //  After the page is loaded，send an ajax request to server for get background info and sentence info
-
     var array = [
         "http://ravh2ew5d.hn-bkt.clouddn.com/background/bee-gfb3960275_1920.jpg",
         "http://ravh2ew5d.hn-bkt.clouddn.com/background/insect-ge42409abe_1920.jpg",
@@ -92,12 +131,11 @@ $(function () {
         "http://ravh2ew5d.hn-bkt.clouddn.com/background/sunset-g687ef1e87_1920.jpg"
     ];
 
-    // Show the picture and character content
-    var show_picture_set_title = function (slideObj, imgLink, titleObj, titleContent, author) {
+    // Show the picture and set character content of the page
+    var show_picture_set_title = function (slideObj, imgLink, titleObj, titleContent) {
         slideObj.attr("src", imgLink);
         titleObj.children("p").children("a").attr("href", imgLink);
         titleObj.children("h3").text(titleContent);
-        titleObj.children("p").first().text(author);
     };
 
     var $first_slide = $(".first-slide");
@@ -107,16 +145,13 @@ $(function () {
     var $third_slide = $(".third-slide");
     var $third_title = $(".third-title");
 
-    show_picture_set_title($first_slide, array[0], $first_title, "长相思兮长相忆", "李白");
-    show_picture_set_title($second_slide, array[1], $second_title, "短相思兮无穷极", "李白");
-    show_picture_set_title($third_slide, array[2], $third_title, "生如夏花之绚烂", "泰戈尔");
+    show_picture_set_title($first_slide, array[0], $first_title, "长相思兮长相忆");
+    show_picture_set_title($second_slide, array[1], $second_title, "短相思兮无穷极");
+    show_picture_set_title($third_slide, array[2], $third_title, "生如夏花之绚烂");
 
-    var countingTime = 6;
-    var time = setInterval(function () {
-        countingTime--;
-        if (countingTime <= 0) {
-            alert("time out")
-            clearInterval(time);
-        }
-    }, 1000)
+    // // 循环定时器
+    // setInterval(function () {
+    //     var myDate = new Date();
+    //     alert("timeOut")
+    // }, 3000);
 });

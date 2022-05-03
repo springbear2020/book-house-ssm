@@ -2,247 +2,65 @@
 <dataSource name="panda@localhost">
   <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.21">
     <root id="1">
-      <ServerVersion>8.0.26</ServerVersion>
-      <Grants>|root||develop|localhost|ALTER|G
+      <ServerVersion>5.7.19</ServerVersion>
+      <Grants>|root||admin|localhost|ALTER|G
 |root||root|localhost|ALTER|G
-|root||develop|localhost|ALTER ROUTINE|G
+|root||admin|localhost|ALTER ROUTINE|G
 |root||root|localhost|ALTER ROUTINE|G
-|root||develop|localhost|APPLICATION_PASSWORD_ADMIN|G
-|root||root|localhost|APPLICATION_PASSWORD_ADMIN|G
-|root||develop|localhost|AUDIT_ADMIN|G
-|root||root|localhost|AUDIT_ADMIN|G
-|root||develop|localhost|BACKUP_ADMIN|G
-|root||mysql.session|localhost|BACKUP_ADMIN|G
-|root||root|localhost|BACKUP_ADMIN|G
-|root||develop|localhost|BINLOG_ADMIN|G
-|root||root|localhost|BINLOG_ADMIN|G
-|root||develop|localhost|BINLOG_ENCRYPTION_ADMIN|G
-|root||root|localhost|BINLOG_ENCRYPTION_ADMIN|G
-|root||develop|localhost|CLONE_ADMIN|G
-|root||mysql.session|localhost|CLONE_ADMIN|G
-|root||root|localhost|CLONE_ADMIN|G
-|root||develop|localhost|CONNECTION_ADMIN|G
-|root||mysql.session|localhost|CONNECTION_ADMIN|G
-|root||root|localhost|CONNECTION_ADMIN|G
-|root||develop|localhost|CREATE|G
+|root||admin|localhost|CREATE|G
 |root||root|localhost|CREATE|G
-|root||develop|localhost|CREATE ROLE|G
-|root||root|localhost|CREATE ROLE|G
-|root||develop|localhost|CREATE ROUTINE|G
+|root||admin|localhost|CREATE ROUTINE|G
 |root||root|localhost|CREATE ROUTINE|G
-|root||develop|localhost|CREATE TABLESPACE|G
+|root||admin|localhost|CREATE TABLESPACE|G
 |root||root|localhost|CREATE TABLESPACE|G
-|root||develop|localhost|CREATE TEMPORARY TABLES|G
+|root||admin|localhost|CREATE TEMPORARY TABLES|G
 |root||root|localhost|CREATE TEMPORARY TABLES|G
-|root||develop|localhost|CREATE USER|G
+|root||admin|localhost|CREATE USER|G
 |root||root|localhost|CREATE USER|G
-|root||develop|localhost|CREATE VIEW|G
+|root||admin|localhost|CREATE VIEW|G
 |root||root|localhost|CREATE VIEW|G
-|root||develop|localhost|DELETE|G
+|root||admin|localhost|DELETE|G
 |root||root|localhost|DELETE|G
-|root||develop|localhost|DROP|G
+|root||admin|localhost|DROP|G
 |root||root|localhost|DROP|G
-|root||develop|localhost|DROP ROLE|G
-|root||root|localhost|DROP ROLE|G
-|root||develop|localhost|ENCRYPTION_KEY_ADMIN|G
-|root||root|localhost|ENCRYPTION_KEY_ADMIN|G
-|root||develop|localhost|EVENT|G
+|root||admin|localhost|EVENT|G
 |root||root|localhost|EVENT|G
-|root||develop|localhost|EXECUTE|G
+|root||admin|localhost|EXECUTE|G
 |root||root|localhost|EXECUTE|G
-|root||develop|localhost|FILE|G
+|root||admin|localhost|FILE|G
 |root||root|localhost|FILE|G
-|root||develop|localhost|FLUSH_OPTIMIZER_COSTS|G
-|root||root|localhost|FLUSH_OPTIMIZER_COSTS|G
-|root||develop|localhost|FLUSH_STATUS|G
-|root||root|localhost|FLUSH_STATUS|G
-|root||develop|localhost|FLUSH_TABLES|G
-|root||root|localhost|FLUSH_TABLES|G
-|root||develop|localhost|FLUSH_USER_RESOURCES|G
-|root||root|localhost|FLUSH_USER_RESOURCES|G
-|root||develop|localhost|GROUP_REPLICATION_ADMIN|G
-|root||root|localhost|GROUP_REPLICATION_ADMIN|G
-|root||develop|localhost|INDEX|G
+|root||admin|localhost|INDEX|G
 |root||root|localhost|INDEX|G
-|root||develop|localhost|INNODB_REDO_LOG_ARCHIVE|G
-|root||root|localhost|INNODB_REDO_LOG_ARCHIVE|G
-|root||develop|localhost|INNODB_REDO_LOG_ENABLE|G
-|root||root|localhost|INNODB_REDO_LOG_ENABLE|G
-|root||develop|localhost|INSERT|G
+|root||admin|localhost|INSERT|G
 |root||root|localhost|INSERT|G
-|root||develop|localhost|LOCK TABLES|G
+|root||admin|localhost|LOCK TABLES|G
 |root||root|localhost|LOCK TABLES|G
-|root||develop|localhost|PERSIST_RO_VARIABLES_ADMIN|G
-|root||mysql.session|localhost|PERSIST_RO_VARIABLES_ADMIN|G
-|root||root|localhost|PERSIST_RO_VARIABLES_ADMIN|G
-|root||develop|localhost|PROCESS|G
+|root||admin|localhost|PROCESS|G
 |root||root|localhost|PROCESS|G
-|root||develop|localhost|REFERENCES|G
+|root||admin|localhost|REFERENCES|G
 |root||root|localhost|REFERENCES|G
-|root||develop|localhost|RELOAD|G
+|root||admin|localhost|RELOAD|G
 |root||root|localhost|RELOAD|G
-|root||develop|localhost|REPLICATION CLIENT|G
+|root||admin|localhost|REPLICATION CLIENT|G
 |root||root|localhost|REPLICATION CLIENT|G
-|root||develop|localhost|REPLICATION SLAVE|G
+|root||admin|localhost|REPLICATION SLAVE|G
 |root||root|localhost|REPLICATION SLAVE|G
-|root||develop|localhost|REPLICATION_APPLIER|G
-|root||root|localhost|REPLICATION_APPLIER|G
-|root||develop|localhost|REPLICATION_SLAVE_ADMIN|G
-|root||root|localhost|REPLICATION_SLAVE_ADMIN|G
-|root||develop|localhost|RESOURCE_GROUP_ADMIN|G
-|root||root|localhost|RESOURCE_GROUP_ADMIN|G
-|root||develop|localhost|RESOURCE_GROUP_USER|G
-|root||root|localhost|RESOURCE_GROUP_USER|G
-|root||develop|localhost|ROLE_ADMIN|G
-|root||root|localhost|ROLE_ADMIN|G
-|root||develop|localhost|SELECT|G
-|root||mysql.infoschema|localhost|SELECT|G
+|root||admin|localhost|SELECT|G
 |root||root|localhost|SELECT|G
-|root||develop|localhost|SERVICE_CONNECTION_ADMIN|G
-|root||root|localhost|SERVICE_CONNECTION_ADMIN|G
-|root||develop|localhost|SESSION_VARIABLES_ADMIN|G
-|root||mysql.session|localhost|SESSION_VARIABLES_ADMIN|G
-|root||root|localhost|SESSION_VARIABLES_ADMIN|G
-|root||develop|localhost|SET_USER_ID|G
-|root||root|localhost|SET_USER_ID|G
-|root||develop|localhost|SHOW DATABASES|G
+|root||admin|localhost|SHOW DATABASES|G
 |root||root|localhost|SHOW DATABASES|G
-|root||develop|localhost|SHOW VIEW|G
+|root||admin|localhost|SHOW VIEW|G
 |root||root|localhost|SHOW VIEW|G
-|root||develop|localhost|SHOW_ROUTINE|G
-|root||root|localhost|SHOW_ROUTINE|G
-|root||develop|localhost|SHUTDOWN|G
-|root||mysql.session|localhost|SHUTDOWN|G
+|root||admin|localhost|SHUTDOWN|G
 |root||root|localhost|SHUTDOWN|G
-|root||develop|localhost|SUPER|G
+|root||admin|localhost|SUPER|G
 |root||mysql.session|localhost|SUPER|G
 |root||root|localhost|SUPER|G
-|root||develop|localhost|SYSTEM_USER|G
-|root||mysql.infoschema|localhost|SYSTEM_USER|G
-|root||mysql.session|localhost|SYSTEM_USER|G
-|root||mysql.sys|localhost|SYSTEM_USER|G
-|root||root|localhost|SYSTEM_USER|G
-|root||develop|localhost|SYSTEM_VARIABLES_ADMIN|G
-|root||mysql.session|localhost|SYSTEM_VARIABLES_ADMIN|G
-|root||root|localhost|SYSTEM_VARIABLES_ADMIN|G
-|root||develop|localhost|TABLE_ENCRYPTION_ADMIN|G
-|root||root|localhost|TABLE_ENCRYPTION_ADMIN|G
-|root||develop|localhost|TRIGGER|G
+|root||admin|localhost|TRIGGER|G
 |root||root|localhost|TRIGGER|G
-|root||develop|localhost|UPDATE|G
+|root||admin|localhost|UPDATE|G
 |root||root|localhost|UPDATE|G
-|root||develop|localhost|XA_RECOVER_ADMIN|G
-|root||root|localhost|XA_RECOVER_ADMIN|G
-|root||develop|localhost|grant option|G
 |root||root|localhost|grant option|G
-book|schema||admin|localhost|ALTER|G
-book|schema||admin|localhost|ALTER ROUTINE|G
-book|schema||admin|localhost|CREATE|G
-book|schema||admin|localhost|CREATE ROUTINE|G
-book|schema||admin|localhost|CREATE TEMPORARY TABLES|G
-book|schema||admin|localhost|CREATE VIEW|G
-book|schema||admin|localhost|DELETE|G
-book|schema||admin|localhost|DROP|G
-book|schema||admin|localhost|EVENT|G
-book|schema||admin|localhost|EXECUTE|G
-book|schema||admin|localhost|INDEX|G
-book|schema||admin|localhost|INSERT|G
-book|schema||admin|localhost|LOCK TABLES|G
-book|schema||admin|localhost|REFERENCES|G
-book|schema||admin|localhost|SELECT|G
-book|schema||admin|localhost|SHOW VIEW|G
-book|schema||admin|localhost|TRIGGER|G
-book|schema||admin|localhost|UPDATE|G
-book_house|schema||admin||ALTER|G
-book_house|schema||admin||ALTER ROUTINE|G
-book_house|schema||admin||CREATE|G
-book_house|schema||admin||CREATE ROUTINE|G
-book_house|schema||admin||CREATE TEMPORARY TABLES|G
-book_house|schema||admin||CREATE VIEW|G
-book_house|schema||admin||DELETE|G
-book_house|schema||admin||DROP|G
-book_house|schema||admin||EVENT|G
-book_house|schema||admin||EXECUTE|G
-book_house|schema||admin||INDEX|G
-book_house|schema||admin||INSERT|G
-book_house|schema||admin||LOCK TABLES|G
-book_house|schema||admin||REFERENCES|G
-book_house|schema||admin||SELECT|G
-book_house|schema||admin||SHOW VIEW|G
-book_house|schema||admin||TRIGGER|G
-book_house|schema||admin||UPDATE|G
-dms|schema||admin|localhost|ALTER|G
-dms|schema||admin|localhost|ALTER ROUTINE|G
-dms|schema||admin|localhost|CREATE|G
-dms|schema||admin|localhost|CREATE ROUTINE|G
-dms|schema||admin|localhost|CREATE TEMPORARY TABLES|G
-dms|schema||admin|localhost|CREATE VIEW|G
-dms|schema||admin|localhost|DELETE|G
-dms|schema||admin|localhost|DROP|G
-dms|schema||admin|localhost|EVENT|G
-dms|schema||admin|localhost|EXECUTE|G
-dms|schema||admin|localhost|INDEX|G
-dms|schema||admin|localhost|INSERT|G
-dms|schema||admin|localhost|LOCK TABLES|G
-dms|schema||admin|localhost|REFERENCES|G
-dms|schema||admin|localhost|SELECT|G
-dms|schema||admin|localhost|SHOW VIEW|G
-dms|schema||admin|localhost|TRIGGER|G
-dms|schema||admin|localhost|UPDATE|G
-dms_new|schema||admin|localhost|ALTER|G
-dms_new|schema||admin|localhost|ALTER ROUTINE|G
-dms_new|schema||admin|localhost|CREATE|G
-dms_new|schema||admin|localhost|CREATE ROUTINE|G
-dms_new|schema||admin|localhost|CREATE TEMPORARY TABLES|G
-dms_new|schema||admin|localhost|CREATE VIEW|G
-dms_new|schema||admin|localhost|DELETE|G
-dms_new|schema||admin|localhost|DROP|G
-dms_new|schema||admin|localhost|EVENT|G
-dms_new|schema||admin|localhost|EXECUTE|G
-dms_new|schema||admin|localhost|INDEX|G
-dms_new|schema||admin|localhost|INSERT|G
-dms_new|schema||admin|localhost|LOCK TABLES|G
-dms_new|schema||admin|localhost|REFERENCES|G
-dms_new|schema||admin|localhost|SELECT|G
-dms_new|schema||admin|localhost|SHOW VIEW|G
-dms_new|schema||admin|localhost|TRIGGER|G
-dms_new|schema||admin|localhost|UPDATE|G
-dms_old|schema||admin|localhost|ALTER|G
-dms_old|schema||admin|localhost|ALTER ROUTINE|G
-dms_old|schema||admin|localhost|CREATE|G
-dms_old|schema||admin|localhost|CREATE ROUTINE|G
-dms_old|schema||admin|localhost|CREATE TEMPORARY TABLES|G
-dms_old|schema||admin|localhost|CREATE VIEW|G
-dms_old|schema||admin|localhost|DELETE|G
-dms_old|schema||admin|localhost|DROP|G
-dms_old|schema||admin|localhost|EVENT|G
-dms_old|schema||admin|localhost|EXECUTE|G
-dms_old|schema||admin|localhost|INDEX|G
-dms_old|schema||admin|localhost|INSERT|G
-dms_old|schema||admin|localhost|LOCK TABLES|G
-dms_old|schema||admin|localhost|REFERENCES|G
-dms_old|schema||admin|localhost|SELECT|G
-dms_old|schema||admin|localhost|SHOW VIEW|G
-dms_old|schema||admin|localhost|TRIGGER|G
-dms_old|schema||admin|localhost|UPDATE|G
-ebrss|schema||admin|localhost|ALTER|G
-ebrss|schema||admin|localhost|ALTER ROUTINE|G
-ebrss|schema||admin|localhost|CREATE|G
-ebrss|schema||admin|localhost|CREATE ROUTINE|G
-ebrss|schema||admin|localhost|CREATE TEMPORARY TABLES|G
-ebrss|schema||admin|localhost|CREATE VIEW|G
-ebrss|schema||admin|localhost|DELETE|G
-ebrss|schema||admin|localhost|DROP|G
-ebrss|schema||admin|localhost|EVENT|G
-ebrss|schema||admin|localhost|EXECUTE|G
-ebrss|schema||admin|localhost|INDEX|G
-ebrss|schema||admin|localhost|INSERT|G
-ebrss|schema||admin|localhost|LOCK TABLES|G
-ebrss|schema||admin|localhost|REFERENCES|G
-ebrss|schema||admin|localhost|SELECT|G
-ebrss|schema||admin|localhost|SHOW VIEW|G
-ebrss|schema||admin|localhost|TRIGGER|G
-ebrss|schema||admin|localhost|UPDATE|G
 performance_schema|schema||mysql.session|localhost|SELECT|G
 sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <DefaultEngine>InnoDB</DefaultEngine>
@@ -253,20 +71,20 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Collation>utf8_general_ci</Collation>
     </schema>
     <schema id="3" parent="1" name="mysql">
-      <Collation>utf8mb4_0900_ai_ci</Collation>
+      <Collation>utf8mb4_general_ci</Collation>
     </schema>
     <schema id="4" parent="1" name="panda">
       <Current>1</Current>
-      <Collation>utf8mb4_0900_ai_ci</Collation>
+      <Collation>utf8mb4_general_ci</Collation>
     </schema>
     <schema id="5" parent="1" name="performance_schema">
-      <Collation>utf8mb4_0900_ai_ci</Collation>
+      <Collation>utf8_general_ci</Collation>
     </schema>
     <schema id="6" parent="1" name="sys">
-      <Collation>utf8mb4_0900_ai_ci</Collation>
+      <Collation>utf8_general_ci</Collation>
     </schema>
     <schema id="7" parent="1" name="uims">
-      <Collation>utf8mb4_0900_ai_ci</Collation>
+      <Collation>utf8mb4_general_ci</Collation>
     </schema>
     <collation id="8" parent="1" name="armscii8_bin">
       <Charset>armscii8</Charset>
@@ -884,410 +702,367 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     <collation id="199" parent="1" name="utf8_swedish_ci">
       <Charset>utf8</Charset>
     </collation>
-    <collation id="200" parent="1" name="utf8_tolower_ci">
+    <collation id="200" parent="1" name="utf8_turkish_ci">
       <Charset>utf8</Charset>
     </collation>
-    <collation id="201" parent="1" name="utf8_turkish_ci">
+    <collation id="201" parent="1" name="utf8_unicode_520_ci">
       <Charset>utf8</Charset>
     </collation>
-    <collation id="202" parent="1" name="utf8_unicode_520_ci">
+    <collation id="202" parent="1" name="utf8_unicode_ci">
       <Charset>utf8</Charset>
     </collation>
-    <collation id="203" parent="1" name="utf8_unicode_ci">
+    <collation id="203" parent="1" name="utf8_vietnamese_ci">
       <Charset>utf8</Charset>
     </collation>
-    <collation id="204" parent="1" name="utf8_vietnamese_ci">
-      <Charset>utf8</Charset>
+    <collation id="204" parent="1" name="utf8mb4_bin">
+      <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="205" parent="1" name="utf8mb4_0900_ai_ci">
+    <collation id="205" parent="1" name="utf8mb4_croatian_ci">
+      <Charset>utf8mb4</Charset>
+    </collation>
+    <collation id="206" parent="1" name="utf8mb4_czech_ci">
+      <Charset>utf8mb4</Charset>
+    </collation>
+    <collation id="207" parent="1" name="utf8mb4_danish_ci">
+      <Charset>utf8mb4</Charset>
+    </collation>
+    <collation id="208" parent="1" name="utf8mb4_esperanto_ci">
+      <Charset>utf8mb4</Charset>
+    </collation>
+    <collation id="209" parent="1" name="utf8mb4_estonian_ci">
+      <Charset>utf8mb4</Charset>
+    </collation>
+    <collation id="210" parent="1" name="utf8mb4_general_ci">
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>1</DefaultForCharset>
     </collation>
-    <collation id="206" parent="1" name="utf8mb4_0900_as_ci">
+    <collation id="211" parent="1" name="utf8mb4_german2_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="207" parent="1" name="utf8mb4_0900_as_cs">
+    <collation id="212" parent="1" name="utf8mb4_hungarian_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="208" parent="1" name="utf8mb4_0900_bin">
+    <collation id="213" parent="1" name="utf8mb4_icelandic_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="209" parent="1" name="utf8mb4_bin">
+    <collation id="214" parent="1" name="utf8mb4_latvian_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="210" parent="1" name="utf8mb4_croatian_ci">
+    <collation id="215" parent="1" name="utf8mb4_lithuanian_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="211" parent="1" name="utf8mb4_cs_0900_ai_ci">
+    <collation id="216" parent="1" name="utf8mb4_persian_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="212" parent="1" name="utf8mb4_cs_0900_as_cs">
+    <collation id="217" parent="1" name="utf8mb4_polish_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="213" parent="1" name="utf8mb4_czech_ci">
+    <collation id="218" parent="1" name="utf8mb4_roman_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="214" parent="1" name="utf8mb4_da_0900_ai_ci">
+    <collation id="219" parent="1" name="utf8mb4_romanian_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="215" parent="1" name="utf8mb4_da_0900_as_cs">
+    <collation id="220" parent="1" name="utf8mb4_sinhala_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="216" parent="1" name="utf8mb4_danish_ci">
+    <collation id="221" parent="1" name="utf8mb4_slovak_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="217" parent="1" name="utf8mb4_de_pb_0900_ai_ci">
+    <collation id="222" parent="1" name="utf8mb4_slovenian_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="218" parent="1" name="utf8mb4_de_pb_0900_as_cs">
+    <collation id="223" parent="1" name="utf8mb4_spanish2_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="219" parent="1" name="utf8mb4_eo_0900_ai_ci">
+    <collation id="224" parent="1" name="utf8mb4_spanish_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="220" parent="1" name="utf8mb4_eo_0900_as_cs">
+    <collation id="225" parent="1" name="utf8mb4_swedish_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="221" parent="1" name="utf8mb4_es_0900_ai_ci">
+    <collation id="226" parent="1" name="utf8mb4_turkish_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="222" parent="1" name="utf8mb4_es_0900_as_cs">
+    <collation id="227" parent="1" name="utf8mb4_unicode_520_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="223" parent="1" name="utf8mb4_es_trad_0900_ai_ci">
+    <collation id="228" parent="1" name="utf8mb4_unicode_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="224" parent="1" name="utf8mb4_es_trad_0900_as_cs">
+    <collation id="229" parent="1" name="utf8mb4_vietnamese_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <collation id="225" parent="1" name="utf8mb4_esperanto_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="226" parent="1" name="utf8mb4_estonian_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="227" parent="1" name="utf8mb4_et_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="228" parent="1" name="utf8mb4_et_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="229" parent="1" name="utf8mb4_general_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="230" parent="1" name="utf8mb4_german2_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="231" parent="1" name="utf8mb4_hr_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="232" parent="1" name="utf8mb4_hr_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="233" parent="1" name="utf8mb4_hu_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="234" parent="1" name="utf8mb4_hu_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="235" parent="1" name="utf8mb4_hungarian_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="236" parent="1" name="utf8mb4_icelandic_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="237" parent="1" name="utf8mb4_is_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="238" parent="1" name="utf8mb4_is_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="239" parent="1" name="utf8mb4_ja_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="240" parent="1" name="utf8mb4_ja_0900_as_cs_ks">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="241" parent="1" name="utf8mb4_la_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="242" parent="1" name="utf8mb4_la_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="243" parent="1" name="utf8mb4_latvian_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="244" parent="1" name="utf8mb4_lithuanian_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="245" parent="1" name="utf8mb4_lt_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="246" parent="1" name="utf8mb4_lt_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="247" parent="1" name="utf8mb4_lv_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="248" parent="1" name="utf8mb4_lv_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="249" parent="1" name="utf8mb4_persian_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="250" parent="1" name="utf8mb4_pl_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="251" parent="1" name="utf8mb4_pl_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="252" parent="1" name="utf8mb4_polish_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="253" parent="1" name="utf8mb4_ro_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="254" parent="1" name="utf8mb4_ro_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="255" parent="1" name="utf8mb4_roman_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="256" parent="1" name="utf8mb4_romanian_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="257" parent="1" name="utf8mb4_ru_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="258" parent="1" name="utf8mb4_ru_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="259" parent="1" name="utf8mb4_sinhala_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="260" parent="1" name="utf8mb4_sk_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="261" parent="1" name="utf8mb4_sk_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="262" parent="1" name="utf8mb4_sl_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="263" parent="1" name="utf8mb4_sl_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="264" parent="1" name="utf8mb4_slovak_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="265" parent="1" name="utf8mb4_slovenian_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="266" parent="1" name="utf8mb4_spanish2_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="267" parent="1" name="utf8mb4_spanish_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="268" parent="1" name="utf8mb4_sv_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="269" parent="1" name="utf8mb4_sv_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="270" parent="1" name="utf8mb4_swedish_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="271" parent="1" name="utf8mb4_tr_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="272" parent="1" name="utf8mb4_tr_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="273" parent="1" name="utf8mb4_turkish_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="274" parent="1" name="utf8mb4_unicode_520_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="275" parent="1" name="utf8mb4_unicode_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="276" parent="1" name="utf8mb4_vi_0900_ai_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="277" parent="1" name="utf8mb4_vi_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="278" parent="1" name="utf8mb4_vietnamese_ci">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <collation id="279" parent="1" name="utf8mb4_zh_0900_as_cs">
-      <Charset>utf8mb4</Charset>
-    </collation>
-    <user id="280" parent="1" name="develop">
+    <user id="230" parent="1" name="admin">
       <Host>localhost</Host>
     </user>
-    <user id="281" parent="1" name="mysql.infoschema">
-      <Host>localhost</Host>
-      <Plugin>caching_sha2_password</Plugin>
-    </user>
-    <user id="282" parent="1" name="mysql.session">
-      <Host>localhost</Host>
-      <Plugin>caching_sha2_password</Plugin>
-    </user>
-    <user id="283" parent="1" name="mysql.sys">
-      <Host>localhost</Host>
-      <Plugin>caching_sha2_password</Plugin>
-    </user>
-    <user id="284" parent="1" name="root">
+    <user id="231" parent="1" name="mysql.session">
       <Host>localhost</Host>
     </user>
-    <table id="285" parent="4" name="t_book"/>
-    <table id="286" parent="4" name="t_user"/>
-    <column id="287" parent="285" name="id">
+    <user id="232" parent="1" name="mysql.sys">
+      <Host>localhost</Host>
+    </user>
+    <user id="233" parent="1" name="root">
+      <Host>localhost</Host>
+    </user>
+    <table id="234" parent="4" name="t_admin"/>
+    <table id="235" parent="4" name="t_book"/>
+    <table id="236" parent="4" name="t_upload"/>
+    <table id="237" parent="4" name="t_user"/>
+    <column id="238" parent="234" name="id">
       <Position>1</Position>
-      <Comment>图书 id</Comment>
-      <DataType>int|0s</DataType>
+      <Comment>管理员 id</Comment>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="288" parent="285" name="title">
+    <column id="239" parent="234" name="username">
+      <Position>2</Position>
+      <Comment>管理员用户名</Comment>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="240" parent="234" name="password">
+      <Position>3</Position>
+      <Comment>管理员密码</Comment>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="241" parent="234" name="status">
+      <Position>4</Position>
+      <Comment>管理员状态（正常、异常）</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="242" parent="234" name="register_date">
+      <Position>5</Position>
+      <Comment>注册日期</Comment>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="243" parent="234" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="244" parent="235" name="id">
+      <Position>1</Position>
+      <Comment>图书 id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="245" parent="235" name="title">
       <Position>2</Position>
       <Comment>书名</Comment>
-      <DataType>varchar(256)|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="289" parent="285" name="author">
+    <column id="246" parent="235" name="author">
       <Position>3</Position>
       <Comment>作者</Comment>
-      <DataType>varchar(256)|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="290" parent="285" name="translator">
+    <column id="247" parent="235" name="translator">
       <Position>4</Position>
       <Comment>译者</Comment>
-      <DataType>varchar(256)|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="291" parent="285" name="downloads">
+    <column id="248" parent="235" name="downloads">
       <Position>5</Position>
       <Comment>下载量</Comment>
-      <DataType>int|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="292" parent="285" name="collections">
+    <column id="249" parent="235" name="collections">
       <Position>6</Position>
       <Comment>收藏量</Comment>
-      <DataType>int|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="293" parent="285" name="upload_user_id">
+    <column id="250" parent="235" name="upload_user_id">
       <Position>7</Position>
       <Comment>上传用户 id</Comment>
-      <DataType>int|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="294" parent="285" name="upload_username">
+    <column id="251" parent="235" name="upload_username">
       <Position>8</Position>
       <Comment>上传用户名</Comment>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="295" parent="285" name="upload_time">
+    <column id="252" parent="235" name="upload_time">
       <Position>9</Position>
       <Comment>上传时间</Comment>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="296" parent="285" name="book_state">
+    <column id="253" parent="235" name="book_state">
       <Position>10</Position>
-      <Comment>图书状态</Comment>
-      <DataType>int|0s</DataType>
+      <Comment>图书状态（上架、下架）</Comment>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="297" parent="285" name="book_path">
+    <column id="254" parent="235" name="book_path">
       <Position>11</Position>
       <Comment>图书保存路径</Comment>
-      <DataType>varchar(512)|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="298" parent="285" name="cover_path">
+    <column id="255" parent="235" name="cover_path">
       <Position>12</Position>
       <Comment>封面保存路径</Comment>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="256" parent="235" name="comments">
+      <Position>13</Position>
+      <Comment>图书评价</Comment>
       <DataType>varchar(512)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="299" parent="285" name="comments">
-      <Position>13</Position>
-      <Comment>图书评价</Comment>
-      <DataType>varchar(1024)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <key id="300" parent="285" name="PRIMARY">
+    <key id="257" parent="235" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="301" parent="286" name="id">
+    <column id="258" parent="236" name="id">
       <Position>1</Position>
-      <Comment>用户 id</Comment>
-      <DataType>int|0s</DataType>
+      <Comment>上传记录 id</Comment>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="302" parent="286" name="username">
+    <column id="259" parent="236" name="user_id">
+      <Position>2</Position>
+      <Comment>用户 id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="260" parent="236" name="user_type">
+      <Position>3</Position>
+      <Comment>用户类型（普通用户、管理员）</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="261" parent="236" name="username">
+      <Position>4</Position>
+      <Comment>用户名</Comment>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="262" parent="236" name="type">
+      <Position>5</Position>
+      <Comment>上传记录类型（图书、封面、头像、背景）</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="263" parent="236" name="status">
+      <Position>6</Position>
+      <Comment>上传记录状态（已处理、未处理）</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="264" parent="236" name="upload_time">
+      <Position>7</Position>
+      <Comment>上传时间</Comment>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="265" parent="236" name="domain">
+      <Position>8</Position>
+      <Comment>资源访问域名</Comment>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="266" parent="236" name="key">
+      <Position>9</Position>
+      <Comment>资源保存路径</Comment>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="267" parent="236" name="bucket">
+      <Position>10</Position>
+      <Comment>资源所在空间名</Comment>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="268" parent="236" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="269" parent="237" name="id">
+      <Position>1</Position>
+      <Comment>用户 id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="270" parent="237" name="username">
       <Position>2</Position>
       <Comment>用户名</Comment>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="303" parent="286" name="password">
+    <column id="271" parent="237" name="password">
       <Position>3</Position>
       <Comment>密码</Comment>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="304" parent="286" name="email">
+    <column id="272" parent="237" name="email">
       <Position>4</Position>
       <Comment>邮箱地址</Comment>
-      <DataType>varchar(512)|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="305" parent="286" name="type">
+    <column id="273" parent="237" name="type">
       <Position>5</Position>
-      <Comment>用户类型：0-普通用户；1-管理员</Comment>
-      <DataType>int|0s</DataType>
+      <Comment>用户类型（普通用户、管理员）</Comment>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="306" parent="286" name="status">
+    <column id="274" parent="237" name="status">
       <Position>6</Position>
-      <Comment>用户状态：0-正常；1-异常</Comment>
-      <DataType>int|0s</DataType>
+      <Comment>用户状态（正常、异常）</Comment>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="307" parent="286" name="register_date">
+    <column id="275" parent="237" name="register_date">
       <Position>7</Position>
       <Comment>注册时间</Comment>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="308" parent="286" name="portrait_path">
+    <column id="276" parent="237" name="portrait_path">
       <Position>8</Position>
       <Comment>头像保存路径</Comment>
-      <DataType>varchar(512)|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="309" parent="286" name="uniq_user_email">
+    <index id="277" parent="237" name="uniq_user_username">
+      <ColNames>username</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <index id="278" parent="237" name="uniq_user_email">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="310" parent="286" name="PRIMARY">
+    <key id="279" parent="237" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="311" parent="286" name="uniq_user_email">
+    <key id="280" parent="237" name="uniq_user_username">
+      <ColNames>username</ColNames>
+      <UnderlyingIndexName>uniq_user_username</UnderlyingIndexName>
+    </key>
+    <key id="281" parent="237" name="uniq_user_email">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>uniq_user_email</UnderlyingIndexName>
     </key>

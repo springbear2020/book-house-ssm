@@ -297,11 +297,8 @@ $(function () {
     // Register button event
     $("#btn-register").click(function () {
         // Fix the problem that user do nothing after opening the modal
-        if (isUsernameExists) {
-            show_form_item_validate_msg($("#input-register-username"), VALIDATION_WARNING_STATUS, "用户名已被占用，请重新输入");
+        if (!verify_register_username_format()) {
             return false;
-        } else {
-            show_form_item_validate_msg($("#input-register-username"), VALIDATION_SUCCESS_STATUS, "");
         }
         if (!verify_register_password_format()) {
             return false;
@@ -309,16 +306,25 @@ $(function () {
         if (!verify_email_format()) {
             return false;
         }
+        if (!verify_code_format()) {
+            return false;
+        }
+        if (isUsernameExists) {
+            show_form_item_validate_msg($("#input-register-username"), VALIDATION_WARNING_STATUS, "用户名已被占用，请重新输入");
+            return false;
+        } else {
+            show_form_item_validate_msg($("#input-register-username"), VALIDATION_SUCCESS_STATUS, "");
+        }
         if (isEmailExists) {
             show_form_item_validate_msg($("#input-register-email"), VALIDATION_WARNING_STATUS, "邮箱已被占用，请重新输入");
             return false;
         } else {
             show_form_item_validate_msg($("#input-register-email"), VALIDATION_SUCCESS_STATUS, "");
         }
-        if (!verify_code_format()) {
+        if (!isObtainBtnClicked) {
+            show_notice_modal(RESPONSE_WARNING_CODE, "请先获取验证码");
             return false;
         }
-
         // Send an ajax request to server for user register
         $.ajax({
             url: contextPath + "user",

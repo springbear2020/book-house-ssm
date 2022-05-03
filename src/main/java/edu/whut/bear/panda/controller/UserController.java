@@ -4,7 +4,6 @@ import edu.whut.bear.panda.pojo.Response;
 import edu.whut.bear.panda.pojo.User;
 import edu.whut.bear.panda.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -13,12 +12,11 @@ import javax.servlet.http.HttpSession;
  * @author Spring-_-Bear
  * @datetime 2022/4/27 9:10
  */
-@Controller
+@RestController
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @ResponseBody
     @GetMapping("/user/login")
     public Response login(@RequestParam("username") String username, @RequestParam("password") String password, HttpSession session) {
         // Empty username or password parameters
@@ -40,7 +38,6 @@ public class UserController {
         return Response.success("", null);
     }
 
-    @ResponseBody
     @GetMapping("user/{username}")
     public Response verifyUsernameExistence(@PathVariable("username") String username) {
         if (username == null || username.length() == 0) {
@@ -55,10 +52,11 @@ public class UserController {
         return Response.success("", null);
     }
 
-    @ResponseBody
     @PostMapping("/user")
     public Response register(@RequestParam("verifyCode") String codeByUser, User user, HttpSession session) {
-
+        if (codeByUser == null || codeByUser.length() == 0) {
+            return Response.error("邮箱验证码不能为空", null);
+        }
         // Verify the correctness of the email verify code entered by user
         String codeBySystem = (String) session.getAttribute("verifyCode");
         // The email is sending but not failed, will be sending successfully later

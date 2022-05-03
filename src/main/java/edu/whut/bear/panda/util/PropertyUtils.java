@@ -55,6 +55,12 @@ public class PropertyUtils {
     private String accessKey;
     @Value("${qiniu.secretKey}")
     private String secretKey;
-    @Value("${qiniu.bucketName}")
-    private String bucketName;
+    @Value("${qiniu.bookBucketName}")
+    private String bookBucket;
+    @Value("${qiniu.imgBucketName}")
+    private String imgBucket;
+    @Value("${qiniu.bookCdnDomain}")
+    private String bookDomain;
+    @Value("${qiniu.imgCdnDomain}")
+    private String imgDomain;
 }

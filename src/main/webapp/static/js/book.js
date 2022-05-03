@@ -60,7 +60,7 @@ $(function () {
     };
 
     // After load page successfully, send an ajax request to server for get book info data in json type
-    get_book_page_data("", 1);
+    // get_book_page_data("", 1);
 
     // Deal with the next and last page click event
     var deal_turn_page_event = function (element, pageNum) {
