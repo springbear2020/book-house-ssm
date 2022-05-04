@@ -20,20 +20,4 @@ public class NumberUtils {
         }
         return builder.toString();
     }
-
-    /**
-     * Convert object into an integer, if covert failed, return the default value
-     *
-     * @param obj          Object
-     * @param defaultValue Default value
-     * @return An int number value
-     */
-    public static int objectToInteger(Object obj, int defaultValue) {
-        try {
-            return Integer.parseInt(String.valueOf(obj));
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
-    }
-
 }

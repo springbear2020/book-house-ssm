@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -82,7 +82,9 @@
         <li data-target="#background-carousel" data-slide-to="2"></li>
     </ol>
 
+    <!-- Three background -->
     <div class="carousel-inner" role="listbox">
+        <!-- First -->
         <div class="item active">
             <img class="first-slide" src="" alt="First slide">
             <div class="container">
@@ -92,6 +94,7 @@
                 </div>
             </div>
         </div>
+        <!-- Second -->
         <div class="item">
             <img class="second-slide" src="" alt="Second slide">
             <div class="container">
@@ -101,6 +104,7 @@
                 </div>
             </div>
         </div>
+        <!-- Third -->
         <div class="item">
             <img class="third-slide" src="" alt="Third slide">
             <div class="container">
@@ -112,11 +116,12 @@
         </div>
     </div>
 
-    <!-- The previous and the next page-->
+    <!-- The previous picture -->
     <a class="left carousel-control" href="#background-carousel" role="button" data-slide="prev">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
     </a>
+    <!-- The next picture -->
     <a class="right carousel-control" href="#background-carousel" role="button" data-slide="next">
         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
         <span class="sr-only">Next</span>

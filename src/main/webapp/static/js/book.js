@@ -3,12 +3,12 @@ $(function () {
     // Obtain current project context path dynamically
     var contextPath = $("#span-context-path").text();
     // Response code from server
-    var RESPONSE_INFO_CODE = 0;
-    var RESPONSE_SUCCESS_CODE = 1;
-    var RESPONSE_WARNING_CODE = 2;
-    var RESPONSE_ERROR_CODE = 3;
+    var INFO_CODE = 0;
+    var SUCCESS_CODE = 1;
+    var WARNING_CODE = 2;
+    var DANGER_CODE = 3;
 
-    // Prevent the default submit action of form
+    // Prevent the default submit action of form element
     $("form").on("submit", function () {
         return false;
     });
@@ -19,13 +19,13 @@ $(function () {
         var $noticeObj = $("#h-notice-content");
         // Clear the existed style of the notice object
         $noticeObj.parent().removeClass("alert-info alert-success alert-warning alert-danger");
-        if (RESPONSE_INFO_CODE === responseCode) {
+        if (INFO_CODE === responseCode) {
             $noticeObj.parent().addClass("alert-info");
-        } else if (RESPONSE_SUCCESS_CODE === responseCode) {
+        } else if (SUCCESS_CODE === responseCode) {
             $noticeObj.parent().addClass("alert-success");
-        } else if (RESPONSE_WARNING_CODE === responseCode) {
+        } else if (WARNING_CODE === responseCode) {
             $noticeObj.parent().addClass("alert-warning");
-        } else if (RESPONSE_ERROR_CODE === responseCode) {
+        } else if (DANGER_CODE === responseCode) {
             $noticeObj.parent().addClass("alert-danger");
         }
         $noticeObj.text(msg);
@@ -42,9 +42,9 @@ $(function () {
             data: "title=" + title,
             dataType: "json",
             success: function (response) {
-                if (RESPONSE_SUCCESS_CODE === response.code) {
-                    // Clear the existed book data element
-                    $("#div-main-display").empty();
+                // Clear the existed book data element
+                $("#div-main-display").empty();
+                if (SUCCESS_CODE === response.code) {
                     build_book_module(response);
                     build_nav_module(response);
                 } else {
@@ -54,12 +54,15 @@ $(function () {
                 $("body, html").animate({scrollTop: 0}, 1);
             },
             error: function () {
-                show_notice_modal(RESPONSE_ERROR_CODE, "请求获取图书数据失败");
+                show_notice_modal(DANGER_CODE, "请求获取图书数据失败");
             }
         })
     };
 
-    // After load page successfully, send an ajax request to server for get book info data in json type
+    /*
+     * After load page successfully,
+     * send an ajax request to server for get book info data in json type
+     */
     get_book_page_data("", 1);
 
     // Deal with the next and last page click event
@@ -85,6 +88,7 @@ $(function () {
             var $hr = $("<hr/>").addClass("featurette-divider");
             $hr.appendTo("#div-main-display");
 
+            // Set the cover image location in turn
             var $book_Info_parent = $("<div></div>");
             if (isCoverLeft) {
                 $book_Info_parent.addClass("col-md-7 col-md-push-5");
@@ -169,6 +173,7 @@ $(function () {
 
     // Build the page navigation module
     var build_nav_module = function (response) {
+        // Build the dividing line
         var $hr = $("<hr/>").addClass("featurette-divider");
         $hr.appendTo("#div-main-display");
 
@@ -194,10 +199,13 @@ $(function () {
         var $next_page_a = $("<a></a>").append("下一页").append($next_page_span);
         var $next_page_li = $("<li></li>").append($next_page_a);
         $ul_page_parent_1.append($next_page_li);
-        // Add the nav parent
+        // Add to the nav parent
         $("<nav></nav>").append($ul_page_parent_1).appendTo("#div-main-display");
 
-        // TODO Fix the mobile equipments can not display the entire nav in one line，and click blank screen to close the nav bar
+        /*
+         * TODO Fix the mobile equipments can not display the entire nav in one line，
+         *      and click blank screen to close the nav bar
+         */
         // Deal with the previous page link click event
         if (response.resultMap.content.hasPreviousPage) {
             $last_page_a.attr("role", "button").attr("id", "link-last-page");

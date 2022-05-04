@@ -3,10 +3,10 @@ $(function () {
     // Obtain current project context path dynamically
     var contextPath = $("#span-context-path").text();
     // Response code from server
-    var RESPONSE_INFO_CODE = 0;
-    var RESPONSE_SUCCESS_CODE = 1;
-    var RESPONSE_WARNING_CODE = 2;
-    var RESPONSE_ERROR_CODE = 3;
+    var INFO_CODE = 0;
+    var SUCCESS_CODE = 1;
+    var WARNING_CODE = 2;
+    var DANGER_CODE = 3;
 
     // Prevent the default submit action of form
     $("form").on("submit", function () {
@@ -19,13 +19,13 @@ $(function () {
         var $noticeObj = $("#h-notice-content");
         // Clear the existed style of the notice object
         $noticeObj.parent().removeClass("alert-info alert-success alert-warning alert-danger");
-        if (RESPONSE_INFO_CODE === responseCode) {
+        if (INFO_CODE === responseCode) {
             $noticeObj.parent().addClass("alert-info");
-        } else if (RESPONSE_SUCCESS_CODE === responseCode) {
+        } else if (SUCCESS_CODE === responseCode) {
             $noticeObj.parent().addClass("alert-success");
-        } else if (RESPONSE_WARNING_CODE === responseCode) {
+        } else if (WARNING_CODE === responseCode) {
             $noticeObj.parent().addClass("alert-warning");
-        } else if (RESPONSE_ERROR_CODE === responseCode) {
+        } else if (DANGER_CODE === responseCode) {
             $noticeObj.parent().addClass("alert-danger");
         }
         $noticeObj.text(msg);
@@ -46,20 +46,22 @@ $(function () {
         var file = e.target.files[0];
         var srcFileName = $("#input-book-upload").val();
         var suffix = srcFileName.substring(srcFileName.lastIndexOf("."));
-        $("#div-book-choose-upload").attr("style", "display: block");
+        // Display the upload now button
         var $btn_book_start_upload = $("#btn-book-start-upload");
+        $btn_book_start_upload.attr("style", "display: block");
         // Start uploading book button event
         $btn_book_start_upload.click(function () {
             if (".pdf" !== suffix) {
-                show_notice_modal(RESPONSE_ERROR_CODE, "请选择 PDF 图书文件")
+                show_notice_modal(WARNING_CODE, "请选择 PDF 图书文件")
                 return false;
             }
             // Send an ajax request to server for getting qiniu token
+            // 0 - Upload pdf book file
             $.ajax({
                 url: contextPath + "upload/0",
                 dataType: "json",
                 success: function (response) {
-                    if (RESPONSE_SUCCESS_CODE === response.code) {
+                    if (SUCCESS_CODE === response.code) {
                         $("#div-book-choose-upload").attr("style", "display: none");
                         qiniu_upload(file, response.resultMap.content[1], response.resultMap.content[0]);
                     } else {
@@ -94,11 +96,11 @@ $(function () {
                 show_process(rate.substring(0, rate.indexOf(".") + 3));
             },
             error() {
-                show_notice_modal(RESPONSE_ERROR_CODE, "图书上传失败，请稍后重试");
+                show_notice_modal(DANGER_CODE, "图书上传失败，请稍后重试");
             },
             complete() {
-                show_notice_modal(RESPONSE_SUCCESS_CODE, "图书上传成功，感谢您的共享");
-                // Upload book process stay at 100%
+                show_notice_modal(SUCCESS_CODE, "图书上传成功，感谢您的共享");
+                // Process stay at 100%
                 show_process(100);
             }
         }

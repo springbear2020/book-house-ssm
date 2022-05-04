@@ -1,5 +1,6 @@
 package edu.whut.bear.panda.service;
 
+import edu.whut.bear.panda.pojo.Admin;
 import edu.whut.bear.panda.pojo.User;
 import org.springframework.stereotype.Service;
 
@@ -41,4 +42,13 @@ public interface UserService {
      * @return User or null
      */
     User getUserByEmail(String email);
+
+    /**
+     * Get admin info by username and password
+     *
+     * @param username Username
+     * @param password Password
+     * @return Admin or null
+     */
+    Admin getAdminByUsernameAndPassword(String username, String password);
 }

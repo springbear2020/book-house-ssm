@@ -26,10 +26,10 @@ public class EmailController {
     @GetMapping("/email/{email}")
     public Response verifyEmailExistence(@PathVariable("email") String email) {
         if (email == null || email.length() == 0) {
-            return Response.error("邮箱地址不能为空", null);
+            return Response.warning("邮箱地址不能为空", null);
         }
         if (!email.matches("^([a-z0-9A-Z]+[-|.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$")) {
-            return Response.error("无效的邮箱地址", null);
+            return Response.danger("无效的邮箱地址", null);
         }
 
         // Verify the existence of email
@@ -43,10 +43,10 @@ public class EmailController {
     @GetMapping("/email")
     public Response sendEmailVerifyCode(@RequestParam("email") String email, HttpSession session) {
         if (email == null || email.length() == 0) {
-            return Response.error("邮箱地址不能为空", null);
+            return Response.warning("邮箱地址不能为空", null);
         }
         if (!email.matches("^([a-z0-9A-Z]+[-|.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$")) {
-            return Response.error("无效的邮箱地址", null);
+            return Response.danger("无效的邮箱地址", null);
         }
 
         // Send an verify code email to the specified email address

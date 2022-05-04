@@ -16,7 +16,7 @@ public class Response {
     public static final int INFO = 0;
     public static final int SUCCESS = 1;
     public static final int WARNING = 2;
-    public static final int ERROR = 3;
+    public static final int DANGER = 3;
 
     private Integer code;
     private String msg;
@@ -34,8 +34,8 @@ public class Response {
         return getResponse(msg, obj, SUCCESS);
     }
 
-    public static Response error(String msg, Object obj) {
-        return getResponse(msg, obj, ERROR);
+    public static Response danger(String msg, Object obj) {
+        return getResponse(msg, obj, DANGER);
     }
 
     private static Response getResponse(String msg, Object obj, int code) {

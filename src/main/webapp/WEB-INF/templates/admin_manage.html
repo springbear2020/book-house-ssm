@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,13 +23,40 @@
     <script th:src="@{/static/js/html5shiv.min.js}"></script>
     <script th:src="@{/static/js/respond.min.js}"></script>
     <![endif]-->
+
     <script th:src="@{/static/js/jquery-1.7.2.js}"></script>
     <script th:src="@{/static/js/admin-manage.js}"></script>
 </head>
-
 <body>
 <!-- Context path -->
 <span id="span-context-path" th:text="@{/}" style="display: none;opacity: 100%"></span>
+
+<!-- Get pixabay modal -->
+<div class="modal fade" id="modal-get-pixabay" tabindex="-1" role="dialog" aria-labelledby="modal-get-pixabay">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btn-pixabay-modal-close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Pixabay</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline" id="form-pixabay">
+                    <label for="input-pixabay-condition" class="control-label sr-only"></label>
+                    <input type="text" class="form-control" id="input-pixabay-condition" name="condition" placeholder="Condition">
+                    <label for="select-pixabay-pages" class="control-label sr-only"></label>
+                    <select class="form-control" id="select-pixabay-pages" name="pages">
+                        <option>1</option><option>5</option>
+                        <option>10</option><option>15</option>
+                        <option>20</option><option>25</option>
+                    </select>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-block btn-primary" id="btn-pixabay-ok">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Notification modal -->
 <div class="modal fade" id="div-modal-notice" tabindex="-1" role="dialog" aria-labelledby="modal-notice" aria-hidden="true">
@@ -41,7 +68,7 @@
     </div>
 </div>
 
-<!-- Navbar-->
+<!-- Navbar -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -65,9 +92,10 @@
     </div>
 </nav>
 
-<!-- Main content -->
+<!-- Body content -->
 <div class="container-fluid">
     <div class="row">
+        <!-- Left navigation -->
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li><a id="link-upload-book" role="button">图书上传</a></li>
@@ -84,8 +112,10 @@
             </ul>
         </div>
 
-        <!-- Display different content though java script-->
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="div-admin-manage-content"></div>
+        <!-- Right content -->
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="div-admin-manage-content">
+            <!-- Display different content according the js -->
+        </div>
     </div>
 </div>
 

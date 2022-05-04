@@ -27,17 +27,15 @@ public class BookController {
         int pageSize = propertyUtils.getPageSize();
         int navigationPages = propertyUtils.getNavigationPages();
 
-        // Trim the blank in the title entered by user
         if (title == null) {
             title = "";
-        } else {
-            title = title.replace(" ", "");
         }
+        // Trim the blank in the title entered by user
+        title = title.replace(" ", "");
+
         // If the page number is wrong, get the first page data by default
         int maxPageNum = bookService.getTotalPages(pageSize);
-        if (pageNum == null) {
-            pageNum = 1;
-        } else if (pageNum <= 0 || pageNum > maxPageNum) {
+        if (pageNum == null || pageNum <= 0 || pageNum > maxPageNum) {
             pageNum = 1;
         }
 

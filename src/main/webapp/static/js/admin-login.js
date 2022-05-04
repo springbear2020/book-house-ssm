@@ -3,10 +3,10 @@ $(function () {
     // Obtain current project context path dynamically
     var contextPath = $("#span-context-path").text();
     // Response code from server
-    var RESPONSE_INFO_CODE = 0;
-    var RESPONSE_SUCCESS_CODE = 1;
-    var RESPONSE_WARNING_CODE = 2;
-    var RESPONSE_ERROR_CODE = 3;
+    var INFO_CODE = 0;
+    var SUCCESS_CODE = 1;
+    var WARNING_CODE = 2;
+    var DANGER_CODE = 3;
 
     // Prevent the default submit action of form
     $("form").on("submit", function () {
@@ -19,13 +19,13 @@ $(function () {
         var $noticeObj = $("#h-notice-content");
         // Clear the existed style of the notice object
         $noticeObj.parent().removeClass("alert-info alert-success alert-warning alert-danger");
-        if (RESPONSE_INFO_CODE === responseCode) {
+        if (INFO_CODE === responseCode) {
             $noticeObj.parent().addClass("alert-info");
-        } else if (RESPONSE_SUCCESS_CODE === responseCode) {
+        } else if (SUCCESS_CODE === responseCode) {
             $noticeObj.parent().addClass("alert-success");
-        } else if (RESPONSE_WARNING_CODE === responseCode) {
+        } else if (WARNING_CODE === responseCode) {
             $noticeObj.parent().addClass("alert-warning");
-        } else if (RESPONSE_ERROR_CODE === responseCode) {
+        } else if (DANGER_CODE === responseCode) {
             $noticeObj.parent().addClass("alert-danger");
         }
         $noticeObj.text(msg);
@@ -34,24 +34,23 @@ $(function () {
 
     /* ====================================================== Login =============================================== */
     // Validation type
-    var VALIDATION_SUCCESS_STATUS = "success";
-    var VALIDATION_WARNING_STATUS = "warning"
-    var VALIDATION_ERROR_STATUS = "error";
+    var STATUS_SUCCESS = "success";
+    var STATUS_WARNING = "warning"
+    var STATUS_ERROR = "error";
 
     // Verify the format of username needed not empty
     $("#input-admin-username").change(function () {
         verify_username_format();
     });
-
     // Verify the username format
     var verify_username_format = function () {
         var $input_username = $("#input-admin-username");
         var username = $input_username.val();
         if (username.length <= 0) {
-            show_validation_status($input_username, VALIDATION_ERROR_STATUS);
+            show_validation_status($input_username, STATUS_ERROR);
             return false;
         } else {
-            show_validation_status($input_username, VALIDATION_SUCCESS_STATUS);
+            show_validation_status($input_username, STATUS_SUCCESS);
             return true;
         }
     };
@@ -60,16 +59,15 @@ $(function () {
     $("#input-admin-password").change(function () {
         verify_password_format();
     });
-
     // Verify the password format
     var verify_password_format = function () {
         var $input_password = $("#input-admin-password");
         var password = $input_password.val();
         if (password.length <= 0) {
-            show_validation_status($input_password, VALIDATION_ERROR_STATUS);
+            show_validation_status($input_password, STATUS_ERROR);
             return false;
         } else {
-            show_validation_status($input_password, VALIDATION_SUCCESS_STATUS);
+            show_validation_status($input_password, STATUS_SUCCESS);
             return true;
         }
     };
@@ -80,13 +78,13 @@ $(function () {
         element.parent().removeClass("has-success has-error has-warning");
         element.next("span").removeClass("glyphicon-ok glyphicon-remove glyphicon-warning-sign");
 
-        if (VALIDATION_SUCCESS_STATUS === status) {
+        if (STATUS_SUCCESS === status) {
             element.parent().addClass("has-success");
             element.next("span").addClass("glyphicon-ok");
-        } else if (VALIDATION_ERROR_STATUS === status) {
+        } else if (STATUS_ERROR === status) {
             element.parent().addClass("has-error");
             element.next("span").addClass("glyphicon-remove");
-        } else if (VALIDATION_WARNING_STATUS === status) {
+        } else if (STATUS_WARNING === status) {
             element.parent().addClass("has-warning");
             element.next("span").addClass("glyphicon-warning-sign");
         }
@@ -100,6 +98,7 @@ $(function () {
         if (!verify_password_format()) {
             return false;
         }
+
         var username = $("#input-admin-username").val();
         var password = $("#input-admin-password").val();
         $.ajax({
@@ -108,28 +107,21 @@ $(function () {
             dataType: "json",
             method: "get",
             success: function (response) {
-                console.log(response)
-                if (RESPONSE_SUCCESS_CODE === response.code) {
+                if (SUCCESS_CODE === response.code) {
+                    // Username and password are correct, ask the server for page dispatch
                     location.href = contextPath + "manage";
                 } else {
                     show_notice_modal(response.code, response.msg);
                 }
             },
             error: function () {
-                show_notice_modal(RESPONSE_ERROR_CODE, "请求登录失败，请稍后重试");
+                show_notice_modal(DANGER_CODE, "请求登录失败，请稍后重试");
             }
         })
     });
 
     /* ================================================ Show Background ============================================= */
     //  After the page is loaded，send an ajax request to server for get background info and sentence info
-    var array = [
-        "http://ravh2ew5d.hn-bkt.clouddn.com/background/bee-gfb3960275_1920.jpg",
-        "http://ravh2ew5d.hn-bkt.clouddn.com/background/insect-ge42409abe_1920.jpg",
-        "http://ravh2ew5d.hn-bkt.clouddn.com/background/leaves-g46c107618_1920.jpg",
-        "http://ravh2ew5d.hn-bkt.clouddn.com/background/river-g7d444abfc_1920.jpg",
-        "http://ravh2ew5d.hn-bkt.clouddn.com/background/sunset-g687ef1e87_1920.jpg"
-    ];
 
     // Show the picture and set character content of the page
     var show_picture_set_title = function (slideObj, imgLink, titleObj, titleContent) {

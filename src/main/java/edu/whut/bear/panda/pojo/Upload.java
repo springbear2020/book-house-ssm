@@ -37,6 +37,7 @@ public class Upload {
     public Upload() {
     }
 
+    // TODO
     public Upload(Integer id, Integer userId, Integer userType, String username, Integer type, Integer status, Date uploadTime, String domain, String key, String bucket) {
         this.id = id;
         this.userId = userId;

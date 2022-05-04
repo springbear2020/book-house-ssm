@@ -1,12 +1,7 @@
-/*
- * Base structure
- */
-
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
     padding-top: 50px;
 }
-
 
 /*
  * Global add-ons
@@ -66,7 +61,6 @@ body {
     background-color: #428bca;
 }
 
-
 /*
  * Main content
  */
@@ -103,7 +97,6 @@ body {
     display: inline-block;
     border-radius: 50%;
 }
-
 
 /* My customize style */
 .navbar-brand {

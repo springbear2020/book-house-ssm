@@ -12,6 +12,7 @@ import java.util.Date;
 @Data
 @Component
 public class Pixabay {
+    public static final int MAX_PAGE_NUMBER = 25;
     private Integer id;
     private String condition;
     private String tags;

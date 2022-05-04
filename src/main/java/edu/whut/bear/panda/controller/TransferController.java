@@ -31,7 +31,7 @@ public class TransferController {
     public Response upload(@PathVariable("type") Integer type, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return Response.error("登录后方可上传文件", null);
+            return Response.danger("登录后方可上传文件", null);
         }
         // TODO Set different config info by the file type
         String key;
@@ -57,7 +57,7 @@ public class TransferController {
                 key = "background/";
                 break;
             default:
-                return Response.warning("请上传正确格式的文件", null);
+                return Response.info("请上传正确格式的文件", null);
         }
 
         // Rename the save file name
@@ -71,9 +71,9 @@ public class TransferController {
 
         // Save the upload record to database
         Upload upload = new Upload(null, user.getId(), user.getType(), user.getUsername(), type, Upload.STATUS_UNPROCESSED, new Date(), domain, key, bucket);
-        if (recordService.saveUpload(upload)) {
-            return Response.success("", res);
+        if (!recordService.saveUpload(upload)) {
+            return Response.danger("请求上传文件失败", null);
         }
-        return Response.error("请求上传文件失败", null);
+        return Response.success("", res);
     }
 }
