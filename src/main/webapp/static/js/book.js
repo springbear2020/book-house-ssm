@@ -63,7 +63,7 @@ $(function () {
      * After load page successfully,
      * send an ajax request to server for get book info data in json type
      */
-    get_book_page_data("", 1);
+    // get_book_page_data("", 1);
 
     // Deal with the next and last page click event
     var deal_turn_page_event = function (element, pageNum) {
@@ -81,7 +81,7 @@ $(function () {
 
     // Build the book info display module
     var build_book_module = function (response) {
-        var bookList = response.resultMap.content.list;
+        var bookList = response.resultMap.bookPageData.list;
         var isCoverLeft = true;
         $.each(bookList, function (index, item) {
             // Build the dividing line
@@ -184,13 +184,13 @@ $(function () {
         var $last_page_li = $("<li></li>").append($last_page_a);
         $ul_page_parent_1.append($last_page_li);
         // Build the current page
-        var $cur_page_num_span = $("<span></span>").append(response.resultMap.content.pageNum);
-        var $total_pages_span = $("<span></span>").append(response.resultMap.content.pages);
+        var $cur_page_num_span = $("<span></span>").append(response.resultMap.bookPageData.pageNum);
+        var $total_pages_span = $("<span></span>").append(response.resultMap.bookPageData.pages);
         var $cur_page_a = $("<a></a>").append("第 ").append($cur_page_num_span).append(" / ").append($total_pages_span).append(" 页").attr("style", "background-color: #eee");
         var $cur_page_li = $("<li></li>").append($cur_page_a);
         $ul_page_parent_1.append($cur_page_li);
         // Build the total record counts
-        var $total_counts_span = $("<span></span>").append(response.resultMap.content.total);
+        var $total_counts_span = $("<span></span>").append(response.resultMap.bookPageData.total);
         var $total_counts_a = $("<a></a>").append("共 ").append($total_counts_span).append(" 条").attr("style", "background-color: #eee");
         var $total_counts_li = $("<li></li>").append($total_counts_a);
         $ul_page_parent_1.append($total_counts_li);
@@ -207,16 +207,16 @@ $(function () {
          *      and click blank screen to close the nav bar
          */
         // Deal with the previous page link click event
-        if (response.resultMap.content.hasPreviousPage) {
+        if (response.resultMap.bookPageData.hasPreviousPage) {
             $last_page_a.attr("role", "button").attr("id", "link-last-page");
-            deal_turn_page_event($("#link-last-page"), response.resultMap.content.prePage);
+            deal_turn_page_event($("#link-last-page"), response.resultMap.bookPageData.prePage);
         } else {
             $last_page_a.attr("style", "background-color: #eee");
         }
         // Deal with the nex page link click event
-        if (response.resultMap.content.hasNextPage) {
+        if (response.resultMap.bookPageData.hasNextPage) {
             $next_page_a.attr("role", "button").attr("id", "link-next-page");
-            deal_turn_page_event($("#link-next-page"), response.resultMap.content.nextPage);
+            deal_turn_page_event($("#link-next-page"), response.resultMap.bookPageData.nextPage);
         } else {
             $next_page_a.attr("style", "background-color: #eee");
         }

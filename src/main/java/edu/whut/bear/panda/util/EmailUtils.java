@@ -1,7 +1,8 @@
 package edu.whut.bear.panda.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
@@ -17,24 +18,32 @@ import java.util.Properties;
  * @author Spring-_-Bear
  * @datetime 2022/4/27 21:36
  */
+@Data
 @Component
+@PropertySource("classpath:email.properties")
 public class EmailUtils {
-    @Autowired
-    private PropertyUtils propertyUtils;
-    @Autowired
-    private Session session;
+    /**
+     * Email config data
+     */
+    @Value("${email.email}")
+    private String email;
+    @Value("${email.password}")
+    private String password;
+    @Value("${email.smtpHost}")
+    private String smtpHost;
+    @Value("${email.codeLength}")
+    private Integer codeLength;
 
     /**
      * Get a session between this server and the email server
      *
      * @return java.mail.Session
      */
-    @Bean
-    public Session getSession() {
+    private Session getSession() {
         // Configure the attribute information required
         Properties properties = new Properties();
         properties.setProperty("mail.transport.protocol", "smtp");
-        properties.setProperty("mail.smtp.host", propertyUtils.getSmtpHost());
+        properties.setProperty("mail.smtp.host", smtpHost);
         // Authorize needed
         properties.setProperty("mail.smtp.auth", "true");
         // Can check the details though debug mode by the code [session.setDebug(true);]
@@ -46,10 +55,10 @@ public class EmailUtils {
      *
      * @return MimeMessage
      */
-    public MimeMessage createMailContent(String receiverEmail, String verifyCode) throws UnsupportedEncodingException, MessagingException {
-        MimeMessage message = new MimeMessage(session);
+    private MimeMessage createMailContent(String receiverEmail, String verifyCode) throws UnsupportedEncodingException, MessagingException {
+        MimeMessage message = new MimeMessage(getSession());
         // Set the sender
-        message.setFrom(new InternetAddress(propertyUtils.getFromEmail(), "Book House", "UTF-8"));
+        message.setFrom(new InternetAddress(email, "Book House", "UTF-8"));
         // Set the receiver
         message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(receiverEmail));
         // Email subject
@@ -70,13 +79,12 @@ public class EmailUtils {
     /**
      * Send email, if no exception occur meaning the email deliver successfully
      */
-    @Bean
     public synchronized boolean sendEmail(String receiverEmail, String verifyCode) {
         Transport transport;
         try {
             // Make a connection with the email server
-            transport = session.getTransport();
-            transport.connect(propertyUtils.getFromEmail(), propertyUtils.getEmailPassword());
+            transport = getSession().getTransport();
+            transport.connect(email, password);
             // Build the email content
             MimeMessage message = createMailContent(receiverEmail, verifyCode);
             // Send the email

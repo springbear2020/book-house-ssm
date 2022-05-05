@@ -3,6 +3,8 @@ package edu.whut.bear.panda.service;
 import edu.whut.bear.panda.pojo.Pixabay;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Spring-_-Bear
  * @datetime 2022/5/3 20:53
@@ -10,11 +12,13 @@ import org.springframework.stereotype.Service;
 @Service
 public interface PictureService {
     /**
-     * Get first pixabay picture
+     * Get pixabay picture by start position and offset
      *
-     * @return Pixabay or null
+     * @param start  Start position
+     * @param offset Offset
+     * @return Pixabay list or null
      */
-    Pixabay getFirstPixabay();
+    List<Pixabay> getPixabayByPositionAndOffset(Integer start, Integer offset);
 
     /**
      * Delete a pixabay picture by id

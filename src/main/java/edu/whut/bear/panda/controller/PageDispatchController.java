@@ -1,13 +1,10 @@
 package edu.whut.bear.panda.controller;
 
-import com.sun.xml.internal.bind.v2.TODO;
-import edu.whut.bear.panda.pojo.Admin;
 import edu.whut.bear.panda.pojo.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
-import java.util.Comparator;
 
 /**
  * @author Spring-_-Bear
@@ -16,7 +13,7 @@ import java.util.Comparator;
 @Controller
 public class PageDispatchController {
 
-    @GetMapping("/page/login")
+    @GetMapping("/page")
     public String loginDispatcher(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
@@ -45,15 +42,15 @@ public class PageDispatchController {
 
     @GetMapping("/manage")
     public String toAdminManagePage(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null || user.getType() != User.USER_TYPE_ADMIN || user.getStatus() != User.USER_STATUS_NORMAL) {
-            return "redirect:/";
-        }
-
-        Admin admin = (Admin) session.getAttribute("admin");
-        if (admin == null || admin.getStatus() != Admin.ADMIN_STATUS_NORMAL) {
-            return "redirect:/admin";
-        }
+        // User user = (User) session.getAttribute("user");
+        // if (user == null || user.getType() != User.USER_TYPE_ADMIN || user.getStatus() != User.USER_STATUS_NORMAL) {
+        //     return "redirect:/";
+        // }
+        //
+        // Admin admin = (Admin) session.getAttribute("admin");
+        // if (admin == null || admin.getStatus() != Admin.ADMIN_STATUS_NORMAL) {
+        //     return "redirect:/admin";
+        // }
 
         return "admin_manage";
     }

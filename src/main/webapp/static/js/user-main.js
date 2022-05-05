@@ -48,7 +48,7 @@ $(function () {
         var suffix = srcFileName.substring(srcFileName.lastIndexOf("."));
         // Display the upload now button
         var $btn_book_start_upload = $("#btn-book-start-upload");
-        $btn_book_start_upload.attr("style", "display: block");
+        $btn_book_start_upload.parent().attr("style", "display: block");
         // Start uploading book button event
         $btn_book_start_upload.click(function () {
             if (".pdf" !== suffix) {
@@ -58,12 +58,13 @@ $(function () {
             // Send an ajax request to server for getting qiniu token
             // 0 - Upload pdf book file
             $.ajax({
-                url: contextPath + "upload/0",
+                url: contextPath + "transfer/upload/book",
                 dataType: "json",
+                type: "post",
                 success: function (response) {
                     if (SUCCESS_CODE === response.code) {
                         $("#div-book-choose-upload").attr("style", "display: none");
-                        qiniu_upload(file, response.resultMap.content[1], response.resultMap.content[0]);
+                        qiniu_upload_book(file, response.resultMap.key, response.resultMap.token);
                     } else {
                         show_notice_modal(response.code, response.msg);
                     }
@@ -73,7 +74,7 @@ $(function () {
     });
 
     // File upload service by Qiniu Cloud
-    var qiniu_upload = function (file, token, key) {
+    var qiniu_upload_book = function (file, key, token) {
         // Config info
         var putExtra = {
             fname: {key},

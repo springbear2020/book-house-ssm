@@ -25,4 +25,9 @@ public class UploadMapperTest {
     public void saveUpload() {
         System.out.println(uploadMapper.saveUpload(new Upload(null, 2, 0, "bear", 0, 0, new Date(), "http://localhost:8080/", "user/book/1.pdf", "panda-books")));
     }
+
+    @Test
+    public void getUploadRecord() {
+        System.out.println(uploadMapper.getUploadRecord(0,1,1, 3));
+    }
 }

@@ -2,14 +2,14 @@ package edu.whut.bear.panda.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.github.pagehelper.PageInterceptor;
-import edu.whut.bear.panda.util.PropertyUtils;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.IOException;
@@ -21,10 +21,20 @@ import java.util.Properties;
  */
 @Configuration
 @MapperScan("edu.whut.bear.panda.dao")
+@PropertySource("classpath:jdbc.properties")
 @ComponentScan(basePackages = {"edu.whut.bear.panda.pojo", "edu.whut.bear.panda.dao", "edu.whut.bear.panda.service", "edu.whut.bear.panda.util"})
 public class SpringConfig {
-    @Autowired
-    private PropertyUtils propertyUtils;
+    /**
+     * JDBC config data
+     */
+    @Value("${jdbc.driverClass}")
+    private String driverClass;
+    @Value("${jdbc.url}")
+    private String url;
+    @Value("${jdbc.username}")
+    private String username;
+    @Value("${jdbc.password}")
+    private String password;
 
     /**
      * Druid data source
@@ -32,10 +42,10 @@ public class SpringConfig {
     @Bean
     public DruidDataSource getDruidDataSource() {
         DruidDataSource druidDataSource = new DruidDataSource();
-        druidDataSource.setDriverClassName(propertyUtils.getDriverClass());
-        druidDataSource.setUrl(propertyUtils.getUrl());
-        druidDataSource.setUsername(propertyUtils.getUsername());
-        druidDataSource.setPassword(propertyUtils.getPassword());
+        druidDataSource.setDriverClassName(driverClass);
+        druidDataSource.setUrl(url);
+        druidDataSource.setUsername(username);
+        druidDataSource.setPassword(password);
         return druidDataSource;
     }
 

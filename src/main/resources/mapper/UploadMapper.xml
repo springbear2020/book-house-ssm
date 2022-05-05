@@ -8,4 +8,13 @@
         insert into t_upload(user_id, user_type, username, type, status, upload_time, domain, `key`, bucket)
         VALUES (#{userId}, #{userType}, #{username}, #{type}, #{status}, #{uploadTime}, #{domain}, #{key}, #{bucket})
     </insert>
+
+    <!-- List<Upload> getUploadRecord(@Param("type") Integer type, @Param("status") Integer status, @Param("position") Integer position, @Param("offset") Integer offset); -->
+    <select id="getUploadRecord" resultType="Upload">
+        select *
+        from t_upload
+        where type = #{type}
+          and status = #{status}
+        limit #{position},#{offset}
+    </select>
 </mapper>

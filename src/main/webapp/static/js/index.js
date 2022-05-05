@@ -127,16 +127,17 @@ $(function () {
             return false;
         }
 
+        var username = $("#input-login-username").val();
+        var password = $("#input-login-password").val();
         // Send an ajax request the verify the username and password
         $.ajax({
-            url: contextPath + "user/login",
+            url: contextPath + "user/" + username + "/" + password,
             method: "get",
-            data: $("#form-login").serialize(),
             dataType: "json",
             success: function (response) {
                 // Username and password are correct, resend an request to server for page redirect
                 if (SUCCESS_CODE === response.code) {
-                    location.href = contextPath + "page/login";
+                    location.href = contextPath + "page";
                 } else {
                     show_notice_modal(response.code, response.msg);
                 }
@@ -235,9 +236,8 @@ $(function () {
         // Send an ajax to obtain code from server
         var email = $("#input-register-email").val();
         $.ajax({
-            url: contextPath + "email",
-            data: "email=" + email,
-            type: "get",
+            url: contextPath + "email/" + email,
+            type: "post",
             dataType: "json",
             success: function (response) {
                 show_notice_modal(response.code, response.msg);
@@ -372,9 +372,10 @@ $(function () {
             show_notice_modal(WARNING_CODE, "请先获取验证码");
             return false;
         }
+        var verifyCode = $("#input-register-verify-code");
         // Send an ajax request to server for user register
         $.ajax({
-            url: contextPath + "user",
+            url: contextPath + "user/" + verifyCode,
             type: "post",
             data: $("#form-register").serialize(),
             dataType: "json",

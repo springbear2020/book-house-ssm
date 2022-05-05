@@ -4,7 +4,7 @@ import com.github.pagehelper.PageInfo;
 import edu.whut.bear.panda.pojo.Book;
 import edu.whut.bear.panda.pojo.Response;
 import edu.whut.bear.panda.service.BookService;
-import edu.whut.bear.panda.util.PropertyUtils;
+import edu.whut.bear.panda.util.PandaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,12 +20,12 @@ public class BookController {
     @Autowired
     private BookService bookService;
     @Autowired
-    private PropertyUtils propertyUtils;
+    private PandaUtils pandaUtils;
 
     @GetMapping("/book/{pageNum}")
     public Response getBookPageData(@RequestParam("title") String title, @PathVariable("pageNum") Integer pageNum) {
-        int pageSize = propertyUtils.getPageSize();
-        int navigationPages = propertyUtils.getNavigationPages();
+        int pageSize = pandaUtils.getPageSize();
+        int navigationPages = pandaUtils.getNavigationPages();
 
         if (title == null) {
             title = "";
@@ -42,8 +42,8 @@ public class BookController {
         PageInfo<Book> bookPageInfo = bookService.getBookPageData(title, pageNum, pageSize, navigationPages);
         // No book data queried
         if (bookPageInfo == null || bookPageInfo.getList() == null || bookPageInfo.getList().size() == 0) {
-            return Response.info("您查询的图书暂无数据", null);
+            return Response.info("您查询的图书暂无数据");
         }
-        return Response.success("", bookPageInfo);
+        return Response.success("").add("bookPageData", bookPageInfo);
     }
 }

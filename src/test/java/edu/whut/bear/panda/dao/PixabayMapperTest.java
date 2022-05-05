@@ -20,8 +20,8 @@ public class PixabayMapperTest {
     private PixabayMapper pixabayMapper;
 
     @Test
-    public void getFirstPixabay() {
-        System.out.println(pixabayMapper.getFirstPixabay());
+    public void getPixabayByPositionAndOffset() {
+        System.out.println(pixabayMapper.getPixabayByPositionAndOffset(2, 2));
     }
 
     @Test

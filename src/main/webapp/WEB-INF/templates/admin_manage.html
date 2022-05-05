@@ -25,6 +25,7 @@
     <![endif]-->
 
     <script th:src="@{/static/js/jquery-1.7.2.js}"></script>
+    <script th:src="@{/static/js/qiniu.min.js}"></script>
     <script th:src="@{/static/js/admin-manage.js}"></script>
 </head>
 <body>
@@ -42,10 +43,10 @@
             <div class="modal-body">
                 <form class="form-inline" id="form-pixabay">
                     <label for="input-pixabay-condition" class="control-label sr-only"></label>
-                    <input type="text" class="form-control" id="input-pixabay-condition" name="condition" placeholder="Condition">
+                    <input type="text" class="form-control" id="input-pixabay-condition" name="condition" placeholder="condition">
                     <label for="select-pixabay-pages" class="control-label sr-only"></label>
                     <select class="form-control" id="select-pixabay-pages" name="pages">
-                        <option>1</option><option>5</option>
+                        <option>01</option><option>05</option>
                         <option>10</option><option>15</option>
                         <option>20</option><option>25</option>
                     </select>
@@ -103,7 +104,7 @@
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a id="link-show-pixabay" role="button">Pixabay</a></li>
-                <li><a id="link-show-portrait" role="button">用户头像</a></li>
+                <li><a id="link-show-portrait" role="button">Portrait</a></li>
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a>上传记录</a></li>

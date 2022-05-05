@@ -3,11 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.whut.bear.panda.dao.PixabayMapper">
-    <!-- Pixabay getFirstPixabay(); -->
-    <select id="getFirstPixabay" resultType="Pixabay">
+    <!--     Pixabay getPixabayByPositionAndOffset(@Param("position") Integer position, @Param("offset") Integer offset); -->
+    <select id="getPixabayByPositionAndOffset" resultType="Pixabay">
         select *
         from t_pixabay
-        LIMIT 0,1
+        LIMIT #{position},#{offset}
     </select>
 
     <!-- int deletePixabayById(@Param("id") Integer id); -->

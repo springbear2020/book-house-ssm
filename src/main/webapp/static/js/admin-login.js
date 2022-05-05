@@ -102,8 +102,7 @@ $(function () {
         var username = $("#input-admin-username").val();
         var password = $("#input-admin-password").val();
         $.ajax({
-            url: contextPath + "admin/login",
-            data: "username=" + username + "&password=" + password,
+            url: contextPath + "admin/" + username + "/" + password,
             dataType: "json",
             method: "get",
             success: function (response) {

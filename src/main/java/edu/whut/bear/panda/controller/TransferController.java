@@ -1,20 +1,16 @@
 package edu.whut.bear.panda.controller;
 
-import com.qiniu.util.Auth;
-import com.qiniu.util.StringMap;
 import edu.whut.bear.panda.pojo.Response;
 import edu.whut.bear.panda.pojo.Upload;
 import edu.whut.bear.panda.pojo.User;
 import edu.whut.bear.panda.service.RecordService;
 import edu.whut.bear.panda.util.DateUtils;
-import edu.whut.bear.panda.util.PropertyUtils;
+import edu.whut.bear.panda.util.QiniuUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -23,57 +19,65 @@ import java.util.List;
 @RestController
 public class TransferController {
     @Autowired
-    private PropertyUtils propertyUtils;
-    @Autowired
     private RecordService recordService;
+    @Autowired
+    private QiniuUtils qiniuUtils;
 
-    @GetMapping("/upload/{type}")
-    public Response upload(@PathVariable("type") Integer type, HttpSession session) {
+    @PostMapping("/transfer/upload/book")
+    public Response bookUpload(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return Response.danger("登录后方可上传文件", null);
-        }
-        // TODO Set different config info by the file type
-        String key;
-        String fileSuffix = ".png";
-        String mimeLimit = "image/*";
-        String domain = propertyUtils.getImgDomain();
-        String bucket = propertyUtils.getImgBucket();
-        switch (type) {
-            case Upload.TYPE_BOOK:
-                fileSuffix = ".pdf";
-                mimeLimit = "application/pdf";
-                bucket = propertyUtils.getBookBucket();
-                domain = propertyUtils.getBookDomain();
-                key = user.getType() == User.USER_TYPE_COMMON ? "user/" : "admin/";
-                break;
-            case Upload.TYPE_COVER:
-                key = "cover/";
-                break;
-            case Upload.TYPE_PORTRAIT:
-                key = "portrait/";
-                break;
-            case Upload.TYPE_BACKGROUND:
-                key = "background/";
-                break;
-            default:
-                return Response.info("请上传正确格式的文件", null);
+            return Response.danger("登录后方可上传图书文件");
         }
 
-        // Rename the save file name
-        key = key + DateUtils.dateIntoFileName(new Date()) + "-" + user.getId() + fileSuffix;
-        Auth auth = Auth.create(propertyUtils.getAccessKey(), propertyUtils.getSecretKey());
-        // Limit the file type uploaded by the user
-        String uploadToken = auth.uploadToken(bucket, key, 1800, new StringMap().put("mimeLimit", mimeLimit));
-        List<String> res = new ArrayList<>();
-        res.add(key);
-        res.add(uploadToken);
+        String key = "userUpload/" + DateUtils.dateIntoFileName(new Date()) + "-" + user.getId() + ".pdf";
+        String uploadToken = qiniuUtils.getBookUploadToken(key, "application/pdf");
 
         // Save the upload record to database
-        Upload upload = new Upload(null, user.getId(), user.getType(), user.getUsername(), type, Upload.STATUS_UNPROCESSED, new Date(), domain, key, bucket);
+        Upload upload = new Upload(null, user.getId(), user.getType(), user.getUsername(),
+                Upload.TYPE_BOOK, Upload.STATUS_UNPROCESSED, new Date(),
+                qiniuUtils.getBookDomain(), key, qiniuUtils.getBookBucket());
         if (!recordService.saveUpload(upload)) {
-            return Response.danger("请求上传文件失败", null);
+            return Response.danger("图书上传记录保存失败");
         }
-        return Response.success("", res);
+        return Response.success("").add("key", key).add("token", uploadToken);
+    }
+
+    @PostMapping("/transfer/upload/image/{type}")
+    public Response imageUpload(@PathVariable("type") Integer type, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return Response.danger("登录后方可上传图片文件");
+        }
+
+        String savePath;
+        switch (type) {
+            case Upload.TYPE_COVER:
+                savePath = "cover/";
+                break;
+            case Upload.TYPE_PORTRAIT:
+                savePath = "portrait/";
+                break;
+            case Upload.TYPE_BACKGROUND:
+                savePath = "background/";
+                break;
+            default:
+                savePath = null;
+        }
+        if (savePath == null) {
+            return Response.info("图片类别不正确");
+        }
+
+        String key = savePath + DateUtils.dateIntoFileName(new Date()) + "-" + user.getId() + ".png";
+        String uploadToken = qiniuUtils.getImageUploadToken(key, "image/*");
+
+        // Save the upload record to database
+        Upload upload = new Upload(null, user.getId(), user.getType(), user.getUsername(),
+                type, Upload.STATUS_PROCESSED, new Date(),
+                qiniuUtils.getImgDomain(), key, qiniuUtils.getImgBucket());
+        if (!recordService.saveUpload(upload)) {
+            return Response.danger("图片上传记录保存失败");
+        }
+        return Response.success("").add("key", key).add("token", uploadToken);
     }
 }

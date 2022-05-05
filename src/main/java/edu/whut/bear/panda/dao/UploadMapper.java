@@ -1,7 +1,10 @@
 package edu.whut.bear.panda.dao;
 
 import edu.whut.bear.panda.pojo.Upload;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -16,4 +19,15 @@ public interface UploadMapper {
      * @return 1 - Save successfully
      */
     int saveUpload(Upload upload);
+
+    /**
+     * Get the first unprocessed book upload record
+     *
+     * @param type     Type of upload record(book || cover || portrait || background)
+     * @param status   Status of upload record(processed || unprocessed)
+     * @param position Start position
+     * @param offset   Offset
+     * @return Upload or null
+     */
+    List<Upload> getUploadRecord(@Param("type") Integer type, @Param("status") Integer status, @Param("position") Integer position, @Param("offset") Integer offset);
 }

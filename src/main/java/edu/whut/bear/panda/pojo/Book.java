@@ -21,14 +21,14 @@ public class Book {
     private String title;
     private String author;
     private String translator;
-    private Integer downloads;
-    private Integer collections;
+    private Integer downloads = 0;
+    private Integer collections = 0;
     private Integer uploadUserId;
     private String uploadUsername;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date uploadTime;
-    private Integer bookState;
+    private Integer bookState = Book.ON;
     private String bookPath;
     private String coverPath;
     private String comments;
