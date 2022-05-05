@@ -30,7 +30,7 @@ public class TransferController {
             return Response.danger("登录后方可上传图书文件");
         }
 
-        String key = "userUpload/" + DateUtils.dateIntoFileName(new Date()) + "-" + user.getId() + ".pdf";
+        String key = DateUtils.dateIntoFileName(new Date()) + "-" + user.getId() + ".pdf";
         String uploadToken = qiniuUtils.getBookUploadToken(key, "application/pdf");
 
         // Save the upload record to database
@@ -70,6 +70,7 @@ public class TransferController {
 
         String key = savePath + DateUtils.dateIntoFileName(new Date()) + "-" + user.getId() + ".png";
         String uploadToken = qiniuUtils.getImageUploadToken(key, "image/*");
+        String imgPath = qiniuUtils.getImgDomain() + key;
 
         // Save the upload record to database
         Upload upload = new Upload(null, user.getId(), user.getType(), user.getUsername(),
@@ -78,6 +79,22 @@ public class TransferController {
         if (!recordService.saveUpload(upload)) {
             return Response.danger("图片上传记录保存失败");
         }
-        return Response.success("").add("key", key).add("token", uploadToken);
+        return Response.success("").add("key", key).add("token", uploadToken).add("imgPath", imgPath);
+    }
+
+    @DeleteMapping("/transfer/upload/{id}")
+    public Response deleteBucketFile(@PathVariable("id") Integer id) {
+        Upload upload = recordService.getUploadById(id);
+        if (upload == null) {
+            return Response.danger("上传记录不存在");
+        }
+        // Delete the file by key in the Qiniu bucket
+        if (!qiniuUtils.deleteBookFileByKey(upload.getKey())) {
+            return Response.danger("七牛空间文件删除失败");
+        }
+        if (!recordService.updateUploadRecordStatus(id, Upload.STATUS_PROCESSED)) {
+            return Response.danger("更新图书上传记录状态失败");
+        }
+        return Response.success("文件删除成功，记录已处理");
     }
 }

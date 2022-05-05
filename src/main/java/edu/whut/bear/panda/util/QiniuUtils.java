@@ -1,5 +1,10 @@
 package edu.whut.bear.panda.util;
 
+import com.qiniu.common.QiniuException;
+import com.qiniu.http.Response;
+import com.qiniu.storage.BucketManager;
+import com.qiniu.storage.Configuration;
+import com.qiniu.storage.Region;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
 import lombok.Data;
@@ -47,5 +52,19 @@ public class QiniuUtils {
         StringMap putPolicy = new StringMap();
         putPolicy.put("mimeLimit", mimeLimit);
         return auth.uploadToken(imgBucket, key, 1800, putPolicy);
+    }
+
+    public boolean deleteBookFileByKey(String key) {
+        Configuration configuration = new Configuration(Region.region0());
+        Auth auth = Auth.create(accessKey, secretKey);
+        BucketManager bucketManager = new BucketManager(auth, configuration);
+        try {
+            Response delete = bucketManager.delete(bookBucket, key);
+            System.out.println(delete);
+            return true;
+        } catch (QiniuException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

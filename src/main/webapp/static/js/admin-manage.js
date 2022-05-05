@@ -36,7 +36,7 @@ $(function () {
     var $div_main_content = $("#div-admin-manage-content");
 
     // File upload service by Qiniu Cloud
-    var qiniu_upload_image = function (file, key, token) {
+    var qiniu_upload_image_no_progress = function (file, key, token) {
         // Config info
         var putExtra = {
             fname: {key},
@@ -69,6 +69,61 @@ $(function () {
         // Start upload
         observable.subscribe(observer);
     };
+
+    // File upload service by Qiniu Cloud
+    var qiniu_upload_image = function (file, key, token) {
+        // Config info
+        var putExtra = {
+            fname: {key},
+            params: {},
+            mimeType: ["image/*"]
+        }
+        var config = {
+            shouldUseQiniuFileName: false,
+            region: qiniu.region.z2,
+            forceDirect: true,
+        };
+
+        // Get a upload service obj
+        var observable = qiniu.upload(file, key, token, putExtra, config);
+
+        var observer = {
+            next(res) {
+                // Show the progress of the book upload
+                var rate = res.total.percent + "";
+                show_process(rate.substring(0, rate.indexOf(".") + 3));
+            },
+            error() {
+                show_notice_modal(DANGER_CODE, "图片上传失败，请稍后重试");
+            },
+            complete() {
+                show_notice_modal(SUCCESS_CODE, "图片上传成功，感谢您的共享");
+                // Process stay at 100%
+                show_process(100);
+            }
+        }
+
+        // Start upload
+        observable.subscribe(observer);
+    };
+
+    // Display the process bar dynamically
+    var show_process = function (rate) {
+        $(".progress").attr("style", "display: block");
+        var $process_bar = $(".progress-bar-striped");
+        $process_bar.attr("aria-valuenow", rate);
+        $process_bar.attr("style", "width: " + rate + "%");
+        $process_bar.text(rate + "%");
+    };
+
+    // Close the upload modal event
+    $("#btn-book-upload-modal-close").click(function () {
+        // Hide the start upload button and the process bar
+        $(".progress").attr("style", "display: none");
+        $("#div-book-choose-upload").attr("style", "display: none");
+        // Clear the content of the input file element
+        $("#input-book-upload").val("");
+    });
 
     /* ============================================== Upload background ============================================= */
     // Upload background link click event
@@ -120,7 +175,7 @@ $(function () {
                 dataType: "json",
                 success: function (response) {
                     if (SUCCESS_CODE === response.code) {
-                        qiniu_upload_image(file, response.resultMap.key, response.resultMap.token);
+                        qiniu_upload_image_no_progress(file, response.resultMap.key, response.resultMap.token);
                     } else {
                         show_notice_modal(response.code, response.msg);
                     }
@@ -269,23 +324,6 @@ $(function () {
         $("#select-pixabay-pages").val(1);
     });
 
-    /* ================================================ Show portrait ================================================= */
-    $("#link-show-portrait").click(function () {
-        $div_main_content.empty();
-        show_user_portrait_module();
-    });
-
-    // Build show user portrait
-    var show_user_portrait_module = function () {
-        $("<h3></h3>").append("用户头像").addClass("page-header").appendTo($div_main_content);
-        var $div_row = $("<div></div>").addClass("row placeholders").appendTo($div_main_content);
-
-        // First portrait
-        var $div_img_parent = $("<div></div>").addClass("col-xs-6 col-sm-3 placeholder").appendTo($div_row);
-        var $img = $("<img/>").attr("width", "200").attr("height", "200").attr("alt", "")
-            .addClass("img-responsive").attr("src", "3.jpg").appendTo($div_img_parent);
-        $("<h4></h4>").append("Spring-_-Bear").appendTo($div_img_parent);
-    };
 
     /* ================================================ Upload book ================================================= */
     $("#link-upload-book").click(function () {
@@ -317,22 +355,22 @@ $(function () {
     var build_book_upload_record_display_module = function (response) {
         var upload = response.resultMap.bookUploadList[0];
         // Title
-        $("<h3></h3>").append("图书上传").addClass("sub-header").appendTo($div_main_content);
+        $("<h3></h3>").append("上传记录").addClass("sub-header").appendTo($div_main_content);
         // Parent of table
         var $div_table_parent = $("<div></div>").addClass("table-responsive").appendTo($div_main_content);
-        var $table = $("<table></table>").addClass("table table-bordered").appendTo($div_table_parent);
+        var $table = $("<table></table>").addClass("table table-bordered table-hover").appendTo($div_table_parent);
         // Table thead
         var $thead = $("<thead></thead>").appendTo($table);
         var $tr_thead = $("<tr></tr>").appendTo($thead);
-        $("<th></th>").append("#").appendTo($tr_thead);
-        $("<th></th>").append("用户 id").appendTo($tr_thead);
+        $("<th></th>").append("ID").appendTo($tr_thead);
+        $("<th></th>").append("用户编号").appendTo($tr_thead);
         $("<th></th>").append("用户名").appendTo($tr_thead);
         $("<th></th>").append("用户类型").appendTo($tr_thead);
         $("<th></th>").append("上传时间").appendTo($tr_thead);
         $("<th></th>").append("文件类型").appendTo($tr_thead);
         $("<th></th>").append("空间名称").appendTo($tr_thead);
+        $("<th></th>").append("记录状态").appendTo($tr_thead);
         $("<th></th>").append("访问地址").appendTo($tr_thead);
-        $("<th></th>").append("移动文件").appendTo($tr_thead);
         $("<th></th>").append("删除文件").appendTo($tr_thead);
         // Table tbody
         var $tbody = $("<tbody></tbody>").appendTo($table);
@@ -355,74 +393,214 @@ $(function () {
         }
         $("<td></td>").append(fileType).appendTo($tr_tbody);
         $("<td></td>").append(upload.bucket).appendTo($tr_tbody);
+        var status = upload.status === 0 ? "已处理" : "未处理";
+        $("<td></td>").append(status).appendTo($tr_tbody);
         // File link element
         var $link = $("<td></td>").appendTo($tr_tbody);
         var $a_link = $("<a></a>").attr("target", "_blank").attr("href", upload.domain + upload.key)
             .appendTo($link);
         $("<span></span>").addClass("glyphicon glyphicon-eye-open").attr("aria-hidden", "true")
             .appendTo($a_link);
-        // File move element
-        var $move = $("<td></td>").appendTo($tr_tbody);
-        var $a_move = $("<a></a>").attr("role", "button").appendTo($move);
-        $("<span></span>").addClass("glyphicon glyphicon-move").attr("aria-hidden", "true").appendTo($a_move);
         // File delete element
         var $delete = $("<td></td>").appendTo($tr_tbody);
-        var $a_delete = $("<a></a>").attr("role", "button").appendTo($delete);
+        var $a_delete = $("<a></a>").attr("role", "button").attr("id", "btn-delete-bucket-file").appendTo($delete);
         $("<span></span>").addClass("glyphicon glyphicon-trash").attr("aria-hidden", "true").appendTo($a_delete);
+
+        // Delete file click event
+        $("#btn-delete-bucket-file").click(function () {
+            // @DeleteMapping("/transfer/upload/{id}")
+            $.ajax({
+                url: contextPath + "transfer/upload/" + upload.id,
+                type: "post",
+                data: "_method=delete",
+                dataType: "json",
+                success: function (response) {
+                    if (SUCCESS_CODE === response.code) {
+                        $div_main_content.empty();
+                        get_book_upload_record();
+                    }
+                    show_notice_modal(response.code, response.msg);
+                },
+                error: function () {
+                    show_notice_modal(DANGER_CODE, "请求删除图书文件失败");
+                }
+            })
+        });
     };
 
     // Build upload book form module
     var build_book_upload_form_module = function (response) {
         var upload = response.resultMap.bookUploadList[0];
-        var $form = $("<form></form>").addClass("form-group").appendTo($div_main_content);
+        $("<h3></h3>").append("新增图书").addClass("sub-header").appendTo($div_main_content);
+        var $form = $("<form></form>").addClass("form-group").attr("id", "form-insert-book").appendTo($div_main_content);
         // Div 1
         var $div1 = $("<div></div>").addClass("form-group form-inline").appendTo($form);
         // User id
         $("<label></label>").addClass("control-label sr-only").attr("for", "input-book-user-id").appendTo($div1);
-        $("<input/>").attr("type", "text").addClass("form-control").attr("disabled", "disabled")
-            .attr("id", "input-book-user-id").val(upload.userId).appendTo($div1);
+        $("<input/>").attr("type", "text").addClass("form-control").attr("readonly", "readonly")
+            .attr("name", "uploadUserId").attr("id", "input-book-user-id").val(upload.userId).appendTo($div1);
         // Username
         $("<label></label>").addClass("control-label sr-only").attr("for", "input-book-username").appendTo($div1);
-        $("<input/>").attr("type", "text").addClass("form-control").attr("disabled", "disabled")
-            .attr("id", "input-book-username").val(upload.username).appendTo($div1);
+        $("<input/>").attr("type", "text").addClass("form-control").attr("readonly", "readonly")
+            .attr("name", "uploadUsername").attr("id", "input-book-username").val(upload.username).appendTo($div1);
         // Upload time
         $("<label></label>").addClass("control-label sr-only").attr("for", "input-book-upload-time").appendTo($div1);
-        $("<input/>").attr("type", "text").addClass("form-control").attr("disabled", "disabled")
-            .attr("id", "input-book-upload-time").val(upload.uploadTime).appendTo($div1);
-        // Book path
-        $("<label></label>").addClass("control-label sr-only").attr("for", "input-book-path").appendTo($div1);
-        $("<input/>").attr("type", "text").addClass("form-control").attr("disabled", "disabled")
-            .attr("id", "input-book-path").val(upload.domain + upload.key).appendTo($div1);
+        $("<input/>").attr("type", "text").addClass("form-control").attr("readonly", "readonly")
+            .attr("name", "uploadTime").attr("id", "input-book-upload-time").val(upload.uploadTime).appendTo($div1);
         // Div 2
         var $div2 = $("<div></div>").addClass("form-group form-inline").appendTo($form);
         // Title
         $("<label></label>").addClass("control-label sr-only").attr("for", "input-book-title").appendTo($div2);
         $("<input/>").attr("type", "text").addClass("form-control")
-            .attr("id", "input-book-title").attr("placeholder", "书名").appendTo($div2);
+            .attr("name", "title").attr("id", "input-book-title").attr("placeholder", "书名").appendTo($div2);
         // Author
         $("<label></label>").addClass("control-label sr-only").attr("for", "input-book-author").appendTo($div2);
         $("<input/>").attr("type", "text").addClass("form-control")
-            .attr("id", "input-book-author").attr("placeholder", "作者").appendTo($div2);
+            .attr("name", "author").attr("id", "input-book-author").attr("placeholder", "作者").appendTo($div2);
         // Translator
         $("<label></label>").addClass("control-label sr-only").attr("for", "input-book-translator").appendTo($div2);
         $("<input/>").attr("type", "text").addClass("form-control")
-            .attr("id", "input-book-translator").attr("placeholder", "译者").appendTo($div2);
+            .attr("name", "translator").attr("id", "input-book-translator").attr("placeholder", "译者").appendTo($div2);
+        // Div 3
+        var $div3 = $("<div></div>").addClass("form-group form-inline").appendTo($form);
+        // Book path
+        $("<label></label>").addClass("control-label sr-only").attr("for", "input-book-path").appendTo($div1);
+        $("<input/>").attr("type", "text").addClass("form-control").attr("readonly", "readonly")
+            .attr("name", "bookPath").attr("id", "input-book-path").val(upload.domain + upload.key).appendTo($div3);
         // Book cover
         $("<label></label>").addClass("control-label sr-only").attr("for", "input-book-cover").appendTo($div2);
-        $("<input/>").attr("type", "text").addClass("form-control")
-            .attr("id", "input-book-cover").attr("placeholder", "封面路径").appendTo($div2);
-        // Div 3
-        var $div3 = $("<div></div>").addClass("form-group").appendTo($form);
-        $("<label></label>").addClass("control-label sr-only").attr("for", "input-book-comments").appendTo($div2);
-        $("<textarea></textarea>").addClass("form-control").attr("rows", "5").attr("id", "input-book-comments")
-            .attr("placeholder", "图书评价").appendTo($div3);
+        $("<input/>").attr("type", "text").addClass("form-control").attr("readonly", "readonly")
+            .attr("name", "coverPath").attr("id", "input-book-cover").attr("placeholder", "封面路径").appendTo($div3);
+        // Comments
+        $("<label></label>").addClass("control-label sr-only").attr("for", "input-book-comments").appendTo($div3);
+        $("<textarea></textarea>").addClass("form-control").attr("rows", "1").attr("id", "input-book-comments")
+            .attr("name", "comments").attr("placeholder", "图书评价").appendTo($div3);
         // Div 4
-        var $div4 = $("<div></div>").addClass("form-group text-center").appendTo($form);
+        var $div4 = $("<div></div>").addClass("form-group").appendTo($form);
         $("<button></button>").attr("type", "button").addClass("btn btn-group-sm btn-primary")
-            .append("搜索图书").appendTo($div4);
+            .append("搜索图书").attr("id", "btn-book-upload-search").appendTo($div4);
         $("<button></button>").attr("type", "button").addClass("btn btn-group-sm btn-warning")
-            .append("上传封面").appendTo($div4);
+            .append("上传封面").attr("id", "btn-book-upload-cover").appendTo($div4);
         $("<button></button>").attr("type", "button").addClass("btn btn-group-sm btn-success")
-            .append("保存图书").appendTo($div4);
+            .append("保存图书").attr("id", "btn-book-upload-save").appendTo($div4);
+
+        // Search book click event
+        $("#btn-book-upload-search").click(function () {
+            alert("搜索图书");
+        });
+        // Upload cover click event
+        $("#btn-book-upload-cover").click(function () {
+            // Can not close it unless click close symbol
+            $("#modal-upload-book").modal({
+                backdrop: "static"
+            });
+        });
+        // Save book click event
+        $("#btn-book-upload-save").click(function () {
+            var userId = $("#input-book-user-id").val();
+            var username = $("#input-book-username").val();
+            var uploadTime = $("#input-book-upload-time").val();
+            var title = $("#input-book-title").val();
+            var author = $("#input-book-author").val();
+            var bookPath = $("#input-book-path").val();
+            var coverPath = $("#input-book-cover").val();
+            var comments = $("#input-book-comments").val();
+            if (userId.length <= 0) {
+                show_notice_modal(WARNING_CODE, "用户 id 不能为空");
+                return false;
+            }
+            if (username.length <= 0) {
+                show_notice_modal(WARNING_CODE, "用户名不能为空");
+                return false;
+            }
+            if (uploadTime.length <= 0) {
+                show_notice_modal(WARNING_CODE, "上传时间不能为空");
+                return false;
+            }
+            if (title.length <= 0) {
+                show_notice_modal(WARNING_CODE, "书名不能为空");
+                return false;
+            }
+            if (author.length <= 0) {
+                show_notice_modal(WARNING_CODE, "作者不能为空");
+                return false;
+            }
+            if (bookPath.length <= 0) {
+                show_notice_modal(WARNING_CODE, "图书路径不能为空");
+                return false;
+            }
+            if (coverPath.length <= 0) {
+                show_notice_modal(WARNING_CODE, "封面路径不能为空");
+                return false;
+            }
+            if (comments.length <= 0) {
+                show_notice_modal(WARNING_CODE, "图书评价不能为空");
+                return false;
+            }
+            $.ajax({
+                url: contextPath + "book/" + upload.id,
+                data: $("#form-insert-book").serialize(),
+                type: "post",
+                dataType: "json",
+                success: function (response) {
+                    show_notice_modal(response.code, response.msg);
+                },
+                error: function () {
+                    show_notice_modal(DANGER_CODE, "请求新增图书记录失败");
+                }
+            });
+        });
+    };
+
+    // Listening the content change of the file choose input element
+    $("#input-book-upload").on("change", function (e) {
+        var file = e.target.files[0];
+        var srcFileName = $("#input-book-upload").val();
+        var suffix = srcFileName.substring(srcFileName.lastIndexOf("."));
+        // Display the upload now button
+        var $btn_book_start_upload = $("#btn-book-start-upload");
+        $btn_book_start_upload.parent().attr("style", "display: block");
+        // Start uploading book button event
+        $btn_book_start_upload.click(function () {
+            if (!(".png" === suffix || ".jpg" === suffix)) {
+                show_notice_modal(WARNING_CODE, "请选择 png 或 jpg 图片文件")
+                return false;
+            }
+            // Send an ajax request to server for getting qiniu token
+            // 0 - Upload pdf book file
+            $.ajax({
+                url: contextPath + "transfer/upload/image/1",
+                dataType: "json",
+                type: "post",
+                success: function (response) {
+                    if (SUCCESS_CODE === response.code) {
+                        $("#div-book-choose-upload").attr("style", "display: none");
+                        // Display the book cover path when image upload successfully
+                        $("#input-book-cover").val(response.resultMap.imgPath);
+                        qiniu_upload_image(file, response.resultMap.key, response.resultMap.token);
+                    } else {
+                        show_notice_modal(response.code, response.msg);
+                    }
+                }
+            })
+        });
+    });
+
+    /* ================================================ Show portrait ================================================= */
+    $("#link-show-portrait").click(function () {
+        $div_main_content.empty();
+        show_user_portrait_module();
+    });
+
+    // Build show user portrait
+    var show_user_portrait_module = function () {
+        $("<h3></h3>").append("用户头像").addClass("page-header").appendTo($div_main_content);
+        var $div_row = $("<div></div>").addClass("row placeholders").appendTo($div_main_content);
+
+        // First portrait
+        var $div_img_parent = $("<div></div>").addClass("col-xs-6 col-sm-3 placeholder").appendTo($div_row);
+        var $img = $("<img/>").attr("width", "200").attr("height", "200").attr("alt", "")
+            .addClass("img-responsive").attr("src", "3.jpg").appendTo($div_img_parent);
+        $("<h4></h4>").append("Spring-_-Bear").appendTo($div_img_parent);
     };
 });

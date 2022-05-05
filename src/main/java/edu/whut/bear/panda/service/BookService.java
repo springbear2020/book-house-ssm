@@ -28,4 +28,12 @@ public interface BookService {
      * @return Number of book data total pages
      */
     int getTotalPages(int pageSize);
+
+    /**
+     * Save a book record
+     *
+     * @param book Book
+     * @return true - Save successfully
+     */
+    boolean saveBook(Book book);
 }

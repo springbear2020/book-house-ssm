@@ -28,4 +28,21 @@ public interface RecordService {
      * @return Upload or null
      */
     List<Upload> getBookUploadByStatus(Integer status, Integer start, Integer offset);
+
+    /**
+     * Update the status of the upload record
+     *
+     * @param id     Id of the upload record
+     * @param status The new status of the upload record
+     * @return true - Update successfully
+     */
+    boolean updateUploadRecordStatus(Integer id, Integer status);
+
+    /**
+     * Get upload record by id
+     *
+     * @param id Id of upload record
+     * @return Upload or null
+     */
+    Upload getUploadById(Integer id);
 }

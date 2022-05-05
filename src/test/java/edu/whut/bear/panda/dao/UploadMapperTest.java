@@ -30,4 +30,14 @@ public class UploadMapperTest {
     public void getUploadRecord() {
         System.out.println(uploadMapper.getUploadRecord(0,1,1, 3));
     }
+
+    @Test
+    public void updateUploadStatusById() {
+        uploadMapper.updateUploadStatusById(2, Upload.STATUS_PROCESSED);
+    }
+
+    @Test
+    public void getUploadById() {
+        System.out.println(uploadMapper.getUploadById(4));
+    }
 }

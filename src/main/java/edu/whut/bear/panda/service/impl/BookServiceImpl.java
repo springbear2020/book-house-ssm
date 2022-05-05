@@ -39,4 +39,9 @@ public class BookServiceImpl implements BookService {
         pages = totalCounts % pageSize == 0 ? pages : pages + 1;
         return pages;
     }
+
+    @Override
+    public boolean saveBook(Book book) {
+        return bookMapper.saveBook(book) == 1;
+    }
 }

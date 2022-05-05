@@ -3,13 +3,12 @@ package edu.whut.bear.panda.controller;
 import com.github.pagehelper.PageInfo;
 import edu.whut.bear.panda.pojo.Book;
 import edu.whut.bear.panda.pojo.Response;
+import edu.whut.bear.panda.pojo.Upload;
 import edu.whut.bear.panda.service.BookService;
+import edu.whut.bear.panda.service.RecordService;
 import edu.whut.bear.panda.util.PandaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Spring-_-Bear
@@ -21,6 +20,8 @@ public class BookController {
     private BookService bookService;
     @Autowired
     private PandaUtils pandaUtils;
+    @Autowired
+    private RecordService recordService;
 
     @GetMapping("/book/{pageNum}")
     public Response getBookPageData(@RequestParam("title") String title, @PathVariable("pageNum") Integer pageNum) {
@@ -45,5 +46,21 @@ public class BookController {
             return Response.info("您查询的图书暂无数据");
         }
         return Response.success("").add("bookPageData", bookPageInfo);
+    }
+
+    @PostMapping("/book/{uploadRecordId}")
+    public Response saveBook(@PathVariable("uploadRecordId") Integer id, Book book) {
+        String comments = book.getComments();
+        // Trim the blank in the comments
+        comments = comments.replace(" ", "");
+        book.setComments(comments);
+        if (!bookService.saveBook(book)) {
+            return Response.danger("新增图书记录保存失败");
+        }
+        // Set the relevant upload record to processed from unprocessed
+        if (!recordService.updateUploadRecordStatus(id, Upload.STATUS_PROCESSED)) {
+            return Response.danger("更新图书上传记录状态失败");
+        }
+        return Response.success("新增图书记录保存成功");
     }
 }

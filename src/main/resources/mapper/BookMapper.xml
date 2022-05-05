@@ -21,4 +21,12 @@
         select count(*)
         from t_book
     </select>
+
+    <!-- int saveBook(Book book); -->
+    <insert id="saveBook">
+        insert into t_book(title, author, translator, downloads, collections, upload_user_id, upload_username,
+                           upload_time, book_state, book_path, cover_path, comments)
+        VALUES (#{title}, #{author}, #{translator}, #{downloads}, #{collections}, #{uploadUserId}, #{uploadUsername},
+                #{uploadTime}, #{bookState}, #{bookPath}, #{coverPath}, #{comments})
+    </insert>
 </mapper>

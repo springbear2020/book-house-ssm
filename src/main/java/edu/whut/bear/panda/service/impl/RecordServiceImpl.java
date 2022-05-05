@@ -28,4 +28,14 @@ public class RecordServiceImpl implements RecordService {
         start -= 1;
         return uploadMapper.getUploadRecord(Upload.TYPE_BOOK, status, start, offset);
     }
+
+    @Override
+    public boolean updateUploadRecordStatus(Integer id, Integer status) {
+        return uploadMapper.updateUploadStatusById(id, status) == 1;
+    }
+
+    @Override
+    public Upload getUploadById(Integer id) {
+        return uploadMapper.getUploadById(id);
+    }
 }

@@ -32,6 +32,26 @@
 <!-- Context path -->
 <span id="span-context-path" th:text="@{/}" style="display: none;opacity: 100%"></span>
 
+<!-- Upload book modal -->
+<div class="modal fade" id="modal-upload-book" tabindex="-1" role="dialog" aria-labelledby="modal-upload-book">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center">
+                <button type="button" id="btn-book-upload-modal-close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>图片上传</strong></h4>
+            </div>
+            <input type="file" class="btn btn-block btn-info" accept="image/*" id="input-book-upload"/>
+            <hr class="featurette-divider">
+            <div id="div-book-choose-upload" style="display: none">
+                <button class="btn btn-block btn-primary" id="btn-book-start-upload">开始上传</button>
+            </div>
+            <div class="progress" style="display: none">
+                <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Get pixabay modal -->
 <div class="modal fade" id="modal-get-pixabay" tabindex="-1" role="dialog" aria-labelledby="modal-get-pixabay">
     <div class="modal-dialog modal-sm" role="document">

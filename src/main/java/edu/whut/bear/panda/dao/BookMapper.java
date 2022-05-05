@@ -33,4 +33,12 @@ public interface BookMapper {
      * @return Book total count
      */
     int getBookTotalCounts();
+
+    /**
+     * Save a book record
+     *
+     * @param book Book
+     * @return 1 - Save successfully
+     */
+    int saveBook(Book book);
 }

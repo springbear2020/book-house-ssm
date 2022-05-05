@@ -17,4 +17,18 @@
           and status = #{status}
         limit #{position},#{offset}
     </select>
+
+    <!-- int updateUploadStatusById(@Param("id") Integer id, @Param("status") Integer status); -->
+    <update id="updateUploadStatusById">
+        update t_upload
+        set status = #{status}
+        where id = #{id}
+    </update>
+
+    <!-- Upload getUploadById(@Param("id") Integer id); -->
+    <select id="getUploadById" resultType="Upload">
+        select *
+        from t_upload
+        where id = #{id}
+    </select>
 </mapper>
