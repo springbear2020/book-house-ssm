@@ -7,29 +7,29 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" th:href="@{static/img/panda.png}">
+    <link rel="icon" href="../../static/img/panda.png">
 
     <title>熊猫书屋</title>
 
     <!-- Bootstrap core CSS -->
-    <link th:href="@{static/css/bootstrap.min.css}" rel="stylesheet">
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link th:href="@{static/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
+    <link href="../../static/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link th:href="@{static/css/admin-login.css}" rel="stylesheet">
+    <link href="../../static/css/admin-login.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script th:src="@{static/js/html5shiv.min.js}"></script>
-    <script th:src="@{static/js/respond.min.js}"></script>
+    <script src="../../static/js/html5shiv.min.js"></script>
+    <script src="../../static/js/respond.min.js"></script>
     <![endif]-->
 
-    <script th:src="@{static/js/jquery-1.7.2.js}"></script>
-    <script th:src="@{static/js/admin-login.js}"></script>
+    <script src="../../static/js/jquery-1.7.2.js"></script>
+    <script src="../../static/js/admin-login.js"></script>
 </head>
 <body>
 <!-- Context path -->
-<span id="span-context-path" th:text="@{/}" style="display: none;opacity: 100%"></span>
+<!--<span id="span-context-path" text="../..//" style="display: none;opacity: 100%"></span>-->
 
 <!-- Notification modal -->
 <div class="modal fade" id="div-modal-notice" tabindex="-1" role="dialog" aria-labelledby="modal-notice" aria-hidden="true">
@@ -51,7 +51,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <div class="navbar-brand"><a th:href="@{/admin}"><img alt="Brand" th:src="@{static/img/panda.png}" style="height: 40px;width: 40px" src=""></a></div>
+            <div class="navbar-brand"><a href="../..//admin"><img alt="Brand" src="../../static/img/panda.png" style="height: 40px;wid 40px" src=""></a></div>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <form class="navbar-form navbar-right" id="form-admin-login">
@@ -88,14 +88,19 @@
             <!-- First -->
             <div class="item active">
                 <a href="" target="_blank"><img class="first-slide" src="" alt="First slide"></a>
+                <div class="container">
+                    <div class="carousel-caption first-title"><h3></h3></div>
+                </div>
             </div>
             <!-- Second -->
             <div class="item">
                 <a href="" target="_blank"><img class="second-slide" src="" alt="Second slide"></a>
+                <div class="container"><div class="carousel-caption second-title"><h3></h3></div></div>
             </div>
             <!-- Third -->
             <div class="item">
                 <a href="" target="_blank"><img class="third-slide" src="" alt="Third slide"></a>
+                <div class="container"><div class="carousel-caption third-title"><h3></h3></div></div>
             </div>
         </div>
 
@@ -119,12 +124,12 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script th:src="@{static/js/jquery-1.12.4.min.js}"></script>
-<script>window.jQuery || document.write('<script th:src="@{static/js/jquery.min.js}"><\/script>')</script>
-<script th:src="@{static/js/bootstrap.min.js}"></script>
+<script src="../../static/js/jquery-1.12.4.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../static/js/jquery.min.js"><\/script>')</script>
+<script src="../../static/js/bootstrap.min.js"></script>
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-<script th:src="@{static/js/holder.min.js}"></script>
+<script src="../../static/js/holder.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script th:src="@{static/js/ie10-viewport-bug-workaround.js}"></script>
+<script src="../../static/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

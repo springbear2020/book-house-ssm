@@ -23,7 +23,9 @@ req_params = {
     'key': '26183514-10870193e7b68335958cb6abb',
     'q': condition,
     'lang': 'en',
-    'orientation': 'horizontal',
+#     'orientation': 'horizontal',
+    'min_width': 1920,
+    'min_height': 1080,
     'page': -1,
 }
 

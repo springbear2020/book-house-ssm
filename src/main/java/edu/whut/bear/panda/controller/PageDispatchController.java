@@ -12,31 +12,21 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 public class PageDispatchController {
-
-    @GetMapping("/page")
-    public String loginDispatcher(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/";
-        }
-        return User.USER_TYPE_ADMIN == user.getType() ? "redirect:/admin" : "redirect:/user";
-    }
-
     @GetMapping("/user")
     public String toUserMainPage(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null || user.getType() != User.USER_TYPE_COMMON || user.getStatus() != User.USER_STATUS_NORMAL) {
-            return "redirect:/";
-        }
+        // User user = (User) session.getAttribute("user");
+        // if (user == null || user.getType() != User.USER_TYPE_COMMON || user.getStatus() != User.USER_STATUS_NORMAL) {
+        //     return "redirect:/";
+        // }
         return "user_main";
     }
 
     @GetMapping("/admin")
     public String toAdminLoginPage(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null || user.getType() != User.USER_TYPE_ADMIN || user.getStatus() != User.USER_STATUS_NORMAL) {
-            return "redirect:/";
-        }
+        // User user = (User) session.getAttribute("user");
+        // if (user == null || user.getType() != User.USER_TYPE_ADMIN || user.getStatus() != User.USER_STATUS_NORMAL) {
+        //     return "redirect:/";
+        // }
         return "admin_login";
     }
 

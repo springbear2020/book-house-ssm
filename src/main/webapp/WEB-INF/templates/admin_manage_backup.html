@@ -89,93 +89,114 @@
 
         <!-- Display different content though java script-->
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="div-admin-manage-content">
+            <script>
+                var sentence;
 
-            <h3 class="sub-header">图书上传</h3>
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>编号</th>
-                            <th>用户名</th>
-                            <th>用户</th>
-                            <th>时间</th>
-                            <th>类型</th>
-                            <th>空间</th>
-                            <th>状态</th>
-                            <th>地址</th>
-                            <th>移动</th>
-                            <th>删除</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>bear</td>
-                            <td>普通用户</td>
-                            <td>2022-05-03</td>
-                            <td>头像</td>
-                            <td>panda-images</td>
-                            <td>未处理</td>
-                            <td><a href="http://rb7la1ia5.hn-bkt.clouddn.com/user/20220503091844-2.pdf" target="_blank"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></td>
-                            <td><a href="#"><span class="glyphicon glyphicon-move" aria-hidden="true"></span></a></td>
-                            <td><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                var get_hitokoto = function () {
+                    $.ajax({
+                        url: 'https://v1.hitokoto.cn',
+                        dataType: 'json',
+                        async: false,
+                        success(response) {
+                            sentence = response.hitokoto;
+                        },
+                        error() {
+                            show_notice_modal(DANGER_CODE, "请求一言小句子失败");
+                        }
+                    })
+                    return sentence;
+                };
 
-            <form class="form-group">
-                <div class="form-group form-inline">
-                    <label for="input-book-user-id" class="control-label sr-only"></label>
-                    <input type="text" class="form-control" id="input-book-user-id"  placeholder="用户编号">
 
-                    <label for="input-book-username" class="control-label sr-only"></label>
-                    <input type="text" class="form-control" id="input-book-username"  placeholder="用户名">
+                console.log( get_hitokoto());
+            </script>
 
-                    <label for="input-book-upload-time" class="control-label sr-only"></label>
-                    <input type="text" class="form-control" id="input-book-upload-time"  placeholder="上传时间">
+            <!--            <h3 class="sub-header">图书上传</h3>-->
+            <!--            <div class="table-responsive">-->
+            <!--                <table class="table table-bordered">-->
+            <!--                    <thead>-->
+            <!--                        <tr>-->
+            <!--                            <th>#</th>-->
+            <!--                            <th>编号</th>-->
+            <!--                            <th>用户名</th>-->
+            <!--                            <th>用户</th>-->
+            <!--                            <th>时间</th>-->
+            <!--                            <th>类型</th>-->
+            <!--                            <th>空间</th>-->
+            <!--                            <th>状态</th>-->
+            <!--                            <th>地址</th>-->
+            <!--                            <th>移动</th>-->
+            <!--                            <th>删除</th>-->
+            <!--                        </tr>-->
+            <!--                    </thead>-->
+            <!--                    <tbody>-->
+            <!--                        <tr>-->
+            <!--                            <td>1</td>-->
+            <!--                            <td>1</td>-->
+            <!--                            <td>bear</td>-->
+            <!--                            <td>普通用户</td>-->
+            <!--                            <td>2022-05-03</td>-->
+            <!--                            <td>头像</td>-->
+            <!--                            <td>panda-images</td>-->
+            <!--                            <td>未处理</td>-->
+            <!--                            <td><a href="http://rb7la1ia5.hn-bkt.clouddn.com/user/20220503091844-2.pdf" target="_blank"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></td>-->
+            <!--                            <td><a href="#"><span class="glyphicon glyphicon-move" aria-hidden="true"></span></a></td>-->
+            <!--                            <td><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>-->
+            <!--                        </tr>-->
+            <!--                    </tbody>-->
+            <!--                </table>-->
+            <!--            </div>-->
 
-                    <label for="input-book-path" class="control-label sr-only"></label>
-                    <input type="text" class="form-control" id="input-book-path"  placeholder="图书路径">
-                </div>
-                <div class="form-group form-inline">
-                    <label for="input-book-cover" class="control-label sr-only"></label>
-                    <input type="text" class="form-control" id="input-book-cover"  placeholder="封面路径">
+            <!--            <form class="form-group">-->
+            <!--                <div class="form-group form-inline">-->
+            <!--                    <label for="input-book-user-id" class="control-label sr-only"></label>-->
+            <!--                    <input type="text" class="form-control" id="input-book-user-id"  placeholder="用户编号">-->
 
-                    <label for="input-book-title" class="control-label sr-only"></label>
-                    <input type="text" class="form-control" id="input-book-title" placeholder="书名">
+            <!--                    <label for="input-book-username" class="control-label sr-only"></label>-->
+            <!--                    <input type="text" class="form-control" id="input-book-username"  placeholder="用户名">-->
 
-                    <label for="input-book-author" class="sr-only"></label>
-                    <input type="text" class="form-control" id="input-book-author" placeholder="作者">
+            <!--                    <label for="input-book-upload-time" class="control-label sr-only"></label>-->
+            <!--                    <input type="text" class="form-control" id="input-book-upload-time"  placeholder="上传时间">-->
 
-                    <label for="input-book-translator" class="sr-only"></label>
-                    <input type="text" class="form-control" id="input-book-translator" placeholder="译者">
-                </div>
-                <div class="form-group">
-                    <label for="input-book-comments" class="sr-only"></label>
-                    <textarea class="form-control" rows="5" id="input-book-comments" placeholder="图书评价"></textarea>
-                </div>
-                <div class="form-group text-center">
-                    <button type="button" class="btn btn-group-sm btn-primary">搜索图书</button>
-                    <button type="button" class="btn btn-group-sm btn-warning">上传封面</button>
-                    <button type="button" class="btn btn-group-sm btn-success">保存图书</button>
-                </div>
-            </form>
+            <!--                    <label for="input-book-path" class="control-label sr-only"></label>-->
+            <!--                    <input type="text" class="form-control" id="input-book-path"  placeholder="图书路径">-->
+            <!--                </div>-->
+            <!--                <div class="form-group form-inline">-->
+            <!--                    <label for="input-book-cover" class="control-label sr-only"></label>-->
+            <!--                    <input type="text" class="form-control" id="input-book-cover"  placeholder="封面路径">-->
+
+            <!--                    <label for="input-book-title" class="control-label sr-only"></label>-->
+            <!--                    <input type="text" class="form-control" id="input-book-title" placeholder="书名">-->
+
+            <!--                    <label for="input-book-author" class="sr-only"></label>-->
+            <!--                    <input type="text" class="form-control" id="input-book-author" placeholder="作者">-->
+
+            <!--                    <label for="input-book-translator" class="sr-only"></label>-->
+            <!--                    <input type="text" class="form-control" id="input-book-translator" placeholder="译者">-->
+            <!--                </div>-->
+            <!--                <div class="form-group">-->
+            <!--                    <label for="input-book-comments" class="sr-only"></label>-->
+            <!--                    <textarea class="form-control" rows="5" id="input-book-comments" placeholder="图书评价"></textarea>-->
+            <!--                </div>-->
+            <!--                <div class="form-group text-center">-->
+            <!--                    <button type="button" class="btn btn-group-sm btn-primary">搜索图书</button>-->
+            <!--                    <button type="button" class="btn btn-group-sm btn-warning">上传封面</button>-->
+            <!--                    <button type="button" class="btn btn-group-sm btn-success">保存图书</button>-->
+            <!--                </div>-->
+            <!--            </form>-->
+            <!--        </div>-->
         </div>
     </div>
-</div>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="../../static/js/jquery-1.12.4.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../static/js/jquery.min.js"><\/script>')</script>
-<script src="../../static/js/bootstrap.min.js"></script>
-<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-<script src="../../static/js/holder.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="../../static/js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../static/js/jquery-1.12.4.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../static/js/jquery.min.js"><\/script>')</script>
+    <script src="../../static/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="../../static/js/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../static/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

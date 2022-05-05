@@ -42,8 +42,6 @@ $(function () {
             data: "title=" + title,
             dataType: "json",
             success: function (response) {
-                // Clear the existed book data element
-                $("#div-main-display").empty();
                 if (SUCCESS_CODE === response.code) {
                     build_book_module(response);
                     build_nav_module(response);

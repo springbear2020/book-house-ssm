@@ -120,25 +120,36 @@ $(function () {
     });
 
     /* ================================================ Show Background ============================================= */
-    //  After the page is loaded，send an ajax request to server for get background info and sentence info
-
+    var SENTENCE;
     // Show the picture and set character content of the page
-    var show_picture_set_title = function (slideObj, imgLink, titleObj, titleContent) {
+    var show_picture_set_title = function (slideObj, imgLink) {
         slideObj.attr("src", imgLink);
-        titleObj.children("p").children("a").attr("href", imgLink);
-        titleObj.children("h3").text(titleContent);
+        slideObj.parent("a").attr("href", imgLink);
+    };
+
+    var get_hitokoto = function () {
+        $.ajax({
+            url: 'https://v1.hitokoto.cn',
+            dataType: 'json',
+            async: false,
+            success(response) {
+                SENTENCE = response.hitokoto;
+            }
+        })
+        return SENTENCE;
     };
 
     var $first_slide = $(".first-slide");
-    var $first_title = $(".first-title");
     var $second_slide = $(".second-slide");
-    var $second_title = $(".second-title");
     var $third_slide = $(".third-slide");
-    var $third_title = $(".third-title");
 
-    show_picture_set_title($first_slide, array[0], $first_title, "长相思兮长相忆");
-    show_picture_set_title($second_slide, array[1], $second_title, "短相思兮无穷极");
-    show_picture_set_title($third_slide, array[2], $third_title, "生如夏花之绚烂");
+    var img1 = "http://rbdyxwoif.hn-bkt.clouddn.com/background/20220505202701-1.png";
+    var img2 = "http://rbdyxwoif.hn-bkt.clouddn.com/background/20220505204708-2.png";
+    var img3 = "http://rbdyxwoif.hn-bkt.clouddn.com/background/20220505202701-1.png";
+
+    show_picture_set_title($first_slide, img1);
+    show_picture_set_title($second_slide, img2);
+    show_picture_set_title($third_slide, img3);
 
     // // 循环定时器
     // setInterval(function () {
