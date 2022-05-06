@@ -5,14 +5,30 @@
 <mapper namespace="edu.whut.bear.panda.dao.BookMapper">
     <!-- List<Book> getAllBooks(); -->
     <select id="getAllBooks" resultType="Book">
-        select *
-        from t_book
+        select id,
+               title,
+               author,
+               translator,
+               downloads,
+               upload_username,
+               upload_time,
+               cover_path,
+               comments
+        from v_book
     </select>
 
     <!-- List<Book> getBooksByTitle(@Param("title") String title); -->
     <select id="getBooksByTitle" resultType="Book">
-        select *
-        from t_book
+        select id,
+               title,
+               author,
+               translator,
+               downloads,
+               upload_username,
+               upload_time,
+               cover_path,
+               comments
+        from v_book
         where title like '%${title}%'
     </select>
 
@@ -29,4 +45,11 @@
         VALUES (#{title}, #{author}, #{translator}, #{downloads}, #{collections}, #{uploadUserId}, #{uploadUsername},
                 #{uploadTime}, #{bookState}, #{bookPath}, #{coverPath}, #{comments})
     </insert>
+
+    <!-- Book getBookById(@Param("id") Integer id); -->
+    <select id="getBookById" resultType="Book">
+        select *
+        from t_book
+        where id = #{id}
+    </select>
 </mapper>

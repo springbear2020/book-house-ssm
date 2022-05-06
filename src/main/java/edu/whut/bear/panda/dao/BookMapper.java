@@ -41,4 +41,12 @@ public interface BookMapper {
      * @return 1 - Save successfully
      */
     int saveBook(Book book);
+
+    /**
+     * Get book info by id
+     *
+     * @param id Id of book record
+     * @return Book or null
+     */
+    Book getBookById(@Param("id") Integer id);
 }

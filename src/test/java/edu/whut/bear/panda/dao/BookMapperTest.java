@@ -30,4 +30,11 @@ public class BookMapperTest {
     public void getBookTotalCounts() {
         System.out.println(bookMapper.getBookTotalCounts());
     }
+
+    @Test
+    public void getBookById() {
+        Book book = bookMapper.getBookById(6);
+        String bookPath = book.getBookPath();
+        System.out.println(bookPath);
+    }
 }

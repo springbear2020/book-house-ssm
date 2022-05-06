@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Index page of the panda book house website">
+    <meta name="author" content="Spring-_-Bear">
     <link rel="icon" th:href="@{/static/img/panda.png}">
 
     <title>熊猫书屋</title>
@@ -16,7 +16,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link th:href="@{/static/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link th:href="@{/static/css/index.css}" rel="stylesheet">
+    <link th:href="@{/static/css/panda-index.css}" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -25,29 +25,37 @@
     <![endif]-->
 
     <script th:src="@{/static/js/jquery-1.7.2.js}"></script>
-    <script th:src="@{/static/js/book.js}"></script>
-    <script th:src="@{/static/js/index.js}"></script>
+    <script th:src="@{/static/js/panda-book.js}"></script>
+    <script th:src="@{/static/js/panda-index.js}"></script>
+
+    <!-- Get the context path dynamically -->
+    <script th:inline="javascript" type="text/javascript">
+        var contextPath = /*[[@{/}]]*/'';
+        $("#span-context-path").val(contextPath);
+    </script>
 </head>
 <body>
 <!-- Context path -->
-<span id="span-context-path" th:text="@{/}" style="display: none;opacity: 100%"></span>
+<span id="span-context-path" style="display: none;opacity: 100%"></span>
 
 <!-- Login modal -->
 <div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="modal-login">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="text-align: center">
+            <div class="modal-header text-center">
                 <button type="button" id="btn-login-modal-close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><strong>欢迎回来</strong></h4>
             </div>
             <div class="modal-body">
                 <form id="form-login">
+                    <!-- Login username -->
                     <div class="form-group has-feedback">
                         <label for="input-login-username" class="control-label sr-only"></label>
                         <input type="text" id="input-login-username" class="form-control" name="username" placeholder="用户名">
                         <span class="help-block"></span>
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                     </div>
+                    <!-- Login password -->
                     <div class="form-group has-feedback">
                         <label for="input-login-password" class="control-label sr-only"></label>
                         <input type="password" id="input-login-password" class="form-control" name="password" placeholder="密码">
@@ -72,35 +80,39 @@
 <div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modal-register">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="text-align: center">
+            <div class="modal-header text-center">
                 <button type="button" id="btn-register-modal-close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><strong>加入我们</strong></h4>
             </div>
             <div class="modal-body">
                 <form id="form-register">
+                    <!-- Register username -->
                     <div class="form-group has-feedback">
                         <label for="input-register-username" class="control-label sr-only"></label>
                         <input type="text" id="input-register-username" class="form-control" name="username" placeholder="用户名">
                         <span class="help-block"></span>
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                     </div>
-                    <div class="form-group has-feedback">
-                        <label for="input-register-password" class="control-label sr-only"></label>
-                        <input type="password" id="input-register-password" class="form-control" name="password" placeholder="密码">
-                        <span class="help-block"></span>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    </div>
+                    <!-- Register email address -->
                     <div class="form-group has-feedback">
                         <label for="input-register-email" class="control-label sr-only"></label>
                         <input type="email" id="input-register-email" class="form-control" name="email" placeholder="邮箱">
                         <span class="help-block"></span>
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                     </div>
+                    <!-- Register password -->
+                    <div class="form-group has-feedback">
+                        <label for="input-register-password" class="control-label sr-only"></label>
+                        <input type="password" id="input-register-password" class="form-control" name="password" placeholder="密码">
+                        <span class="help-block"></span>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <!-- Register email verify code -->
                     <div class="form-group has-feedback">
                         <div class="input-group">
                             <label for="input-register-verify-code" class="control-label sr-only"></label>
                             <input type="email" id="input-register-verify-code" class="form-control" name="verifyCode" placeholder="验证码">
-                            <span class="input-group-btn"><input type="button" id="btn-obtain-code" disabled="disabled" class="btn btn-primary" value="获取"/></span>
+                            <span class="input-group-btn"><input type="button" id="btn-obtain-code" disabled class="btn btn-primary" value="获取"/></span>
                         </div>
                         <span class="help-block"></span>
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -119,12 +131,12 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<!-- Notification modal -->
-<div class="modal fade" id="div-modal-notice" tabindex="-1" role="dialog" aria-labelledby="modal-notice" aria-hidden="true">
+<!-- Notice modal -->
+<div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice" aria-hidden="true">
     <div class="modal-dialog modal-sm">
-        <div class="modal-header" style="text-align: center; border-radius: 25px">
+        <div class="modal-header text-center">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="h-notice-content"></h4>
+            <h5 class="modal-title" id="h-notice-content"></h5>
         </div>
     </div>
 </div>
@@ -132,6 +144,7 @@
 <!-- START THE NAVBAR-->
 <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
+        <!-- Left icon -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -140,37 +153,36 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="navbar-brand">
-                <a th:href="@{/}"><img alt="Brand" th:src="@{/static/img/panda.png}" style="height: 40px;width: 40px" src=""></a>
+                <a th:href="@{/}"><img alt="Brand" th:src="@{/static/img/panda.png}" height="40px" width="40px" src=""></a>
             </div>
         </div>
+        <!-- Right icon -->
         <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="text-center"><a role="button" id="link-register">注册</a></li>
-                <li class="text-center"><a role="button" id="link-login">登录</a></li>
+            <ul class="nav navbar-nav navbar-right text-center">
+                <li class="nav-item"><a role="button" id="link-register">注册</a></li>
+                <li class="nav-item"><a role="button" id="link-login">登录</a></li>
             </ul>
         </div>
-    </div>
+    </div><!-- /END THE NAVBAR-->
 </nav>
-<!-- /END THE NAVBAR-->
 
-    <!-- START THE FEATURETTES -->
-    <div class="container text-center">
-        <form class="form-inline">
-            <div class="input-group">
-                <label for="input-book-search-title" class="sr-only"></label><input id="input-book-search-title" type="text" class="form-control" placeholder="请输入书名">
-                <span class="input-group-btn">
-                <button class="btn btn-success" id="btn-book-search" type="button"><span class="glyphicon glyphicon-search"  aria-hidden="true"></span></button>
-            </span>
-            </div>
-        </form>
-    </div>
-    <div class="container" id="div-main-display">
+<!-- Book search -->
+<div class="container text-center">
+    <form class="form-inline">
+        <div class="input-group">
+            <label for="input-book-search-title" class="sr-only"></label><input id="input-book-search-title" type="text" class="form-control" placeholder="请输入书名">
+            <span class="input-group-btn">
+            <button class="btn btn-success" id="btn-book-search" type="button"><span class="glyphicon glyphicon-search"  aria-hidden="true"></span></button>
+        </span>
+        </div>
+    </form>
+</div>
 
-    </div>
-    <!-- Display book info though the java script -->
-    <!-- /END THE FEATURETTES -->
+<!-- Book display -->
+<div class="container" id="div-book-display"></div>
 
-<footer class="blog-footer">
+<!-- Footer -->
+<footer class="footer">
     <p>&copy; 2022 Spring-_-Bear</p>
 </footer>
 

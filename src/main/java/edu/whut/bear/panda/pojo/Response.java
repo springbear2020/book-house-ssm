@@ -15,8 +15,7 @@ import java.util.Map;
 public class Response {
     public static final int INFO = 0;
     public static final int SUCCESS = 1;
-    public static final int WARNING = 2;
-    public static final int DANGER = 3;
+    public static final int DANGER = 2;
 
     private Integer code;
     private String msg;
@@ -24,10 +23,6 @@ public class Response {
 
     public static Response info(String msg) {
         return getResponse(msg, INFO);
-    }
-
-    public static Response warning(String msg) {
-        return getResponse(msg, WARNING);
     }
 
     public static Response success(String msg) {

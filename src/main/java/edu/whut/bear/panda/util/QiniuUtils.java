@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * @author Spring-_-Bear
  * @datetime 2022/5/5 6:48
@@ -66,5 +69,17 @@ public class QiniuUtils {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public String downloadBookFileByKey(String key) {
+        String encodedFileName = null;
+        try {
+            encodedFileName = URLEncoder.encode(key, "utf-8").replace("+", "%20");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String publicUrl = String.format("%s%s", bookDomain, encodedFileName);
+        Auth auth = Auth.create(accessKey, secretKey);
+        return auth.privateDownloadUrl(publicUrl, 180);
     }
 }

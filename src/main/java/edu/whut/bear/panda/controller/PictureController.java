@@ -32,7 +32,7 @@ public class PictureController {
     @DeleteMapping("/pixabay/{id}")
     public Response deleteOnePixabay(@PathVariable("id") Integer id) {
         if (id == null) {
-            return Response.warning("Pixabay ID 不能为空");
+            return Response.info("Pixabay ID 不能为空");
         }
         if (!pictureService.deletePixabayById(id)) {
             return Response.danger("Pixabay 图片删除失败");

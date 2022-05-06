@@ -44,4 +44,9 @@ public class BookServiceImpl implements BookService {
     public boolean saveBook(Book book) {
         return bookMapper.saveBook(book) == 1;
     }
+
+    @Override
+    public Book getBookById(Integer id) {
+        return bookMapper.getBookById(id);
+    }
 }

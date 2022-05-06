@@ -1,40 +1,41 @@
 $(function () {
     /* ====================================================== Commons =============================================== */
-    // Obtain current project context path dynamically
+    // Context path and notice modal
     var contextPath = $("#span-context-path").text();
     // Response code from server
     var INFO_CODE = 0;
     var SUCCESS_CODE = 1;
-    var WARNING_CODE = 2;
-    var DANGER_CODE = 3;
+    var DANGER_CODE = 2;
 
-    // Prevent the default submit action of form element
+    // Prevent the default submit action of form
     $("form").on("submit", function () {
         return false;
     });
 
     // Show the notice modal
-    var show_notice_modal = function (responseCode, msg) {
-        var $modalObj = $("#div-modal-notice");
-        var $noticeObj = $("#h-notice-content");
+    var showNoticeModal = function (code, msg) {
+        var $noticeContent = $("#h-notice-content");
         // Clear the existed style of the notice object
-        $noticeObj.parent().removeClass("alert-info alert-success alert-warning alert-danger");
-        if (INFO_CODE === responseCode) {
-            $noticeObj.parent().addClass("alert-info");
-        } else if (SUCCESS_CODE === responseCode) {
-            $noticeObj.parent().addClass("alert-success");
-        } else if (WARNING_CODE === responseCode) {
-            $noticeObj.parent().addClass("alert-warning");
-        } else if (DANGER_CODE === responseCode) {
-            $noticeObj.parent().addClass("alert-danger");
+        $noticeContent.parent().removeClass("alert-info alert-success alert-warning alert-danger");
+        if (INFO_CODE === code) {
+            $noticeContent.parent().addClass("alert-info");
+        } else if (SUCCESS_CODE === code) {
+            $noticeContent.parent().addClass("alert-success");
+        } else if (INFO_CODE === code) {
+            $noticeContent.parent().addClass("alert-warning");
+        } else if (DANGER_CODE === code) {
+            $noticeContent.parent().addClass("alert-danger");
         }
-        $noticeObj.text(msg);
-        $modalObj.modal('show');
+        $noticeContent.text(msg);
+        $("#div-notice-modal").modal('show');
     };
 
-    /* ================================================= Show Book ================================================== */
+    /* ================================================= Show book ================================================== */
+
+    var $divBookInfo = $("#div-book-display");
+
     // Get book page data though book title and the page number
-    var get_book_page_data = function (title, pageNum) {
+    var getBookPageData = function (title, pageNum) {
         // Send an ajax to server for get books by title
         $.ajax({
             url: contextPath + "book/" + pageNum,
@@ -43,48 +44,58 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 if (SUCCESS_CODE === response.code) {
-                    build_book_module(response);
-                    build_nav_module(response);
+                    $divBookInfo.empty();
+                    buildBookModule(response);
+                    buildNavPageModule(response);
                 } else {
-                    show_notice_modal(response.code, response.msg);
+                    showNoticeModal(response.code, response.msg);
                 }
                 // To top
                 $("body, html").animate({scrollTop: 0}, 1);
             },
             error: function () {
-                show_notice_modal(DANGER_CODE, "请求获取图书数据失败");
+                showNoticeModal(DANGER_CODE, "请求获取图书数据失败，请稍后重试");
             }
         })
     };
 
-    /*
-     * After load page successfully,
-     * send an ajax request to server for get book info data in json type
-     */
-    get_book_page_data("", 1);
-
-    // Deal with the next and last page click event
-    var deal_turn_page_event = function (element, pageNum) {
+    // Deal with the page turn click event
+    var pageTurnEvent = function (element, pageNum) {
         element.click(function () {
             var title = $("#input-book-search-title").val();
-            get_book_page_data(title, pageNum);
+            getBookPageData(title, pageNum);
         });
     };
 
-    // Search book by title button click event
-    $("#btn-book-search").click(function () {
-        var title = $("#input-book-search-title").val();
-        get_book_page_data(title, 1);
-    });
+    // Download book by id
+    var downloadBook = function (id) {
+        $.ajax({
+            url: contextPath + "transfer/download/book/" + id,
+            type: "get",
+            dataType: "json",
+            success: function (response) {
+                if (SUCCESS_CODE === response.code) {
+                    // Go to download book
+                    window.open(response.resultMap.downloadUrl);
+                } else if (INFO_CODE === response.code) {
+                    $("#modal-login").modal({backdrop: "static"});
+                }
+                showNoticeModal(response.code, response.msg);
+            },
+            error: function () {
+                showNoticeModal(DANGER_CODE, "请求下载图书失败，请稍后重试")
+            }
+        })
+    };
 
     // Build the book info display module
-    var build_book_module = function (response) {
+    var buildBookModule = function (response) {
         var bookList = response.resultMap.bookPageData.list;
         var isCoverLeft = true;
         $.each(bookList, function (index, item) {
             // Build the dividing line
             var $hr = $("<hr/>").addClass("featurette-divider");
-            $hr.appendTo("#div-main-display");
+            $hr.appendTo($divBookInfo);
 
             // Set the cover image location in turn
             var $book_Info_parent = $("<div></div>");
@@ -114,22 +125,9 @@ $(function () {
             // Build the downloads element <p></p>
             var $download_strong = $("<strong></strong>").append("下&nbsp;&nbsp;载&nbsp;&nbsp;量：");
             var $download_span = $("<span></span>").append(item.downloads);
-            var $download_a_span = $("<span></span>").addClass("glyphicon glyphicon-save").attr("aria-hidden", "true");
-            var $download_a = $("<a></a>").attr("href", "#");
-            $download_a.append($download_a_span);
             var $download_p = $("<p></p>").addClass("lead");
-            $download_p.append($download_strong).append($download_a).append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;").append($download_span);
+            $download_p.append($download_strong).append($download_span);
             $book_Info_parent.append($download_p);
-            // Build the collections element <p></p>
-            var $collection_strong = $("<strong></strong>").append("收&nbsp;&nbsp;藏&nbsp;&nbsp;量：");
-            var $collection_span = $("<span></span>").append(item.collections);
-            var $collection_a_span = $("<span></span>").addClass("glyphicon glyphicon-heart").attr("aria-hidden", "true");
-            var $collection_a = $("<a></a>").attr("href", "#");
-            $collection_a.append($collection_a_span);
-            var $collection_p = $("<p></p>").addClass("lead");
-            $collection_p.append($collection_strong).append($collection_a).append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;").append($collection_span);
-            $book_Info_parent.append($collection_p);
-            // Build the upload username element <p></p>
             var $upload_username_strong = $("<strong></strong>").append("上传用户：");
             var $upload_username_span = $("<span></span>").append(item.uploadUsername);
             var $upload_username_p = $("<p></p>").addClass("lead");
@@ -142,7 +140,7 @@ $(function () {
             $upload_time_p.append($upload_time_strong).append($upload_time_span);
             $book_Info_parent.append($upload_time_p);
             // Build the comments element <p></p>
-            var $comment_strong = $("<strong></strong>").append("图书评价：");
+            var $comment_strong = $("<strong></strong>").append("内容简介：");
             var $comment_span = $("<span></span>").append(item.comments);
             var $comment_p = $("<p></p>").addClass("lead");
             $comment_p.append($comment_strong).append($comment_span);
@@ -155,25 +153,28 @@ $(function () {
                 $cover_parent.addClass("col-md-5");
             }
             // Build the cover image
+            var $downloadLink = $("<a></a>").attr("role", "button");
             var $cover_img = $("<img/>");
             $cover_img.addClass("featurette-image img-responsive center-block");
-            $cover_img.attr("data-src", "holder.js/500x500/auto");
-            $cover_img.attr("th:src", "@{/" + item.coverPath + "}");
-            $cover_img.attr("alt", "Generic placeholder image");
-            $cover_img.attr("src", item.coverPath)
-            $cover_parent.append($cover_img);
+            $cover_img.attr("src", item.coverPath).attr("width", "333").appendTo($downloadLink);
+            $cover_parent.append($downloadLink);
 
             var $parent = $("<div></div>").addClass("row featurette");
-            $parent.append($book_Info_parent).append($cover_parent).appendTo("#div-main-display");
+            $parent.append($book_Info_parent).append($cover_parent).appendTo($divBookInfo);
             isCoverLeft = !isCoverLeft;
+
+            // Book download click event
+            $downloadLink.click(function () {
+                downloadBook(item.id);
+            });
         });
     };
 
     // Build the page navigation module
-    var build_nav_module = function (response) {
+    var buildNavPageModule = function (response) {
         // Build the dividing line
         var $hr = $("<hr/>").addClass("featurette-divider");
-        $hr.appendTo("#div-main-display");
+        $hr.appendTo($divBookInfo);
 
         var $ul_page_parent_1 = $("<ul></ul>").addClass("pager");
         // Build the last page
@@ -198,25 +199,36 @@ $(function () {
         var $next_page_li = $("<li></li>").append($next_page_a);
         $ul_page_parent_1.append($next_page_li);
         // Add to the nav parent
-        $("<nav></nav>").append($ul_page_parent_1).appendTo("#div-main-display");
+        $("<nav></nav>").append($ul_page_parent_1).appendTo($divBookInfo);
 
-        /*
-         * TODO Fix the mobile equipments can not display the entire nav in one line，
-         *      and click blank screen to close the nav bar
-         */
         // Deal with the previous page link click event
         if (response.resultMap.bookPageData.hasPreviousPage) {
             $last_page_a.attr("role", "button").attr("id", "link-last-page");
-            deal_turn_page_event($("#link-last-page"), response.resultMap.bookPageData.prePage);
+            pageTurnEvent($("#link-last-page"), response.resultMap.bookPageData.prePage);
         } else {
             $last_page_a.attr("style", "background-color: #eee");
         }
         // Deal with the nex page link click event
         if (response.resultMap.bookPageData.hasNextPage) {
             $next_page_a.attr("role", "button").attr("id", "link-next-page");
-            deal_turn_page_event($("#link-next-page"), response.resultMap.bookPageData.nextPage);
+            pageTurnEvent($("#link-next-page"), response.resultMap.bookPageData.nextPage);
         } else {
             $next_page_a.attr("style", "background-color: #eee");
         }
     };
+
+    /*
+     * After page load successfully, get book page data from server
+     */
+    getBookPageData("", 1);
+
+    // Search book by title button click event
+    $("#btn-book-search").click(function () {
+        var title = $("#input-book-search-title").val();
+        if (title.length <= 0) {
+            showNoticeModal(INFO_CODE, "书名不能为空");
+            return false;
+        }
+        getBookPageData(title, 1);
+    });
 });

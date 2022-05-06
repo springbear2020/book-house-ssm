@@ -48,7 +48,7 @@ public class UserController {
         User user = userService.getUserByUsername(username);
         // Username has been used by other user
         if (user != null) {
-            return Response.warning("用户名已被占用，请重新输入");
+            return Response.info("用户名已被占用，请重新输入");
         }
         return Response.success("");
     }
@@ -86,7 +86,7 @@ public class UserController {
             return Response.danger("管理员账号不存在或密码错误");
         }
         if (admin.getStatus() == Admin.ADMIN_STATUS_ABNORMAL) {
-            return Response.warning("管理员账号状态异常，暂时不能登录");
+            return Response.danger("管理员账号状态异常，暂时不能登录");
         }
         session.setAttribute("admin", admin);
         return Response.success("");

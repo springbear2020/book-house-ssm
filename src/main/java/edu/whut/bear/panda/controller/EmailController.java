@@ -26,7 +26,7 @@ public class EmailController {
     @GetMapping("/email/{email}")
     public Response verifyEmailExistence(@PathVariable("email") String email) {
         if (email == null || email.length() == 0) {
-            return Response.warning("邮箱地址不能为空");
+            return Response.info("邮箱地址不能为空");
         }
         if (!email.matches("^([a-z0-9A-Z]+[-|.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$")) {
             return Response.danger("无效的邮箱地址");
@@ -35,7 +35,7 @@ public class EmailController {
         // Verify the existence of email
         User user = userService.getUserByEmail(email);
         if (user != null) {
-            return Response.warning("邮箱已被占用，请重新输入");
+            return Response.info("邮箱已被占用，请重新输入");
         }
         return Response.success("");
     }
@@ -43,7 +43,7 @@ public class EmailController {
     @PostMapping("/email{email}")
     public Response sendEmailVerifyCode(@PathVariable("email") String email, HttpSession session) {
         if (email == null || email.length() == 0) {
-            return Response.warning("邮箱地址不能为空");
+            return Response.info("邮箱地址不能为空");
         }
         if (!email.matches("^([a-z0-9A-Z]+[-|.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$")) {
             return Response.danger("无效的邮箱地址");
@@ -52,7 +52,7 @@ public class EmailController {
         // Send an verify code email to the specified email address
         String verifyCode = emailService.sendEmailVerifyCode(email, emailUtils.getCodeLength());
         if (verifyCode == null) {
-            return Response.warning("服务器繁忙，验证码发送失败");
+            return Response.info("服务器繁忙，验证码发送失败");
         }
         // TODO Prevent send request from the text address, set the verify code effective time 10 minutes
         session.setAttribute("verifyCode", verifyCode);

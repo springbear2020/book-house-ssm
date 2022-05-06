@@ -36,4 +36,12 @@ public interface BookService {
      * @return true - Save successfully
      */
     boolean saveBook(Book book);
+
+    /**
+     * Get book info by id
+     *
+     * @param id Id of book record
+     * @return Book or null
+     */
+    Book getBookById(Integer id);
 }

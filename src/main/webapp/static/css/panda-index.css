@@ -6,7 +6,7 @@
     border: 0;
 }
 
-.navbar-static-top{
+.navbar-static-top {
     border: 0;
     margin-top: 0;
 }
@@ -24,7 +24,7 @@
 /*
  * Footer
  */
-.blog-footer {
+.footer {
     padding: 25px 0;
     color: #999;
     text-align: center;
@@ -32,7 +32,7 @@
     border-top: 1px solid #e5e5e5;
 }
 
-.blog-footer p:last-child {
+.footer p:last-child {
     margin-bottom: 0;
 }
 
