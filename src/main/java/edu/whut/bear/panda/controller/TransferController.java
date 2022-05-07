@@ -78,9 +78,7 @@ public class TransferController {
         String imgPath = qiniuUtils.getImgDomain() + key;
 
         // Save the upload record to database
-        Upload upload = new Upload(null, user.getId(), user.getType(), user.getUsername(),
-                type, Upload.STATUS_PROCESSED, new Date(),
-                qiniuUtils.getImgDomain(), key, qiniuUtils.getImgBucket());
+        Upload upload = new Upload(null, user.getId(), user.getType(), user.getUsername(), type, Upload.STATUS_PROCESSED, new Date(), qiniuUtils.getImgDomain(), key, qiniuUtils.getImgBucket());
         if (!recordService.saveUpload(upload)) {
             return Response.danger("图片上传记录保存失败");
         }

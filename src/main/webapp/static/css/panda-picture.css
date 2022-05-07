@@ -1,0 +1,32 @@
+body{
+    background-color: #222222;
+}
+/* My customize style */
+.navbar-brand {
+    float: left;
+    height: 50px;
+    width: 50px;
+    padding: 5px 5px;;
+    font-size: 18px;
+    line-height: 20px
+}
+
+/*
+ * Footer
+ */
+.blog-footer {
+    padding: 25px 0;
+    color: #999;
+    text-align: center;
+    background-color: #222;
+}
+
+.blog-footer p:last-child {
+    margin-bottom: 0;
+}
+
+.container {
+    width: auto;
+    max-width: 999px;
+    padding: 0 15px;
+}

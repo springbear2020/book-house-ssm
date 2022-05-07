@@ -20,7 +20,7 @@ public class PictureController {
     @Autowired
     private SpiderUtils spiderUtils;
 
-    @GetMapping("/pixabay")
+    @GetMapping("/pixabay/first")
     public Response getFirstPixabay() {
         List<Pixabay> pixabayList = pictureService.getPixabayByPositionAndOffset(1, 1);
         if (pixabayList == null || pixabayList.size() == 0) {
