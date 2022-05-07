@@ -6,6 +6,7 @@ $(function () {
     var INFO_CODE = 0;
     var SUCCESS_CODE = 1;
     var DANGER_CODE = 2;
+    var WARNING_CODE = 3;
 
     // Prevent the default submit action of form
     $("form").on("submit", function () {
@@ -21,7 +22,7 @@ $(function () {
             $noticeContent.parent().addClass("alert-info");
         } else if (SUCCESS_CODE === code) {
             $noticeContent.parent().addClass("alert-success");
-        } else if (INFO_CODE === code) {
+        } else if (WARNING_CODE === code) {
             $noticeContent.parent().addClass("alert-warning");
         } else if (DANGER_CODE === code) {
             $noticeContent.parent().addClass("alert-danger");
@@ -79,8 +80,9 @@ $(function () {
                     window.open(response.resultMap.downloadUrl);
                 } else if (INFO_CODE === response.code) {
                     $("#modal-login").modal({backdrop: "static"});
+                } else {
+                    showNoticeModal(response.code, response.msg);
                 }
-                showNoticeModal(response.code, response.msg);
             },
             error: function () {
                 showNoticeModal(DANGER_CODE, "请求下载图书失败，请稍后重试")
@@ -140,7 +142,7 @@ $(function () {
             $upload_time_p.append($upload_time_strong).append($upload_time_span);
             $book_Info_parent.append($upload_time_p);
             // Build the comments element <p></p>
-            var $comment_strong = $("<strong></strong>").append("内容简介：");
+            var $comment_strong = $("<strong></strong>").append("图书评价：");
             var $comment_span = $("<span></span>").append(item.comments);
             var $comment_p = $("<p></p>").addClass("lead");
             $comment_p.append($comment_strong).append($comment_span);

@@ -36,6 +36,7 @@ public class TransferController {
 
         String key = DateUtils.dateIntoFileName(new Date()) + "-" + user.getId() + ".pdf";
         String uploadToken = qiniuUtils.getBookUploadToken(key, "application/pdf");
+        String bookPath = qiniuUtils.getBookDomain() + key;
 
         // Save the upload record to database
         Upload upload = new Upload(null, user.getId(), user.getType(), user.getUsername(),
@@ -44,7 +45,7 @@ public class TransferController {
         if (!recordService.saveUpload(upload)) {
             return Response.danger("图书上传记录保存失败");
         }
-        return Response.success("").add("key", key).add("token", uploadToken);
+        return Response.success("").add("key", key).add("token", uploadToken).add("bookPath", bookPath);
     }
 
     @PostMapping("/transfer/upload/image/{type}")
@@ -69,7 +70,7 @@ public class TransferController {
                 savePath = null;
         }
         if (savePath == null) {
-            return Response.info("图片类别不正确");
+            return Response.danger("图片类别不正确");
         }
 
         String key = savePath + DateUtils.dateIntoFileName(new Date()) + "-" + user.getId() + ".png";
@@ -106,7 +107,7 @@ public class TransferController {
     public Response downloadBookById(@PathVariable("id") Integer id, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return Response.info("登录后方可下载图书");
+            return Response.info("");
         }
         Book book = bookService.getBookById(id);
         if (book == null || book.getBookPath() == null) {
@@ -114,6 +115,6 @@ public class TransferController {
         }
         String bookPath = book.getBookPath();
         String key = bookPath.substring(bookPath.lastIndexOf('/') + 1);
-        return Response.success("下载链接有效期 3 分钟").add("downloadUrl", qiniuUtils.downloadBookFileByKey(key));
+        return Response.success("").add("downloadUrl", qiniuUtils.downloadBookFileByKey(key));
     }
 }

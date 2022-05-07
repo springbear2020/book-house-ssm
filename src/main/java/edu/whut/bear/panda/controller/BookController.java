@@ -4,11 +4,15 @@ import com.github.pagehelper.PageInfo;
 import edu.whut.bear.panda.pojo.Book;
 import edu.whut.bear.panda.pojo.Response;
 import edu.whut.bear.panda.pojo.Upload;
+import edu.whut.bear.panda.pojo.User;
 import edu.whut.bear.panda.service.BookService;
 import edu.whut.bear.panda.service.RecordService;
 import edu.whut.bear.panda.util.PandaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 /**
  * @author Spring-_-Bear
@@ -49,7 +53,7 @@ public class BookController {
     }
 
     @PostMapping("/book/{uploadRecordId}")
-    public Response saveBook(@PathVariable("uploadRecordId") Integer id, Book book) {
+    public Response dealBook(@PathVariable("uploadRecordId") Integer id, Book book) {
         String comments = book.getComments();
         // Trim the blank in the comments
         comments = comments.replace(" ", "");
@@ -62,5 +66,17 @@ public class BookController {
             return Response.danger("更新图书上传记录状态失败");
         }
         return Response.success("新增图书记录保存成功");
+    }
+
+    @PostMapping("/book")
+    public Response saveBook(Book book, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        book.setUploadTime(new Date());
+        book.setUploadUserId(user.getId());
+        book.setUploadUsername(user.getUsername());
+        if (!bookService.saveBook(book)) {
+            return Response.danger("图书记录保存失败");
+        }
+        return Response.success("图书保存成功，感谢您的共享");
     }
 }

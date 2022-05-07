@@ -1,0 +1,36 @@
+/* My customize style */
+.navbar-brand {
+    float: left;
+    height: 50px;
+    width: 50px;
+    padding: 5px 5px;;
+    font-size: 18px;
+    line-height: 20px
+}
+
+/*
+ * Footer
+ */
+.footer {
+    padding: 15px 0;
+    color: #999;
+    text-align: center;
+}
+
+.footer p:last-child {
+    margin-bottom: 0;
+}
+
+.container {
+    width: auto;
+    max-width: 666px;
+    padding: 0 15px;
+}
+
+.jumbotron {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    color: inherit;
+    background-color: #eee
+}

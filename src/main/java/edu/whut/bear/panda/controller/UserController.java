@@ -91,4 +91,5 @@ public class UserController {
         session.setAttribute("admin", admin);
         return Response.success("");
     }
+
 }

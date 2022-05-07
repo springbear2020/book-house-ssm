@@ -1,12 +1,12 @@
 $(function () {
     /* ====================================================== Commons =============================================== */
-    // Obtain current project context path dynamically
+    // Context path and notice modal
     var contextPath = $("#span-context-path").text();
     // Response code from server
     var INFO_CODE = 0;
     var SUCCESS_CODE = 1;
-    var WARNING_CODE = 2;
-    var DANGER_CODE = 3;
+    var DANGER_CODE = 2;
+    var WARNING_CODE = 3;
 
     // Prevent the default submit action of form
     $("form").on("submit", function () {
@@ -14,22 +14,21 @@ $(function () {
     });
 
     // Show the notice modal
-    var show_notice_modal = function (responseCode, msg) {
-        var $modalObj = $("#div-modal-notice");
-        var $noticeObj = $("#h-notice-content");
+    var showNoticeModal = function (code, msg) {
+        var $noticeContent = $("#h-notice-content");
         // Clear the existed style of the notice object
-        $noticeObj.parent().removeClass("alert-info alert-success alert-warning alert-danger");
-        if (INFO_CODE === responseCode) {
-            $noticeObj.parent().addClass("alert-info");
-        } else if (SUCCESS_CODE === responseCode) {
-            $noticeObj.parent().addClass("alert-success");
-        } else if (WARNING_CODE === responseCode) {
-            $noticeObj.parent().addClass("alert-warning");
-        } else if (DANGER_CODE === responseCode) {
-            $noticeObj.parent().addClass("alert-danger");
+        $noticeContent.parent().removeClass("alert-info alert-success alert-warning alert-danger");
+        if (INFO_CODE === code) {
+            $noticeContent.parent().addClass("alert-info");
+        } else if (SUCCESS_CODE === code) {
+            $noticeContent.parent().addClass("alert-success");
+        } else if (WARNING_CODE === code) {
+            $noticeContent.parent().addClass("alert-warning");
+        } else if (DANGER_CODE === code) {
+            $noticeContent.parent().addClass("alert-danger");
         }
-        $noticeObj.text(msg);
-        $modalObj.modal('show');
+        $noticeContent.text(msg);
+        $("#div-notice-modal").modal('show');
     };
 
     /* ========================================= Login and Register Common ========================================== */
@@ -74,11 +73,7 @@ $(function () {
             backdrop: "static"
         })
     });
-
-    // Verify the format of the username when content has changed
-    $("#input-login-username").change(function () {
-        verify_login_username_format();
-    });
+    
     // Verify login username format
     var verify_login_username_format = function () {
         var $usernameObj = $("#input-login-username");
@@ -91,11 +86,7 @@ $(function () {
             return true;
         }
     };
-
-    // Verify the format of the password when content has changed
-    $("#input-login-password").change(function () {
-        verify_login_password_format();
-    });
+    
     // Verify login password format
     var verify_login_password_format = function () {
         var $passwordObj = $("#input-login-password");
@@ -108,6 +99,16 @@ $(function () {
             return true;
         }
     };
+
+    // Verify the format of the username when content has changed
+    $("#input-login-username").change(function () {
+        verify_login_username_format();
+    });
+
+    // Verify the format of the password when content has changed
+    $("#input-login-password").change(function () {
+        verify_login_password_format();
+    });
 
     // Login modal close symbol click event
     $("#btn-login-modal-close").click(function () {
@@ -139,11 +140,11 @@ $(function () {
                 if (SUCCESS_CODE === response.code) {
                     location.href = contextPath + "user";
                 } else {
-                    show_notice_modal(response.code, response.msg);
+                    showNoticeModal(response.code, response.msg);
                 }
             },
             error: function () {
-                show_notice_modal(DANGER_CODE, "请求登录失败，请稍后重试");
+                showNoticeModal(DANGER_CODE, "请求登录失败，请稍后重试");
             }
         })
     });
@@ -179,7 +180,6 @@ $(function () {
                     isEmailExists = false;
                     // Cover the warning validate msg 覆盖
                     show_form_item_validate_msg($emailObj, STATUS_SUCCESS, response.msg);
-
                     // If the obtain button has not clicked, unblock it
                     if (!isObtainBtnClicked) {
                         $("#btn-obtain-code").attr("disabled", false);
@@ -191,7 +191,7 @@ $(function () {
                 }
             },
             error: function () {
-                show_notice_modal(DANGER_CODE, "请求验证邮箱可用性失败");
+                showNoticeModal(DANGER_CODE, "请求验证邮箱可用性失败，请稍后重试");
             }
         });
     })
@@ -240,10 +240,10 @@ $(function () {
             type: "post",
             dataType: "json",
             success: function (response) {
-                show_notice_modal(response.code, response.msg);
+                showNoticeModal(response.code, response.msg);
             },
             error: function () {
-                show_notice_modal(DANGER_CODE, "请求发送邮箱验证码失败");
+                showNoticeModal(DANGER_CODE, "请求发送邮箱验证码失败，请稍后重试");
             }
         })
     });
@@ -273,7 +273,7 @@ $(function () {
                 }
             },
             error: function () {
-                show_notice_modal(DANGER_CODE, "请求验证用户名可用性失败");
+                showNoticeModal(DANGER_CODE, "请求验证用户名可用性失败，请稍后重试");
             }
         })
     });
@@ -347,20 +347,14 @@ $(function () {
         if (!verify_register_username_format()) {
             return false;
         }
-        if (!verify_register_password_format()) {
-            return false;
-        }
-        if (!verify_email_format()) {
-            return false;
-        }
-        if (!verify_code_format()) {
-            return false;
-        }
         if (isUsernameExists) {
             show_form_item_validate_msg($("#input-register-username"), STATUS_WARNING, "用户名已被占用，请重新输入");
             return false;
         } else {
             show_form_item_validate_msg($("#input-register-username"), STATUS_SUCCESS, "");
+        }
+        if (!verify_email_format()) {
+            return false;
         }
         if (isEmailExists) {
             show_form_item_validate_msg($("#input-register-email"), STATUS_WARNING, "邮箱已被占用，请重新输入");
@@ -368,8 +362,14 @@ $(function () {
         } else {
             show_form_item_validate_msg($("#input-register-email"), STATUS_SUCCESS, "");
         }
+        if (!verify_register_password_format()) {
+            return false;
+        }
+        if (!verify_code_format()) {
+            return false;
+        }
         if (!isObtainBtnClicked) {
-            show_notice_modal(WARNING_CODE, "请先获取验证码");
+            showNoticeModal(INFO_CODE, "请先获取验证码");
             return false;
         }
         var verifyCode = $("#input-register-verify-code");
@@ -380,10 +380,10 @@ $(function () {
             data: $("#form-register").serialize(),
             dataType: "json",
             success: function (response) {
-                show_notice_modal(response.code, response.msg);
+                showNoticeModal(response.code, response.msg);
             },
             error: function () {
-                show_notice_modal(DANGER_CODE, "请求注册失败，请稍后重试",);
+                showNoticeModal(DANGER_CODE, "请求注册失败，请稍后重试",);
             }
         });
     });

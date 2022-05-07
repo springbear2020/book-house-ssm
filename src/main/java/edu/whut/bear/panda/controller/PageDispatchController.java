@@ -18,7 +18,13 @@ public class PageDispatchController {
         // if (user == null || user.getType() != User.USER_TYPE_COMMON || user.getStatus() != User.USER_STATUS_NORMAL) {
         //     return "redirect:/";
         // }
-        return "user_main";
+        return "main";
+    }
+
+    @GetMapping("user/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:/";
     }
 
     @GetMapping("/admin")
