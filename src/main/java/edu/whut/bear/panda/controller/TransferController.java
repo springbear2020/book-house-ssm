@@ -1,9 +1,6 @@
 package edu.whut.bear.panda.controller;
 
-import edu.whut.bear.panda.pojo.Book;
-import edu.whut.bear.panda.pojo.Response;
-import edu.whut.bear.panda.pojo.Upload;
-import edu.whut.bear.panda.pojo.User;
+import edu.whut.bear.panda.pojo.*;
 import edu.whut.bear.panda.service.BookService;
 import edu.whut.bear.panda.service.RecordService;
 import edu.whut.bear.panda.util.DateUtils;
@@ -81,6 +78,11 @@ public class TransferController {
         Upload upload = new Upload(null, user.getId(), user.getType(), user.getUsername(), type, Upload.STATUS_PROCESSED, new Date(), qiniuUtils.getImgDomain(), key, qiniuUtils.getImgBucket());
         if (!recordService.saveUpload(upload)) {
             return Response.danger("图片上传记录保存失败");
+        }
+        if (Upload.TYPE_BACKGROUND == type) {
+            if (!recordService.saveBackground(new Background(null, user.getId(), upload.getId(), new Date(), imgPath))) {
+                return Response.danger("背景上传记录保存失败");
+            }
         }
         return Response.success("").add("key", key).add("token", uploadToken).add("imgPath", imgPath);
     }

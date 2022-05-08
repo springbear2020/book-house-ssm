@@ -31,64 +31,8 @@ $(function () {
         $("#div-notice-modal").modal('show');
     };
 
-    /* ================================================= Show book ================================================== */
-
+    /* ============================================ Build page content ============================================== */
     var $divBookInfo = $("#div-book-display");
-
-    // Get book page data though book title and the page number
-    var getBookPageData = function (title, pageNum) {
-        // Send an ajax to server for get books by title
-        $.ajax({
-            url: contextPath + "book/" + pageNum,
-            type: "get",
-            data: "title=" + title,
-            dataType: "json",
-            success: function (response) {
-                if (SUCCESS_CODE === response.code) {
-                    $divBookInfo.empty();
-                    buildBookModule(response);
-                    buildNavPageModule(response);
-                } else {
-                    showNoticeModal(response.code, response.msg);
-                }
-                // To top
-                $("body, html").animate({scrollTop: 0}, 1);
-            },
-            error: function () {
-                showNoticeModal(DANGER_CODE, "请求获取图书数据失败，请稍后重试");
-            }
-        })
-    };
-
-    // Deal with the page turn click event
-    var pageTurnEvent = function (element, pageNum) {
-        element.click(function () {
-            var title = $("#input-book-search-title").val();
-            getBookPageData(title, pageNum);
-        });
-    };
-
-    // Download book by id
-    var downloadBook = function (id) {
-        $.ajax({
-            url: contextPath + "transfer/download/book/" + id,
-            type: "get",
-            dataType: "json",
-            success: function (response) {
-                if (SUCCESS_CODE === response.code) {
-                    // Go to download book
-                    window.open(response.resultMap.downloadUrl);
-                } else if (INFO_CODE === response.code) {
-                    $("#modal-login").modal({backdrop: "static"});
-                } else {
-                    showNoticeModal(response.code, response.msg);
-                }
-            },
-            error: function () {
-                showNoticeModal(DANGER_CODE, "请求下载图书失败，请稍后重试")
-            }
-        })
-    };
 
     // Build the book info display module
     var buildBookModule = function (response) {
@@ -219,18 +163,75 @@ $(function () {
         }
     };
 
+    /* ============================================== Get book data ================================================= */
+    // Get book page data though book title and the page number
+    var getBookPageData = function (title, pageNum) {
+        // Send an ajax to server for get books by title
+        $.ajax({
+            url: contextPath + "book/" + pageNum,
+            type: "get",
+            data: "title=" + title,
+            dataType: "json",
+            success: function (response) {
+                if (SUCCESS_CODE === response.code) {
+                    $divBookInfo.empty();
+                    buildBookModule(response);
+                    buildNavPageModule(response);
+                } else {
+                    showNoticeModal(response.code, response.msg);
+                }
+                // To top
+                $("body, html").animate({scrollTop: 0}, 1);
+            },
+            error: function () {
+                showNoticeModal(DANGER_CODE, "请求获取图书数据失败");
+            }
+        })
+    };
+
     /*
      * After page load successfully, get book page data from server
      */
     getBookPageData("", 1);
 
+    // Deal with the page turn click event
+    var pageTurnEvent = function (element, pageNum) {
+        element.click(function () {
+            var title = $("#input-book-search-title").val();
+            getBookPageData(title, pageNum);
+        });
+    };
+
     // Search book by title button click event
     $("#btn-book-search").click(function () {
         var title = $("#input-book-search-title").val();
         if (title.length <= 0) {
-            showNoticeModal(INFO_CODE, "书名不能为空");
+            showNoticeModal(INFO_CODE, "书名不能为空，请输入书名");
             return false;
         }
         getBookPageData(title, 1);
     });
+
+    /* ================================================== Download book ============================================= */
+    // Download book by id
+    var downloadBook = function (id) {
+        $.ajax({
+            url: contextPath + "transfer/download/book/" + id,
+            type: "get",
+            dataType: "json",
+            success: function (response) {
+                if (SUCCESS_CODE === response.code) {
+                    // Go to download book
+                    window.open(response.resultMap.downloadUrl);
+                } else if (INFO_CODE === response.code) {
+                    $("#modal-login").modal({backdrop: "static"});
+                } else {
+                    showNoticeModal(response.code, response.msg);
+                }
+            },
+            error: function () {
+                showNoticeModal(DANGER_CODE, "请求下载图书文件失败")
+            }
+        })
+    };
 });

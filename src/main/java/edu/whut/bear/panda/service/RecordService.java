@@ -1,5 +1,6 @@
 package edu.whut.bear.panda.service;
 
+import edu.whut.bear.panda.pojo.Background;
 import edu.whut.bear.panda.pojo.Upload;
 import org.springframework.stereotype.Service;
 
@@ -45,4 +46,12 @@ public interface RecordService {
      * @return Upload or null
      */
     Upload getUploadById(Integer id);
+
+    /**
+     * Save the background
+     *
+     * @param background Background
+     * @return true - Save successfully
+     */
+    boolean saveBackground(Background background);
 }

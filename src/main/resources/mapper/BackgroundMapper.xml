@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.whut.bear.panda.dao.BackgroundMapper">
+    <!-- int saveBackground(Background background); -->
+    <insert id="saveBackground">
+        insert into t_background (user_id, upload_id, upload_time, url)
+        VALUES (#{userId}, #{uploadId}, #{uploadTime}, #{url})
+    </insert>
+
+    <!--    select * from t_upload where id >= (select floor(rand() * (select max(id) from t_upload))) LIMIT 5;-->
+
+    <!-- List<Background> getUserBackground(@Param("userId") Integer userId); -->
+    <select id="getUserBackground" resultType="Background">
+        select *
+        from t_background
+        where user_id = #{userId}
+    </select>
+</mapper>

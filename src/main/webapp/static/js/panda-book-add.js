@@ -31,7 +31,7 @@ $(function () {
         $("#div-notice-modal").modal('show');
     };
 
-    /* ================================================= Save book ================================================== */
+    /* ============================================== File upload commons =========================================== */
     // Display the process bar dynamically
     var showUploadProcess = function (rate) {
         $("#div-file-upload-modal").modal({
@@ -42,50 +42,14 @@ $(function () {
         $process.attr("style", "width: " + rate + "%");
         $process.text(rate + "%");
     };
-    // Clear the process bar
+
+    // Clear the process bar style and content
     var clearProcess = function () {
         var $process = $(".progress-bar-striped");
         $process.attr("aria-valuenow", "0");
         $process.attr("style", "width: 0");
         $process.text("");
     };
-
-    // Validation type
-    var STATUS_SUCCESS = "success";
-    var STATUS_WARNING = "warning"
-    var STATUS_ERROR = "error";
-
-    // Show validate msg of the form item
-    var showFormItemValidation = function (element, status) {
-        // Reset the existing style and clear the notice msg
-        element.parent().removeClass("has-success has-error has-warning");
-        element.next("span").removeClass("glyphicon-ok glyphicon-remove glyphicon-warning-sign");
-        if (STATUS_ERROR === status) {
-            element.parent().addClass("has-error");
-            element.next("span").addClass("glyphicon-remove");
-        } else if (STATUS_WARNING === status) {
-            element.parent().addClass("has-warning");
-            element.next("span").addClass("glyphicon-warning-sign");
-        }
-    };
-
-    var bookFile;
-    var bookSuffix;
-    // Book file content changed event
-    $("#input-book-pdf").on('change', function (e) {
-        bookFile = e.target.files[0];
-        var fileName = $("#input-book-pdf").val();
-        bookSuffix = fileName.substring(fileName.lastIndexOf("."));
-    });
-
-    var coverFile;
-    var coverSuffix;
-    // Cover file content changed event
-    $("#input-book-cover").on('change', function (e) {
-        coverFile = e.target.files[0];
-        var fileName = $("#input-book-cover").val();
-        coverSuffix = fileName.substring(fileName.lastIndexOf("."));
-    });
 
     // File upload service by Qiniu Cloud
     var isPdfUploaded = false;
@@ -109,29 +73,45 @@ $(function () {
             next(res) {
                 // Show the progress of the book upload
                 var rate = res.total.percent + "";
-                showUploadProcess(rate.substring(0, rate.indexOf(".") + 3));
+                if ("application/pdf" === mimeType) {
+                    showUploadProcess(rate.substring(0, rate.indexOf(".") + 3));
+                }
             },
             error() {
-                showNoticeModal(DANGER_CODE, "文件上传失败，请稍后重试");
                 if ("application/pdf" === mimeType) {
                     isPdfUploaded = false;
+                    showNoticeModal(DANGER_CODE, "图书文件上传失败");
                 } else {
                     isCoverUploaded = false;
+                    showNoticeModal(DANGER_CODE, "封面文件上传失败");
                 }
             },
             complete() {
                 // Process stay at 100%
-                showUploadProcess(100);
                 if ("application/pdf" === mimeType) {
                     isPdfUploaded = true;
+                    showUploadProcess(100);
+                    $("#div-file-upload-modal").modal('hide');
+                    showNoticeModal(SUCCESS_CODE, "图书文件上传成功，感谢您的共享");
                 } else {
                     isCoverUploaded = true;
+                    showNoticeModal(SUCCESS_CODE, "封面文件上传成功，感谢您的共享");
                 }
             }
         }
         // Start upload
         observable.subscribe(observer);
     };
+
+    /* ============================================== PDF upload ==================================================== */
+    var bookFile;
+    var bookSuffix;
+    // Book file content changed event
+    $("#input-book-pdf").on('change', function (e) {
+        bookFile = e.target.files[0];
+        var fileName = $("#input-book-pdf").val();
+        bookSuffix = fileName.substring(fileName.lastIndexOf("."));
+    });
 
     // Upload pdf click event
     var bookPath;
@@ -157,10 +137,20 @@ $(function () {
                 }
             },
             error: function () {
-                showUploadProcess(DANGER_CODE, "请求上传图书文件失败");
+                showNoticeModal(DANGER_CODE, "请求上传图书文件失败");
                 isPdfUploaded = false;
             }
         })
+    });
+
+    /* =============================================== Cover upload ================================================= */
+    var coverFile;
+    var coverSuffix;
+    // Cover file content changed event
+    $("#input-book-cover").on('change', function (e) {
+        coverFile = e.target.files[0];
+        var fileName = $("#input-book-cover").val();
+        coverSuffix = fileName.substring(fileName.lastIndexOf("."));
     });
 
     // Upload cover click event
@@ -187,11 +177,50 @@ $(function () {
                 }
             },
             error: function () {
-                showUploadProcess(DANGER_CODE, "请求上传图片文件失败");
+                showNoticeModal(DANGER_CODE, "请求上传图片文件失败");
                 isCoverUploaded = false;
             }
         })
     });
+
+    /* ========================================= Save book record =================================================== */
+    // Validation type
+    var STATUS_SUCCESS = "success";
+    var STATUS_WARNING = "warning"
+    var STATUS_ERROR = "error";
+
+    // Show validate msg of the form item
+    var showFormItemValidation = function (element, status) {
+        // Reset the existing style and clear the notice msg
+        element.parent().removeClass("has-success has-error has-warning");
+        element.next("span").removeClass("glyphicon-ok glyphicon-remove glyphicon-warning-sign");
+        if (STATUS_ERROR === status) {
+            element.parent().addClass("has-error");
+            element.next("span").addClass("glyphicon-remove");
+        } else if (STATUS_WARNING === status) {
+            element.parent().addClass("has-warning");
+            element.next("span").addClass("glyphicon-warning-sign");
+        }
+    };
+
+    // Reset the upload form item
+    var resetBookSaveFormItem = function () {
+        isPdfUploaded = false;
+        isCoverUploaded = false;
+        $("#input-book-pdf").attr("disabled", false);
+        $("#input-book-cover").attr("disabled", false);
+        $("#btn-upload-pdf").attr("disabled", false);
+        $("#btn-upload-cover").attr("disabled", false);
+        $("#input-book-title").val("");
+        $("#input-book-author").val("");
+        $("#input-book-translator").val("");
+        $("#input-book-comments").val("");
+        showFormItemValidation($("#input-book-title"), SUCCESS_CODE);
+        showFormItemValidation($("#input-book-author"), SUCCESS_CODE);
+        showFormItemValidation($("#input-book-translator"), SUCCESS_CODE);
+        showFormItemValidation($("#input-book-author"), SUCCESS_CODE);
+    };
+
     // Save book click event
     $("#btn-save-book").click(function () {
         if (!isPdfUploaded) {
@@ -226,6 +255,8 @@ $(function () {
         } else {
             showFormItemValidation($("#input-book-comments"), STATUS_SUCCESS);
         }
+
+        // Ask server to save book record
         $.ajax({
             url: contextPath + "book",
             type: "post",
@@ -236,26 +267,8 @@ $(function () {
                 resetBookSaveFormItem();
             },
             error: function () {
-                showNoticeModal(DANGER_CODE, "请求保存图书记录失败");
+                showNoticeModal(DANGER_CODE, "请求新增图书记录失败");
             }
         })
     });
-
-    // Reset the upload form item
-    var resetBookSaveFormItem = function () {
-        isPdfUploaded = false;
-        isCoverUploaded = false;
-        $("#input-book-pdf").attr("disabled", false);
-        $("#input-book-cover").attr("disabled", false);
-        $("#btn-upload-pdf").attr("disabled", false);
-        $("#btn-upload-cover").attr("disabled", false);
-        $("#input-book-title").val("");
-        $("#input-book-author").val("");
-        $("#input-book-translator").val("");
-        $("#input-book-comments").val("");
-        showFormItemValidation($("#input-book-title"), SUCCESS_CODE);
-        showFormItemValidation($("#input-book-author"), SUCCESS_CODE);
-        showFormItemValidation($("#input-book-translator"), SUCCESS_CODE);
-        showFormItemValidation($("#input-book-author"), SUCCESS_CODE);
-    };
 });

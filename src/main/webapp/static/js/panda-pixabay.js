@@ -33,9 +33,6 @@ $(function () {
 
     /* ================================================ Show pixabay ================================================ */
     var SENTENCE;
-    var IMAGE;
-    var PIXABAY;
-
     var getHitokoto = function () {
         $.ajax({
             url: 'https://v1.hitokoto.cn',
@@ -48,6 +45,8 @@ $(function () {
         return SENTENCE;
     };
 
+    var PIXABAY;
+    var IMAGE;
     var getPixabay = function () {
         $.ajax({
             url: contextPath + "pixabay/first",
@@ -108,6 +107,14 @@ $(function () {
         })
     });
 
+    // Close get pixabay modal click event
+    $("#btn-pixabay-modal-close").click(function () {
+        var $input_pixabay_condition = $("#input-pixabay-condition");
+        $input_pixabay_condition.parent().removeClass("has-error has-success has-warning");
+        $input_pixabay_condition.val("");
+        $("#select-pixabay-pages").val("01");
+    });
+
     // Get pixabay by condition and pages click event
     $("#btn-pixabay-add").click(function () {
         var $keywords = $("#input-pixabay-condition");
@@ -130,6 +137,11 @@ $(function () {
             success: function (response) {
                 if (SUCCESS_CODE === response.code) {
                     changeBackgroundSetHitokoto($(".first-slide"), getPixabay(), getHitokoto());
+                    $("#modal-get-pixabay").modal('hide');
+                    var $input_pixabay_condition = $("#input-pixabay-condition");
+                    $input_pixabay_condition.parent().removeClass("has-error has-success has-warning");
+                    $input_pixabay_condition.val("");
+                    $("#select-pixabay-pages").val("01");
                 }
                 showNoticeModal(response.code, response.msg);
             },
@@ -137,13 +149,5 @@ $(function () {
                 showNoticeModal(DANGER_CODE, "请求新增 Pixabay 记录失败");
             }
         })
-    });
-
-    // Close get pixabay modal click event
-    $("#btn-pixabay-modal-close").click(function () {
-        var $input_pixabay_condition = $("#input-pixabay-condition");
-        $input_pixabay_condition.parent().removeClass("has-error has-success has-warning");
-        $input_pixabay_condition.val("");
-        $("#select-pixabay-pages").val("01");
     });
 });

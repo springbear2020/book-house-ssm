@@ -30,11 +30,9 @@ $(function () {
         $noticeContent.text(msg);
         $("#div-notice-modal").modal('show');
     };
-    
+
     /* ============================================== Show background =============================================== */
     var SENTENCE;
-    var IMAGE;
-
     var getHitokoto = function () {
         $.ajax({
             url: 'https://v1.hitokoto.cn',
@@ -47,36 +45,51 @@ $(function () {
         return SENTENCE;
     };
 
-    var getImage = function () {
-        var num = randomNum(4, 9);
-        IMAGE = num + ".jpg";
-        return IMAGE;
-    };
-
-    var randomNum = function (minNum, maxNum) {
-        switch (arguments.length) {
-            case 1:
-                return parseInt(Math.random() * minNum + 1, 10);
-                break;
-            case 2:
-                return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
-                break;
-            default:
-                return 0;
-                break;
+    // Get user all background pictures data
+    var BACKGROUND_LIST;
+    var LIST_LENGTH;
+    $.ajax({
+        url: contextPath + "background/all",
+        type: "get",
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            if (SUCCESS_CODE === response.code) {
+                BACKGROUND_LIST = response.resultMap.backgroundList;
+                LIST_LENGTH = response.resultMap.length;
+            } else {
+                showNoticeModal(response.code, response.msg);
+            }
+        },
+        error: function () {
+            showNoticeModal(DANGER_CODE, "请求个人背景图数据失败");
         }
+    })
+
+    var randomNumberInBound = function (min, max) {
+        // The border is [min,max)
+        var range = max - min;
+        var rand = Math.random();
+        var num = min + Math.floor(rand * range);
+        return num;
     }
 
-    // Show the picture and set character content of the page
+    var getImage = function () {
+        var num = randomNumberInBound(0, parseInt(LIST_LENGTH));
+        return BACKGROUND_LIST[num].url;
+    };
+
+    // Show the picture and set sentence content of the page
     var changeBackgroundSetHitokoto = function (slideObj, imgLink, sentence) {
         slideObj.attr("src", imgLink);
         slideObj.parent("a").attr("href", imgLink);
         slideObj.parent().parent().find("h4").text(sentence);
     };
 
+    /* ========================================= First load background ============================================== */
     // First time load the first image
     changeBackgroundSetHitokoto($(".first-slide"), getImage(), getHitokoto());
-    // First time load the second image
+    // First time load the second image at the 1s after page load
     var countingTime2 = 1;
     var time2 = setInterval(function () {
         countingTime2--;
@@ -85,7 +98,7 @@ $(function () {
             clearInterval(time2);
         }
     }, 1000)
-    // First time load the third image
+    // First time load the third image at the 2s after page load
     var countingTime3 = 2;
     var time3 = setInterval(function () {
         countingTime3--;
@@ -95,6 +108,7 @@ $(function () {
         }
     }, 1000)
 
+    /* =============================================== Picture change =============================================== */
     var changeTimeOfImg1 = 0;
     var changeTimeOfImg2 = 5;
     var changeTimeOfImg3 = 10;
@@ -122,28 +136,14 @@ $(function () {
         })
     });
 
-    // Display the process bar dynamically
-    var  show_process = function (rate) {
-        $(".progress").attr("style", "display: block");
-        var $process_bar = $(".progress-bar-striped");
-        $process_bar.attr("aria-valuenow", rate);
-        $process_bar.attr("style", "width: " + rate + "%");
-        $process_bar.text(rate + "%");
-    };
-
     // Close the upload modal event
     $("#btn-background-upload-modal-close").click(function () {
-        // Hide the start upload button and the process bar
-        var $process_bar = $(".progress-bar-striped");
-        $process_bar.attr("aria-valuenow", 0);
-        $process_bar.attr("style", "width: 0%");
-        $process_bar.text("");
-        $process_bar.parent().attr("style", "display: none");
-        $("#div-book-choose-upload").attr("style", "display: none");
+        $("#input-background-upload").attr("disabled", false);
+        $("#btn-background-start-upload").attr("disabled", false);
     });
 
     // File upload service by Qiniu Cloud
-    var qiniu_upload_book = function (file, key, token) {
+    var qiniuCloudFileUpload = function (file, key, token) {
         var putExtra = {
             fname: {key},
             params: {},
@@ -162,16 +162,15 @@ $(function () {
             next(res) {
                 // Show the progress of the book upload
                 var rate = res.total.percent + "";
-                console.log(rate);
-                show_process(rate.substring(0, rate.indexOf(".") + 3));
             },
             error() {
-                showNoticeModal(DANGER_CODE, "图片上传失败，请稍后重试");
+                showNoticeModal(DANGER_CODE, "背景图片上传失败");
             },
             complete() {
                 showNoticeModal(SUCCESS_CODE, "背景图片上传成功，感谢您的共享");
-                // Process stay at 100%
-                show_process(100);
+                $("#modal-upload-background").modal('hide');
+                $("#input-background-upload").attr("disabled", false);
+                $("#btn-background-start-upload").attr("disabled", false);
             }
         }
 
@@ -180,36 +179,37 @@ $(function () {
     };
 
     // Listening the content change of the file choose input element
+    var file;
+    var suffix;
     $("#input-background-upload").on("change", function (e) {
-        var file = e.target.files[0];
+        file = e.target.files[0];
         var srcFileName = $("#input-background-upload").val();
-        var suffix = srcFileName.substring(srcFileName.lastIndexOf("."));
-        // Display the upload now button
-        var $btnBackgroundStartUpload = $("#btn-background-start-upload");
-        $(".progress").attr("style", "display: none");
-        $btnBackgroundStartUpload.parent().attr("style", "display: block");
-        // Start uploading book button event
-        $btnBackgroundStartUpload.click(function () {
-            if (!(".png" === suffix || ".jpg" === suffix)) {
-                showNoticeModal(WARNING_CODE, "请选择图片文件")
-                return false;
-            }
-            $.ajax({
-                url: contextPath + "transfer/upload/image/2",
-                dataType: "json",
-                type: "post",
-                success: function (response) {
-                    if (SUCCESS_CODE === response.code) {
-                        $("#div-book-choose-upload").attr("style", "display: none");
-                        qiniu_upload_book(file, response.resultMap.key, response.resultMap.token);
-                    } else {
-                        showNoticeModal(response.code, response.msg);
-                    }
-                },
-                error: function () {
-                    showNoticeModal(DANGER_CODE, "请求上传背景图片文件失败");
+        suffix = srcFileName.substring(srcFileName.lastIndexOf("."));
+    });
+
+    // Start uploading book button event
+    $("#btn-background-start-upload").click(function () {
+        if (!(".png" === suffix || ".jpg" === suffix)) {
+            showNoticeModal(WARNING_CODE, "请选择图片文件")
+            return false;
+        }
+        $(this).attr("disabled", "disabled");
+        $("#input-background-upload").attr("disabled", "disabled");
+        // Ask server the save image file
+        $.ajax({
+            url: contextPath + "transfer/upload/image/3",
+            dataType: "json",
+            type: "post",
+            success: function (response) {
+                if (SUCCESS_CODE === response.code) {
+                    qiniuCloudFileUpload(file, response.resultMap.key, response.resultMap.token);
+                } else {
+                    showNoticeModal(response.code, response.msg);
                 }
-            })
-        });
+            },
+            error: function () {
+                showNoticeModal(DANGER_CODE, "请求上传背景图片文件失败");
+            }
+        })
     });
 });

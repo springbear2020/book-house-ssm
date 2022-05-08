@@ -1,12 +1,15 @@
 package edu.whut.bear.panda.controller;
 
+import edu.whut.bear.panda.pojo.Background;
 import edu.whut.bear.panda.pojo.Pixabay;
 import edu.whut.bear.panda.pojo.Response;
+import edu.whut.bear.panda.pojo.User;
 import edu.whut.bear.panda.service.PictureService;
 import edu.whut.bear.panda.util.SpiderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -60,5 +63,16 @@ public class PictureController {
             return Response.danger("请求获取 Pixabay 数据失败");
         }
         return Response.success("Pixabay 已新增 " + pages * 25 + " 条记录");
+    }
+
+
+    @GetMapping("/background/all")
+    public Response getUserBackground(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        List<Background> userAllBackground = pictureService.getUserAllBackground(user.getId());
+        if (userAllBackground == null || userAllBackground.size() == 0) {
+            return Response.info("暂无您的背景图数据");
+        }
+        return Response.success("").add("backgroundList", userAllBackground).add("length", userAllBackground.size());
     }
 }

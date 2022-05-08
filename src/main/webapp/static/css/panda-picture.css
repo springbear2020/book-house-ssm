@@ -15,10 +15,11 @@ body{
  * Footer
  */
 .blog-footer {
-    padding: 25px 0;
+    padding: 15px 0;
     color: #999;
     text-align: center;
     background-color: #222;
+    border-top: 1px solid #080808;
 }
 
 .blog-footer p:last-child {
@@ -29,4 +30,5 @@ body{
     width: auto;
     max-width: 999px;
     padding: 0 15px;
+    margin-bottom: 20px;
 }

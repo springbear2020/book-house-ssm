@@ -24,9 +24,9 @@
     <script th:src="@{/static/js/respond.min.js}"></script>
     <![endif]-->
 
+    <!-- Custom java script -->
     <script th:src="@{/static/js/jquery-1.7.2.js}"></script>
     <script th:src="@{/static/js/panda-book.js}"></script>
-    <script th:src="@{/static/js/panda-main.js}"></script>
 
     <!-- Get the context path dynamically -->
     <script th:inline="javascript" type="text/javascript">
@@ -60,15 +60,19 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="navbar-brand">
-                <a th:href="@{/}"><img alt="Brand" th:src="@{/static/img/panda.png}" height="40px" width="40px" src=""></a>
+                <a th:href="@{/user}"><img alt="Brand" th:src="@{/static/img/panda.png}" height="40px" width="40px" src=""></a>
             </div>
         </div>
         <!-- Right icon -->
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right text-center">
+                <!-- Personal background picture -->
                 <li><a role="button" th:href="@{/background}"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></a></li>
+                <!-- Pixabay -->
                 <li><a role="button" th:href="@{/pixabay}"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span></a></li>
-                <li><a role="button" th:href="@{/add}"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span></a></li>
+                <!-- Book add -->
+                <li><a role="button" th:href="@{/bookAdd}"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span></a></li>
+                <!-- User logout -->
                 <li><a role="button" th:href="@{/user/logout}"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
             </ul>
         </div>
@@ -80,6 +84,7 @@
 <!-- Book search -->
 <div class="container text-center">
     <form class="form-inline">
+        <!-- Book title item -->
         <div class="input-group">
             <label for="input-book-search-title" class="sr-only"></label><input id="input-book-search-title" type="text" class="form-control" placeholder="请输入书名">
             <span class="input-group-btn">

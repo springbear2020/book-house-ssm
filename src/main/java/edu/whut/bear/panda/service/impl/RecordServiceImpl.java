@@ -1,6 +1,8 @@
 package edu.whut.bear.panda.service.impl;
 
+import edu.whut.bear.panda.dao.BackgroundMapper;
 import edu.whut.bear.panda.dao.UploadMapper;
+import edu.whut.bear.panda.pojo.Background;
 import edu.whut.bear.panda.pojo.Upload;
 import edu.whut.bear.panda.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import java.util.List;
 public class RecordServiceImpl implements RecordService {
     @Autowired
     private UploadMapper uploadMapper;
+    @Autowired
+    private BackgroundMapper backgroundMapper;
 
     @Override
     public boolean saveUpload(Upload upload) {
@@ -37,5 +41,10 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public Upload getUploadById(Integer id) {
         return uploadMapper.getUploadById(id);
+    }
+
+    @Override
+    public boolean saveBackground(Background background) {
+        return backgroundMapper.saveBackground(background) == 1;
     }
 }

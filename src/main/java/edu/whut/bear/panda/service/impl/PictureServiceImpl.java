@@ -1,6 +1,8 @@
 package edu.whut.bear.panda.service.impl;
 
+import edu.whut.bear.panda.dao.BackgroundMapper;
 import edu.whut.bear.panda.dao.PixabayMapper;
+import edu.whut.bear.panda.pojo.Background;
 import edu.whut.bear.panda.pojo.Pixabay;
 import edu.whut.bear.panda.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import java.util.List;
 public class PictureServiceImpl implements PictureService {
     @Autowired
     private PixabayMapper pixabayMapper;
+    @Autowired
+    private BackgroundMapper backgroundMapper;
 
     @Override
     public List<Pixabay> getPixabayByPositionAndOffset(Integer start, Integer offset) {
@@ -32,5 +36,10 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public boolean deleteAllPixabay() {
         return pixabayMapper.deleteAllPixabay() >= 0;
+    }
+
+    @Override
+    public List<Background> getUserAllBackground(Integer userId) {
+        return backgroundMapper.getUserBackground(userId);
     }
 }

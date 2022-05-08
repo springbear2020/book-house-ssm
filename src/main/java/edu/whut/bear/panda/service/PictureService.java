@@ -1,5 +1,6 @@
 package edu.whut.bear.panda.service;
 
+import edu.whut.bear.panda.pojo.Background;
 import edu.whut.bear.panda.pojo.Pixabay;
 import org.springframework.stereotype.Service;
 
@@ -34,4 +35,12 @@ public interface PictureService {
      * @return true - Delete successfully
      */
     boolean deleteAllPixabay();
+
+    /**
+     * Get the background picture record of the user by user id
+     *
+     * @param userId Id of user
+     * @return Background list or null
+     */
+    List<Background> getUserAllBackground(Integer userId);
 }
