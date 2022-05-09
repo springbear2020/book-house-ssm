@@ -1,5 +1,6 @@
 package edu.whut.bear.panda.controller;
 
+import edu.whut.bear.panda.pojo.Admin;
 import edu.whut.bear.panda.pojo.Response;
 import edu.whut.bear.panda.pojo.User;
 import edu.whut.bear.panda.service.UserService;
@@ -80,4 +81,23 @@ public class UserController {
         session.removeAttribute("verifyCode");
         return Response.success("注册成功，快登录吧");
     }
+
+    @GetMapping("/admin/{username}/{password}")
+    public Response admin(@PathVariable("username") String username, @PathVariable("password") String password, HttpSession session) {
+        // Empty username or password parameters
+        if (username == null || username.length() == 0 || password == null || password.length() == 0) {
+            return Response.info("用户名或密码不能为空");
+        }
+        Admin admin = userService.getAdminByUsernameAndPassword(username, password);
+        if (admin == null) {
+            return Response.danger("管理员账号不存在或密码错误");
+        }
+        if (admin.getStatus() == Admin.ADMIN_STATUS_ABNORMAL) {
+            return Response.danger("管理员账号状态异常，暂时不能登录");
+        }
+        session.setAttribute("admin", admin);
+        return Response.success("");
+    }
 }
+
+

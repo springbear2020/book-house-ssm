@@ -32,19 +32,6 @@ $(function () {
     };
 
     /* ================================================ Show pixabay ================================================ */
-    var SENTENCE;
-    var getHitokoto = function () {
-        $.ajax({
-            url: 'https://v1.hitokoto.cn',
-            dataType: 'json',
-            async: false,
-            success(response) {
-                SENTENCE = response.hitokoto;
-            }
-        })
-        return SENTENCE;
-    };
-
     var PIXABAY;
     var IMAGE;
     var getPixabay = function () {
@@ -69,14 +56,13 @@ $(function () {
     };
 
     // Show the picture and set character content of the page
-    var changeBackgroundSetHitokoto = function (slideObj, imgLink, sentence) {
+    var changeBackgroundSetHitokoto = function (slideObj, imgLink) {
         slideObj.attr("src", imgLink);
         slideObj.parent("a").attr("href", imgLink);
-        slideObj.parent().parent().find("h4").text(sentence);
     };
 
     // After page load successfully, get the first pixabay
-    changeBackgroundSetHitokoto($(".first-slide"), getPixabay(), getHitokoto());
+    changeBackgroundSetHitokoto($(".first-slide"), getPixabay());
 
     /* ================================================ Delete pixabay ============================================== */
     $("#btn-pixabay-delete").click(function () {
@@ -88,7 +74,7 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 if (SUCCESS_CODE === response.code) {
-                    changeBackgroundSetHitokoto($(".first-slide"), getPixabay(), getHitokoto());
+                    changeBackgroundSetHitokoto($(".first-slide"), getPixabay());
                 } else {
                     showNoticeModal(response.code, response.msg);
                 }
@@ -113,6 +99,7 @@ $(function () {
         $input_pixabay_condition.parent().removeClass("has-error has-success has-warning");
         $input_pixabay_condition.val("");
         $("#select-pixabay-pages").val("01");
+        $("#btn-pixabay-add").attr("disabled", false);
     });
 
     // Get pixabay by condition and pages click event
@@ -129,6 +116,7 @@ $(function () {
             $keywords.parent().addClass("has-success");
         }
         // Send an ajax request to server to add new pixabay though python spider
+        $(this).attr("disabled", "disabled");
         $.ajax({
             url: contextPath + "pixabay/" + condition + "/" + pages,
             type: "post",
@@ -136,7 +124,7 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 if (SUCCESS_CODE === response.code) {
-                    changeBackgroundSetHitokoto($(".first-slide"), getPixabay(), getHitokoto());
+                    changeBackgroundSetHitokoto($(".first-slide"), getPixabay());
                     $("#modal-get-pixabay").modal('hide');
                     var $input_pixabay_condition = $("#input-pixabay-condition");
                     $input_pixabay_condition.parent().removeClass("has-error has-success has-warning");

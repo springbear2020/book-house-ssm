@@ -53,4 +53,13 @@ public class PageDispatchController {
         }
         return "book_add";
     }
+
+    @GetMapping("/admin")
+    public String admin(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/";
+        }
+        return "admin";
+    }
 }
