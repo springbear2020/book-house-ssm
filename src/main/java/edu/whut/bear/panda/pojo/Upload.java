@@ -15,9 +15,10 @@ import java.util.Date;
 @Component
 public class Upload {
     public static final int TYPE_BOOK = 0;
-    public static final int TYPE_COVER = 1;
-    public static final int TYPE_PORTRAIT = 2;
-    public static final int TYPE_BACKGROUND = 3;
+    public static final int TYPE_IMAGE = -1;
+    public static final int TYPE_IMAGE_COVER = 1;
+    public static final int TYPE_IMAGE_BACKGROUND = 2;
+
     public static final int STATUS_PROCESSED = 0;
     public static final int STATUS_UNPROCESSED = 1;
 
@@ -26,10 +27,10 @@ public class Upload {
     private Integer userType;
     private String username;
     private Integer type;
-    private Integer status = STATUS_UNPROCESSED;
+    private Integer status;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date uploadTime = new Date();
+    private Date uploadTime;
     private String domain;
     private String key;
     private String bucket;

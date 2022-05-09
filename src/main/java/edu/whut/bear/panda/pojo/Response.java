@@ -40,7 +40,7 @@ public class Response {
         return response;
     }
 
-    public Response add(String key, Object value) {
+    public Response put(String key, Object value) {
         this.getResultMap().put(key, value);
         return this;
     }

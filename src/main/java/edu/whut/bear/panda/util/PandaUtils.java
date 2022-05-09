@@ -13,12 +13,29 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @PropertySource("classpath:panda.properties")
+@PropertySource("classpath:qiniu.properties")
 public class PandaUtils {
     /**
      * Panda config data
      */
     @Value("${panda.bookPageSize}")
     private Integer pageSize;
-    @Value("${panda.navigationPages}")
-    private Integer navigationPages;
+    @Value("${panda.bookNavigationPages}")
+    private Integer bookNavigationPages;
+
+    /**
+     * Qiniu config data
+     */
+    @Value("${qiniu.accessKey}")
+    private String accessKey;
+    @Value("${qiniu.secretKey}")
+    private String secretKey;
+    @Value("${qiniu.bookBucketName}")
+    private String bookBucket;
+    @Value("${qiniu.imgBucketName}")
+    private String imgBucket;
+    @Value("${qiniu.bookCdnDomain}")
+    private String bookDomain;
+    @Value("${qiniu.imgCdnDomain}")
+    private String imgDomain;
 }

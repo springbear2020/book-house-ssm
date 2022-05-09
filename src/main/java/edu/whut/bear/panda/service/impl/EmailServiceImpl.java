@@ -16,9 +16,9 @@ public class EmailServiceImpl implements EmailService {
     private EmailUtils emailUtils;
 
     @Override
-    public String sendEmailVerifyCode(String receiverEmail, int codeLength) {
+    public String sendEmailVerifyCode(String receiverEmail) {
         // Generate the verify code in length randomly
-        String verifyCode = NumberUtils.generateCodeInLengthRandomly(codeLength);
+        String verifyCode = NumberUtils.generateCodeInLengthRandomly(emailUtils.getCodeLength());
         // try to send the email to the email address of the receiver
         if (emailUtils.sendEmail(receiverEmail, verifyCode)) {
             return verifyCode;

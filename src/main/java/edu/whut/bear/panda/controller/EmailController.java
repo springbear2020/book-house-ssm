@@ -4,7 +4,6 @@ import edu.whut.bear.panda.pojo.Response;
 import edu.whut.bear.panda.pojo.User;
 import edu.whut.bear.panda.service.EmailService;
 import edu.whut.bear.panda.service.UserService;
-import edu.whut.bear.panda.util.EmailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,15 +19,13 @@ public class EmailController {
     private UserService userService;
     @Autowired
     private EmailService emailService;
-    @Autowired
-    private EmailUtils emailUtils;
 
     @GetMapping("/email/{email}")
     public Response verifyEmailExistence(@PathVariable("email") String email) {
         if (email == null || email.length() == 0) {
             return Response.info("邮箱地址不能为空");
         }
-        if (!email.matches("^([a-z0-9A-Z]+[-|.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$")) {
+        if (!email.matches(User.EMAIL_REG_EXP)) {
             return Response.danger("无效的邮箱地址");
         }
 
@@ -40,22 +37,21 @@ public class EmailController {
         return Response.success("");
     }
 
-    @PostMapping("/email{email}")
+    @PostMapping("/email/{email}")
     public Response sendEmailVerifyCode(@PathVariable("email") String email, HttpSession session) {
         if (email == null || email.length() == 0) {
             return Response.info("邮箱地址不能为空");
         }
-        if (!email.matches("^([a-z0-9A-Z]+[-|.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$")) {
+        if (!email.matches(User.EMAIL_REG_EXP)) {
             return Response.danger("无效的邮箱地址");
         }
 
         // Send an verify code email to the specified email address
-        String verifyCode = emailService.sendEmailVerifyCode(email, emailUtils.getCodeLength());
+        String verifyCode = emailService.sendEmailVerifyCode(email);
         if (verifyCode == null) {
             return Response.info("服务器繁忙，验证码发送失败");
         }
-        // TODO Prevent send request from the text address, set the verify code effective time 10 minutes
         session.setAttribute("verifyCode", verifyCode);
-        return Response.success("");
+        return Response.success("邮箱验证码发送成功");
     }
 }

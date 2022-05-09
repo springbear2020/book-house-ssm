@@ -20,6 +20,6 @@ public class EmailServiceTest {
 
     @Test
     public void sendEmailVerifyCode() {
-        System.out.println(emailService.sendEmailVerifyCode("springbear2020@163.com", 6));
+        System.out.println(emailService.sendEmailVerifyCode("springbear2020@163.com"));
     }
 }

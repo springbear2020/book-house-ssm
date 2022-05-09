@@ -28,7 +28,7 @@ public class BookMapperTest {
 
     @Test
     public void getBookTotalCounts() {
-        System.out.println(bookMapper.getBookTotalCounts());
+        System.out.println(bookMapper.getBooksTotalCount());
     }
 
     @Test

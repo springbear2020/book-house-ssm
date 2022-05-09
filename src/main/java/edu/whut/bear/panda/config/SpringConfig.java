@@ -77,10 +77,10 @@ public class SpringConfig {
      */
     @Bean
     public PageInterceptor getPageInterceptor() {
-        PageInterceptor pageIntercptor = new PageInterceptor();
+        PageInterceptor pageInterceptor = new PageInterceptor();
         Properties properties = new Properties();
         properties.setProperty("value", "true");
-        pageIntercptor.setProperties(properties);
-        return pageIntercptor;
+        pageInterceptor.setProperties(properties);
+        return pageInterceptor;
     }
 }

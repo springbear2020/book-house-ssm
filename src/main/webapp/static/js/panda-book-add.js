@@ -114,7 +114,8 @@ $(function () {
     });
 
     // Upload pdf click event
-    var bookPath;
+    var bookPath = "";
+    var bookUploadId = -1;
     $("#btn-upload-pdf").click(function () {
         if (".pdf" !== bookSuffix) {
             showNoticeModal(WARNING_CODE, "请先选择 PDF 图书文件");
@@ -131,6 +132,7 @@ $(function () {
                 if (SUCCESS_CODE === response.code) {
                     qiniuFileUpload(bookFile, response.resultMap.key, response.resultMap.token, "application/pdf");
                     bookPath = response.resultMap.bookPath;
+                    bookUploadId = response.resultMap.bookUploadId;
                 } else {
                     showNoticeModal(response.code, response.msg);
                     isPdfUploaded = false;
@@ -154,7 +156,8 @@ $(function () {
     });
 
     // Upload cover click event
-    var coverPath;
+    var coverPath = "";
+    var coverUploadId = -1;
     $("#btn-upload-cover").click(function () {
         if (!(".jpg" === coverSuffix || ".png" === coverSuffix)) {
             showNoticeModal(WARNING_CODE, "请先选择图书封面文件");
@@ -171,6 +174,7 @@ $(function () {
                 if (SUCCESS_CODE === response.code) {
                     qiniuFileUpload(coverFile, response.resultMap.key, response.resultMap.token, "image/*");
                     coverPath = response.resultMap.imgPath;
+                    coverUploadId = response.resultMap.imageUploadId;
                 } else {
                     showNoticeModal(response.code, response.msg);
                     isCoverUploaded = false;
@@ -223,10 +227,10 @@ $(function () {
 
     // Save book click event
     $("#btn-save-book").click(function () {
-        if (!isPdfUploaded) {
-            showNoticeModal(WARNING_CODE, "请先上传 PDF 图书文件");
-            return false;
-        }
+        // if (!isPdfUploaded) {
+        //     showNoticeModal(WARNING_CODE, "请先上传 PDF 图书文件");
+        //     return false;
+        // }
         if (!isCoverUploaded) {
             showNoticeModal(WARNING_CODE, "请先上传图书封面文件");
             return false;
@@ -243,12 +247,6 @@ $(function () {
         } else {
             showFormItemValidation($("#input-book-author"), STATUS_SUCCESS);
         }
-        if ($("#input-book-translator").val().length <= 0) {
-            showFormItemValidation($("#input-book-translator"), STATUS_ERROR);
-            return false;
-        } else {
-            showFormItemValidation($("#input-book-translator"), STATUS_SUCCESS);
-        }
         if ($("#input-book-comments").val().length <= 0) {
             showFormItemValidation($("#input-book-comments"), STATUS_ERROR);
             return false;
@@ -256,12 +254,18 @@ $(function () {
             showFormItemValidation($("#input-book-comments"), STATUS_SUCCESS);
         }
 
+        var comments = $("#input-book-comments").val();
+        if (comments.length > 200) {
+            showNoticeModal(WARNING_CODE, "图书评价需要控制在 200 字范围内");
+            return false;
+        }
+
         // Ask server to save book record
         $.ajax({
             url: contextPath + "book",
             type: "post",
             dataType: "json",
-            data: "bookPath=" + bookPath + "&coverPath=" + coverPath + "&" + $("#form-save-book").serialize(),
+            data: "bookUploadId=" + bookUploadId + "&coverUploadId=" + coverUploadId + "&bookPath=" + bookPath + "&coverPath=" + coverPath + "&" + $("#form-save-book").serialize(),
             success: function (response) {
                 showNoticeModal(response.code, response.msg);
                 resetBookSaveFormItem();
@@ -269,6 +273,6 @@ $(function () {
             error: function () {
                 showNoticeModal(DANGER_CODE, "请求新增图书记录失败");
             }
-        })
+        });
     });
 });

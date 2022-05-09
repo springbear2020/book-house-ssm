@@ -47,7 +47,7 @@ $(function () {
 
     // Get user all background pictures data
     var BACKGROUND_LIST;
-    var LIST_LENGTH;
+    var LIST_LENGTH = 0;
     $.ajax({
         url: contextPath + "background/all",
         type: "get",
@@ -75,6 +75,9 @@ $(function () {
     }
 
     var getImage = function () {
+        if (LIST_LENGTH <= 0) {
+            return "";
+        }
         var num = randomNumberInBound(0, parseInt(LIST_LENGTH));
         return BACKGROUND_LIST[num].url;
     };
@@ -197,7 +200,7 @@ $(function () {
         $("#input-background-upload").attr("disabled", "disabled");
         // Ask server the save image file
         $.ajax({
-            url: contextPath + "transfer/upload/image/3",
+            url: contextPath + "transfer/upload/image/2",
             dataType: "json",
             type: "post",
             success: function (response) {

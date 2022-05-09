@@ -1,14 +1,11 @@
 package edu.whut.bear.panda.service.impl;
 
-import edu.whut.bear.panda.dao.BackgroundMapper;
 import edu.whut.bear.panda.dao.UploadMapper;
-import edu.whut.bear.panda.pojo.Background;
 import edu.whut.bear.panda.pojo.Upload;
 import edu.whut.bear.panda.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -18,33 +15,9 @@ import java.util.List;
 public class RecordServiceImpl implements RecordService {
     @Autowired
     private UploadMapper uploadMapper;
-    @Autowired
-    private BackgroundMapper backgroundMapper;
 
     @Override
     public boolean saveUpload(Upload upload) {
         return uploadMapper.saveUpload(upload) == 1;
-    }
-
-    @Override
-    public List<Upload> getBookUploadByStatus(Integer status, Integer start, Integer offset) {
-        // Because of human habit start with 1 but the data table start with 0, so start - 1
-        start -= 1;
-        return uploadMapper.getUploadRecord(Upload.TYPE_BOOK, status, start, offset);
-    }
-
-    @Override
-    public boolean updateUploadRecordStatus(Integer id, Integer status) {
-        return uploadMapper.updateUploadStatusById(id, status) == 1;
-    }
-
-    @Override
-    public Upload getUploadById(Integer id) {
-        return uploadMapper.getUploadById(id);
-    }
-
-    @Override
-    public boolean saveBackground(Background background) {
-        return backgroundMapper.saveBackground(background) == 1;
     }
 }

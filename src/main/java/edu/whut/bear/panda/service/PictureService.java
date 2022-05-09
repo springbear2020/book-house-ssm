@@ -13,13 +13,11 @@ import java.util.List;
 @Service
 public interface PictureService {
     /**
-     * Get pixabay picture by start position and offset
+     * Get the first pixabay record in the "t_pixabay" table
      *
-     * @param start  Start position
-     * @param offset Offset
-     * @return Pixabay list or null
+     * @return Pixabay or null
      */
-    List<Pixabay> getPixabayByPositionAndOffset(Integer start, Integer offset);
+    Pixabay getFirstPixabay();
 
     /**
      * Delete a pixabay picture by id
@@ -32,15 +30,31 @@ public interface PictureService {
     /**
      * Delete all pixabay
      *
-     * @return true - Delete successfully
+     * @return Affected rows of record
      */
-    boolean deleteAllPixabay();
+    int deleteAllPixabay();
 
     /**
-     * Get the background picture record of the user by user id
+     * Save the background
+     *
+     * @param background Background
+     * @return true - Save successfully
+     */
+    boolean saveBackground(Background background);
+
+    /**
+     * Get all background record of the specified user
      *
      * @param userId Id of user
      * @return Background list or null
      */
-    List<Background> getUserAllBackground(Integer userId);
+    List<Background> getUserAllBackgrounds(Integer userId);
+
+    /**
+     * Execute the python spider to get new pixabay data
+     *
+     * @param params Python command parameters
+     * @return true - Insert new record successfully
+     */
+    boolean insertPixabayThoughSpider(String params);
 }

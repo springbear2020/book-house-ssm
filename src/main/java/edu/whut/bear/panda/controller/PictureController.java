@@ -5,7 +5,6 @@ import edu.whut.bear.panda.pojo.Pixabay;
 import edu.whut.bear.panda.pojo.Response;
 import edu.whut.bear.panda.pojo.User;
 import edu.whut.bear.panda.service.PictureService;
-import edu.whut.bear.panda.util.SpiderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +19,14 @@ import java.util.List;
 public class PictureController {
     @Autowired
     private PictureService pictureService;
-    @Autowired
-    private SpiderUtils spiderUtils;
 
     @GetMapping("/pixabay/first")
     public Response getFirstPixabay() {
-        List<Pixabay> pixabayList = pictureService.getPixabayByPositionAndOffset(1, 1);
-        if (pixabayList == null || pixabayList.size() == 0) {
+        Pixabay pixabay = pictureService.getFirstPixabay();
+        if (pixabay == null) {
             return Response.info("Pixabay 图片暂无数据");
         }
-        return Response.success("").add("pixabayList", pixabayList);
+        return Response.success("").put("pixabay", pixabay);
     }
 
     @DeleteMapping("/pixabay/{id}")
@@ -46,33 +43,33 @@ public class PictureController {
     @PutMapping("/pixabay/{condition}/{pages}")
     public Response deleteAllPixabayThenInsertNew(@PathVariable("condition") String condition, @PathVariable("pages") Integer pages) {
         if (condition == null || condition.length() == 0) {
-            return Response.info("Pixabay 检索条件不能为空");
+            return Response.info("Pixabay 搜索关键词不能为空");
         }
         if (pages == null || pages <= 0 || pages > Pixabay.MAX_PAGE_NUMBER) {
             return Response.info("Pixabay 请求页数不正确");
         }
         // Delete all existed record of pixabay
-        if (!pictureService.deleteAllPixabay()) {
+        if (pictureService.deleteAllPixabay() < 0) {
             return Response.danger("请求删除所有 Pixabay 数据失败");
         }
-        String pixabaySpiderRealPath = spiderUtils.getPixabaySpiderRealPath();
-        if (pixabaySpiderRealPath == null) {
-            return Response.danger("请求读取爬虫文件路径失败");
+        // Get new pixabay record data though python spider
+        String params = condition + " " + pages;
+        if (!pictureService.insertPixabayThoughSpider(params)){
+            return Response.danger("请求新增 Pixabay 数据失败");
         }
-        if (!spiderUtils.executeSpider(pixabaySpiderRealPath, condition + " " + pages)) {
-            return Response.danger("请求获取 Pixabay 数据失败");
-        }
-        return Response.success("Pixabay 已新增 " + pages * 25 + " 条记录");
+        return Response.success("Pixabay 已新增 " + pages * 20 + " 条记录");
     }
 
-
     @GetMapping("/background/all")
-    public Response getUserBackground(HttpSession session) {
+    public Response getUserBackgrounds(HttpSession session) {
         User user = (User) session.getAttribute("user");
-        List<Background> userAllBackground = pictureService.getUserAllBackground(user.getId());
-        if (userAllBackground == null || userAllBackground.size() == 0) {
-            return Response.info("暂无您的背景图数据");
+        if (user == null) {
+            return Response.info("请先登录您的账号");
         }
-        return Response.success("").add("backgroundList", userAllBackground).add("length", userAllBackground.size());
+        List<Background> backgroundList = pictureService.getUserAllBackgrounds(user.getId());
+        if (backgroundList == null || backgroundList.size() == 0) {
+            return Response.info("暂无您的个人背景图数据");
+        }
+        return Response.success("").put("backgroundList", backgroundList).put("length", backgroundList.size());
     }
 }

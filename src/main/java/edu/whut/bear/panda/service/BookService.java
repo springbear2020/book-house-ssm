@@ -15,19 +15,16 @@ public interface BookService {
      *
      * @param title           The title of the book which user want to search
      * @param pageNum         The page num
-     * @param pageSize        Data size per page
-     * @param navigationPages Navigation pages
      * @return Book page info
      */
-    PageInfo<Book> getBookPageData(String title, Integer pageNum, Integer pageSize, Integer navigationPages);
+    PageInfo<Book> getBookPageData(String title, Integer pageNum);
 
     /**
      * Get the number of book record total pages
      *
-     * @param pageSize Page size
      * @return Number of book data total pages
      */
-    int getTotalPages(int pageSize);
+    int getTotalPages();
 
     /**
      * Save a book record

@@ -20,12 +20,12 @@ public class PixabayMapperTest {
     private PixabayMapper pixabayMapper;
 
     @Test
-    public void getPixabayByPositionAndOffset() {
-        System.out.println(pixabayMapper.getPixabayByPositionAndOffset(2, 2));
+    public void deletePixabayById() {
+        System.out.println(pixabayMapper.deletePixabayById(100));
     }
 
     @Test
-    public void deletePixabayById() {
-        System.out.println(pixabayMapper.deletePixabayById(100));
+    public void getFirstPixabay() {
+        System.out.println(pixabayMapper.getFirstPixabay());
     }
 }

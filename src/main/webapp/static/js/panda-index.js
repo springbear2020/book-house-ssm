@@ -393,10 +393,10 @@ $(function () {
             return false;
         }
         if (!isObtainBtnClicked) {
-            showNoticeModal(INFO_CODE, "请先获取验证码");
+            showNoticeModal(WARNING_CODE, "请先获取验证码");
             return false;
         }
-        var verifyCode = $("#input-register-verify-code");
+        var verifyCode = $("#input-register-verify-code").val();
         // Send an ajax request to server for user register
         $.ajax({
             url: contextPath + "user/" + verifyCode,
@@ -404,6 +404,16 @@ $(function () {
             data: $("#form-register").serialize(),
             dataType: "json",
             success: function (response) {
+                if (SUCCESS_CODE === response.code) {
+                    $("#modal-register").modal('hide');
+                    // Clear the style and content of the register form item
+                    modal_item_reset_default($("#input-register-username"));
+                    modal_item_reset_default($("#input-register-password"));
+                    modal_item_reset_default($("#input-register-email"));
+                    // The verify code input text is a special one
+                    input_register_verify_code($("#input-register-verify-code"));
+                    $("#modal-login").modal('show');
+                }
                 showNoticeModal(response.code, response.msg);
             },
             error: function () {

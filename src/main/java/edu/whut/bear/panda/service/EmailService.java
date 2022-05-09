@@ -12,8 +12,7 @@ public interface EmailService {
      * Send an email verify code to the specified email address
      *
      * @param receiverEmail Receiver email address
-     * @param codeLength    The length of the verify code
      * @return The email verify code which had delivered
      */
-    String sendEmailVerifyCode(String receiverEmail, int codeLength);
+    String sendEmailVerifyCode(String receiverEmail);
 }

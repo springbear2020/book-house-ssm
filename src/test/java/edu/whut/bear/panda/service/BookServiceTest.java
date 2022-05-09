@@ -22,12 +22,12 @@ public class BookServiceTest {
 
     @Test
     public void getBookPageData() {
-        PageInfo<Book> bookPageData = bookService.getBookPageData("", 1, 5, 1);
+        PageInfo<Book> bookPageData = bookService.getBookPageData("", 1);
         System.out.println(bookPageData);
     }
 
     @Test
     public void getTotalPages() {
-        System.out.println(bookService.getTotalPages(5));
+        System.out.println(bookService.getTotalPages());
     }
 }

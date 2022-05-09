@@ -13,11 +13,11 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class PageDispatchController {
     @GetMapping("/user")
-    public String toUserMainPage(HttpSession session) {
-        // User user = (User) session.getAttribute("user");
-        // if (user == null || user.getType() != User.USER_TYPE_COMMON || user.getStatus() != User.USER_STATUS_NORMAL) {
-        //     return "redirect:/";
-        // }
+    public String user(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/";
+        }
         return "main";
     }
 
@@ -27,27 +27,30 @@ public class PageDispatchController {
         return "redirect:/";
     }
 
-    @GetMapping("/admin")
-    public String toAdminLoginPage(HttpSession session) {
-        // User user = (User) session.getAttribute("user");
-        // if (user == null || user.getType() != User.USER_TYPE_ADMIN || user.getStatus() != User.USER_STATUS_NORMAL) {
-        //     return "redirect:/";
-        // }
-        return "admin_login";
+    @GetMapping("/background")
+    public String background(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/";
+        }
+        return "background";
     }
 
-    @GetMapping("/manage")
-    public String toAdminManagePage(HttpSession session) {
-        // User user = (User) session.getAttribute("user");
-        // if (user == null || user.getType() != User.USER_TYPE_ADMIN || user.getStatus() != User.USER_STATUS_NORMAL) {
-        //     return "redirect:/";
-        // }
-        //
-        // Admin admin = (Admin) session.getAttribute("admin");
-        // if (admin == null || admin.getStatus() != Admin.ADMIN_STATUS_NORMAL) {
-        //     return "redirect:/admin";
-        // }
+    @GetMapping("/pixabay")
+    public String pixabay(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/";
+        }
+        return "pixabay";
+    }
 
-        return "admin_manage";
+    @GetMapping("/bookAdd")
+    public String bookAdd(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/";
+        }
+        return "book_add";
     }
 }

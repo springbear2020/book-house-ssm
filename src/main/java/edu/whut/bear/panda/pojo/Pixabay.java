@@ -1,6 +1,8 @@
 package edu.whut.bear.panda.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -22,6 +24,8 @@ public class Pixabay {
     private Integer collections;
     private Integer likes;
     private Integer comments;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date addTime;
     private String url;
 }

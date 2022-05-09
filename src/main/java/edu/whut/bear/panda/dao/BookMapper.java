@@ -13,14 +13,14 @@ import java.util.List;
 @Repository
 public interface BookMapper {
     /**
-     * Get all books
+     * Get all books record
      *
      * @return Book list or null
      */
     List<Book> getAllBooks();
 
     /**
-     * Get books by the book title
+     * Get books record by the book title
      *
      * @param title Title of book
      * @return Book list or null
@@ -32,7 +32,7 @@ public interface BookMapper {
      *
      * @return Book total count
      */
-    int getBookTotalCounts();
+    int getBooksTotalCount();
 
     /**
      * Save a book record
@@ -43,7 +43,7 @@ public interface BookMapper {
     int saveBook(Book book);
 
     /**
-     * Get book info by id
+     * Get book record by id
      *
      * @param id Id of book record
      * @return Book or null

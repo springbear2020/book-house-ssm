@@ -5,7 +5,14 @@
 <mapper namespace="edu.whut.bear.panda.dao.UserMapper">
     <!-- User getUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password); -->
     <select id="getUserByUsernameAndPassword" resultType="User">
-        select *
+        select id,
+               username,
+               password,
+               email,
+               type,
+               status,
+               register_date,
+               portrait_path
         from t_user
         where username = #{username}
           and password = #{password}
@@ -13,7 +20,14 @@
 
     <!-- User getUserByEmail(@Param("email") String email); -->
     <select id="getUserByEmail" resultType="User">
-        select *
+        select id,
+               username,
+               password,
+               email,
+               type,
+               status,
+               register_date,
+               portrait_path
         from t_user
         where email = #{email}
     </select>
@@ -26,7 +40,14 @@
 
     <!-- User getUserByUsername(@Param("username") String username); -->
     <select id="getUserByUsername" resultType="User">
-        select *
+        select id,
+               username,
+               password,
+               email,
+               type,
+               status,
+               register_date,
+               portrait_path
         from t_user
         where username = #{username}
     </select>

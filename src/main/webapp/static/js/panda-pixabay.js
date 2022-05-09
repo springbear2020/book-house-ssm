@@ -55,7 +55,7 @@ $(function () {
             async: false,
             success: function (response) {
                 if (SUCCESS_CODE === response.code) {
-                    PIXABAY = response.resultMap.pixabayList[0];
+                    PIXABAY = response.resultMap.pixabay;
                     IMAGE = PIXABAY.url;
                 } else {
                     showNoticeModal(response.code, response.msg);

@@ -9,11 +9,9 @@
         VALUES (#{userId}, #{uploadId}, #{uploadTime}, #{url})
     </insert>
 
-    <!--    select * from t_upload where id >= (select floor(rand() * (select max(id) from t_upload))) LIMIT 5;-->
-
-    <!-- List<Background> getUserBackground(@Param("userId") Integer userId); -->
-    <select id="getUserBackground" resultType="Background">
-        select *
+    <!-- List<Background> getUserBackgroundsByUserId(@Param("userId") Integer userId); -->
+    <select id="getUserBackgroundsByUserId" resultType="Background">
+        select id, user_id, upload_id, upload_time, url
         from t_background
         where user_id = #{userId}
     </select>

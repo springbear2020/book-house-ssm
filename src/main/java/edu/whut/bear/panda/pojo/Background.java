@@ -1,6 +1,8 @@
 package edu.whut.bear.panda.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -15,6 +17,8 @@ public class Background {
     private Integer id;
     private Integer userId;
     private Integer uploadId;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date uploadTime;
     private String url;
 

@@ -19,15 +19,16 @@ public class User {
     public static final int USER_STATUS_NORMAL = 0;
     public static final int USER_STATUS_ABNORMAL = 1;
     public static final String DEFAULT_PORTRAIT_PATH = "static/img/portrait.png";
+    public static final String EMAIL_REG_EXP = "^([a-z0-9A-Z]+[-|.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
 
     private Integer id;
     private String username;
     private String password;
     private String email;
-    private Integer type = USER_TYPE_COMMON;
-    private Integer status = USER_STATUS_NORMAL;
+    private Integer type;
+    private Integer status;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date registerDate = new Date();
-    private String portraitPath = DEFAULT_PORTRAIT_PATH;
+    private Date registerDate;
+    private String portraitPath;
 }

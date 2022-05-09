@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface BackgroundMapper {
     /**
-     * Save background record to the database
+     * Save background record to the "t_background" table
      *
      * @param background Background
      * @return 1 - Save successfully
@@ -26,5 +26,5 @@ public interface BackgroundMapper {
      * @param userId Id of user
      * @return Background list or null
      */
-    List<Background> getUserBackground(@Param("userId") Integer userId);
+    List<Background> getUserBackgroundsByUserId(@Param("userId") Integer userId);
 }

@@ -11,6 +11,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper {
     /**
+     * Save user
+     *
+     * @param user User
+     * @return 1 - Save successfully
+     */
+    int saveUser(User user);
+
+    /**
      * Get user by username and password
      *
      * @param username Username
@@ -26,14 +34,6 @@ public interface UserMapper {
      * @return User or null
      */
     User getUserByEmail(@Param("email") String email);
-
-    /**
-     * Save user
-     *
-     * @param user User
-     * @return 1 - Save successfully
-     */
-    int saveUser(User user);
 
     /**
      * Get user by the username

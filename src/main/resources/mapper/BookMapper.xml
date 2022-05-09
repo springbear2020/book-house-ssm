@@ -10,11 +10,16 @@
                author,
                translator,
                downloads,
+               book_state,
+               book_upload_id,
+               cover_upload_id,
+               upload_user_id,
                upload_username,
                upload_time,
+               book_path,
                cover_path,
                comments
-        from v_book
+        from t_book
     </select>
 
     <!-- List<Book> getBooksByTitle(@Param("title") String title); -->
@@ -24,31 +29,49 @@
                author,
                translator,
                downloads,
+               book_state,
+               book_upload_id,
+               cover_upload_id,
+               upload_user_id,
                upload_username,
                upload_time,
+               book_path,
                cover_path,
                comments
-        from v_book
+        from t_book
         where title like '%${title}%'
     </select>
 
-    <!-- int getBookTotalCounts(); -->
-    <select id="getBookTotalCounts" resultType="java.lang.Integer">
-        select count(*)
+    <!-- int getBooksTotalCount(); -->
+    <select id="getBooksTotalCount" resultType="java.lang.Integer">
+        select count(id)
         from t_book
     </select>
 
     <!-- int saveBook(Book book); -->
     <insert id="saveBook">
-        insert into t_book(title, author, translator, downloads, collections, upload_user_id, upload_username,
-                           upload_time, book_state, book_path, cover_path, comments)
-        VALUES (#{title}, #{author}, #{translator}, #{downloads}, #{collections}, #{uploadUserId}, #{uploadUsername},
-                #{uploadTime}, #{bookState}, #{bookPath}, #{coverPath}, #{comments})
+        insert into t_book(title, author, translator, downloads, book_state, book_upload_id, cover_upload_id,
+                           upload_user_id, upload_username, upload_time, book_path, cover_path, comments)
+        VALUES (#{title}, #{author}, #{translator}, #{downloads}, #{bookState}, #{bookUploadId}, #{coverUploadId},
+                #{uploadUserId}, #{uploadUsername}, #{uploadTime}, #{bookPath}, #{coverPath}, #{comments})
     </insert>
 
     <!-- Book getBookById(@Param("id") Integer id); -->
     <select id="getBookById" resultType="Book">
-        select *
+        select id,
+               title,
+               author,
+               translator,
+               downloads,
+               book_state,
+               book_upload_id,
+               cover_upload_id,
+               upload_user_id,
+               upload_username,
+               upload_time,
+               book_path,
+               cover_path,
+               comments
         from t_book
         where id = #{id}
     </select>

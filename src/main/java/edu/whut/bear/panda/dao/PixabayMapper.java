@@ -13,13 +13,11 @@ import java.util.List;
 @Repository
 public interface PixabayMapper {
     /**
-     * Get the first pixabay picture info
+     * Get the first pixabay record in the "t_pixabay" table
      *
-     * @param position Start position
-     * @param offset   Offset
-     * @return Pixabay list or null
+     * @return Pixabay or null
      */
-    List<Pixabay> getPixabayByPositionAndOffset(@Param("position") Integer position, @Param("offset") Integer offset);
+    Pixabay getFirstPixabay();
 
     /**
      * Delete a pixabay picture by id

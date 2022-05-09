@@ -92,3 +92,7 @@ hr {
     background-color: #222222;
     border: none;
 }
+
+.form-inline {
+    margin-bottom: 20px;
+}
