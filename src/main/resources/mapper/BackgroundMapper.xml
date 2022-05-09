@@ -5,14 +5,29 @@
 <mapper namespace="edu.whut.bear.panda.dao.BackgroundMapper">
     <!-- int saveBackground(Background background); -->
     <insert id="saveBackground">
-        insert into t_background (user_id, upload_id, upload_time, url)
-        VALUES (#{userId}, #{uploadId}, #{uploadTime}, #{url})
+        insert into t_background (user_id, upload_id, upload_time, url, status)
+        VALUES (#{userId}, #{uploadId}, #{uploadTime}, #{url}, #{status})
     </insert>
 
     <!-- List<Background> getUserBackgroundsByUserId(@Param("userId") Integer userId); -->
     <select id="getUserBackgroundsByUserId" resultType="Background">
-        select id, user_id, upload_id, upload_time, url
+        select id, user_id, upload_id, upload_time, url, status
         from t_background
         where user_id = #{userId}
+          and status = 0;
     </select>
+
+    <!-- Background getBackgroundById(@Param("id") Integer id); -->
+    <select id="getBackgroundById" resultType="Background">
+        select id, user_id, upload_id, upload_time, url, status
+        from t_background
+        where id = #{id}
+    </select>
+
+    <!-- int updateBackgroundStatusById(@Param("id") Integer id, @Param("status") Integer status); -->
+    <update id="updateBackgroundStatusById">
+        update t_background
+        set status = #{status}
+        where id = #{id}
+    </update>
 </mapper>

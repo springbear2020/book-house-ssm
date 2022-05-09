@@ -53,4 +53,14 @@ public class PictureServiceImpl implements PictureService {
     public boolean insertPixabayThoughSpider(String params) {
         return spiderUtils.executeSpider(spiderUtils.getPixabaySpiderRealPath(), params);
     }
+
+    @Override
+    public Background getBackgroundById(Integer id) {
+        return backgroundMapper.getBackgroundById(id);
+    }
+
+    @Override
+    public boolean updateBackgroundStatus(Integer id, Integer status) {
+        return backgroundMapper.updateBackgroundStatusById(id, status) == 1;
+    }
 }

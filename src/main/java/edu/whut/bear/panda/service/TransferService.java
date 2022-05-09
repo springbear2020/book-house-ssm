@@ -24,4 +24,13 @@ public interface TransferService {
      * @return Private file download url
      */
     String getBookDownloadUrl(String key);
+
+    /**
+     * Delete a file by the key in the Qiniu cloud disk
+     *
+     * @param key  The key of the file
+     * @param type File type
+     * @return true - Delete successfully
+     */
+    boolean deleteFileByKey(String key, int type);
 }

@@ -27,4 +27,21 @@ public interface BackgroundMapper {
      * @return Background list or null
      */
     List<Background> getUserBackgroundsByUserId(@Param("userId") Integer userId);
+
+    /**
+     * Get a background record by id
+     *
+     * @param id Id of background
+     * @return Background or null
+     */
+    Background getBackgroundById(@Param("id") Integer id);
+
+    /**
+     * Update the status of the background record though id
+     *
+     * @param id     Id of background
+     * @param status The new status of the record you want to set
+     * @return 1 - Update successfully
+     */
+    int updateBackgroundStatusById(@Param("id") Integer id, @Param("status") Integer status);
 }

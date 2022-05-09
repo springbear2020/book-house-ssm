@@ -28,6 +28,17 @@ public class BackgroundMapperTest {
         background.setUploadId(2);
         background.setUploadTime(new Date());
         background.setUrl("http:");
+        background.setStatus(Background.STATUS_NORMAL);
         System.out.println(backgroundMapper.saveBackground(background));
+    }
+
+    @Test
+    public void getBackgroundById() {
+        System.out.println(backgroundMapper.getBackgroundById(3));
+    }
+
+    @Test
+    public void updateBackgroundStatusById() {
+        System.out.println(backgroundMapper.updateBackgroundStatusById(3, Background.STATUS_ABNORMAL));
     }
 }

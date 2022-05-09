@@ -1,5 +1,9 @@
 package edu.whut.bear.panda.service.impl;
 
+import com.qiniu.common.QiniuException;
+import com.qiniu.storage.BucketManager;
+import com.qiniu.storage.Configuration;
+import com.qiniu.storage.Region;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
 import edu.whut.bear.panda.pojo.Upload;
@@ -49,5 +53,22 @@ public class TransferServiceImpl implements TransferService {
         String publicUrl = String.format("%s%s", pandaUtils.getBookDomain(), encodedFileName);
         Auth auth = Auth.create(pandaUtils.getAccessKey(), pandaUtils.getSecretKey());
         return auth.privateDownloadUrl(publicUrl, 1800);
+    }
+
+    @Override
+    public boolean deleteFileByKey(String key, int type) {
+        // Get the bucket name by the file type
+        String bucket = Upload.TYPE_BOOK == type ? pandaUtils.getBookBucket() : pandaUtils.getImgBucket();
+        Configuration configuration = new Configuration(Region.region0());
+        Auth auth = Auth.create(pandaUtils.getAccessKey(), pandaUtils.getSecretKey());
+        BucketManager bucketManager = new BucketManager(auth, configuration);
+        try {
+            // Ignore the response message from qiniu server
+            bucketManager.delete(bucket, key);
+            return true;
+        } catch (QiniuException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

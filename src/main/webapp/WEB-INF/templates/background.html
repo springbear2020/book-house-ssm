@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="Picture page of the panda book house website">
+    <meta name="description" content="Background page">
     <meta name="author" content="Spring-_-Bear">
     <link rel="icon" th:href="@{/static/img/panda.png}">
 
@@ -87,6 +87,9 @@
         <!-- Right icon -->
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right text-center">
+                <!-- Delete current background -->
+                <li><a role="button" id="btn-background-delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></li>
+                <!-- Upload new background -->
                 <li><a role="button" id="btn-background-upload"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></a></li>
             </ul>
         </div>

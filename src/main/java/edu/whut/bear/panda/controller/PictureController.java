@@ -1,10 +1,9 @@
 package edu.whut.bear.panda.controller;
 
-import edu.whut.bear.panda.pojo.Background;
-import edu.whut.bear.panda.pojo.Pixabay;
-import edu.whut.bear.panda.pojo.Response;
-import edu.whut.bear.panda.pojo.User;
+import edu.whut.bear.panda.pojo.*;
 import edu.whut.bear.panda.service.PictureService;
+import edu.whut.bear.panda.service.TransferService;
+import edu.whut.bear.panda.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +18,8 @@ import java.util.List;
 public class PictureController {
     @Autowired
     private PictureService pictureService;
+    @Autowired
+    private TransferService transferService;
 
     @GetMapping("/pixabay/first")
     public Response getFirstPixabay() {
@@ -54,7 +55,7 @@ public class PictureController {
         }
         // Get new pixabay record data though python spider
         String params = condition + " " + pages;
-        if (!pictureService.insertPixabayThoughSpider(params)){
+        if (!pictureService.insertPixabayThoughSpider(params)) {
             return Response.danger("请求新增 Pixabay 数据失败");
         }
         return Response.success("Pixabay 已新增 " + pages * 20 + " 条记录");
@@ -71,5 +72,30 @@ public class PictureController {
             return Response.info("暂无您的个人背景图数据");
         }
         return Response.success("").put("backgroundList", backgroundList).put("length", backgroundList.size());
+    }
+
+    @DeleteMapping("/background/{id}")
+    public Response deleteOneBackgroundById(@PathVariable("id") Integer id, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return Response.info("请先登录您的账号");
+        }
+        Background background = pictureService.getBackgroundById(id);
+        if (background == null) {
+            return Response.danger("无此条背景图片记录信息");
+        }
+        // Update the background record status
+        if (!pictureService.updateBackgroundStatus(id, Background.STATUS_ABNORMAL)) {
+            return Response.danger("更新图片记录失败");
+        }
+        /*
+         * Delete the file in the Qiniu cloud
+         * String imgUrl = background.getUrl();
+         * String key = StringUtils.getContentAfterDomain(imgUrl);
+         * if (!transferService.deleteFileByKey(key, Upload.TYPE_IMAGE)) {
+         *    return Response.danger("背景图片文件删除失败");
+         * }
+         */
+        return Response.success("");
     }
 }

@@ -57,4 +57,21 @@ public interface PictureService {
      * @return true - Insert new record successfully
      */
     boolean insertPixabayThoughSpider(String params);
+
+    /**
+     * Get a background record by id
+     *
+     * @param id Id of background
+     * @return Background or null
+     */
+    Background getBackgroundById(Integer id);
+
+    /**
+     * Update the background record status
+     *
+     * @param id     Id of background
+     * @param status New status of the background status
+     * @return true - Update successfully
+     */
+    boolean updateBackgroundStatus(Integer id, Integer status);
 }

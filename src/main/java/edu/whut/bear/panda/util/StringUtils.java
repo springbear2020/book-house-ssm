@@ -14,4 +14,11 @@ public class StringUtils {
     public static String trimAllBlank(String srcString) {
         return srcString.replaceAll("\\s*", "");
     }
+
+    public static String getContentAfterDomain(String url) {
+        for(int i = 0; i < 3; i++){
+            url = url.substring(url.indexOf("/")+1 );
+        }
+        return url;
+    }
 }

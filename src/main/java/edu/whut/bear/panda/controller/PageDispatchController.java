@@ -62,4 +62,13 @@ public class PageDispatchController {
         }
         return "admin";
     }
+
+    @GetMapping("/history")
+    public String history(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/";
+        }
+        return "history";
+    }
 }

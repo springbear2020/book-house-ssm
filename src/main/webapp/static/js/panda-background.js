@@ -33,6 +33,7 @@ $(function () {
 
     /* ============================================== Show background =============================================== */
     var SENTENCE;
+    // Get a hitokoto sentence from the hitokoto.cn
     var getHitokoto = function () {
         $.ajax({
             url: 'https://v1.hitokoto.cn',
@@ -48,6 +49,20 @@ $(function () {
     // Get user all background pictures data
     var BACKGROUND_LIST;
     var LIST_LENGTH = 0;
+    var BACKGROUND_ID;
+
+    // Generate a random number in bound
+    var randomNumberInBound = function (min, max) {
+        // The border is [min,max)
+        var range = max - min;
+        var rand = Math.random();
+        var num = min + Math.floor(rand * range);
+        return num;
+    }
+
+    /*
+     * After page loaded successfully, get user personal background data
+     */
     $.ajax({
         url: contextPath + "background/all",
         type: "get",
@@ -66,19 +81,13 @@ $(function () {
         }
     })
 
-    var randomNumberInBound = function (min, max) {
-        // The border is [min,max)
-        var range = max - min;
-        var rand = Math.random();
-        var num = min + Math.floor(rand * range);
-        return num;
-    }
-
+    // Get the background url
     var getImage = function () {
         if (LIST_LENGTH <= 0) {
             return "";
         }
         var num = randomNumberInBound(0, parseInt(LIST_LENGTH));
+        BACKGROUND_ID = BACKGROUND_LIST[num].id;
         return BACKGROUND_LIST[num].url;
     };
 
@@ -212,6 +221,28 @@ $(function () {
             },
             error: function () {
                 showNoticeModal(DANGER_CODE, "请求上传背景图片文件失败");
+            }
+        })
+    });
+
+    /* ================================================ Background delete =========================================== */
+    $("#btn-background-delete").click(function () {
+        // Send a request to server for delete a background record and delete the file in Qiniu cloud
+        $.ajax({
+            url: contextPath + "background/" + BACKGROUND_ID,
+            type: "post",
+            data: "_method=delete",
+            dataType: "json",
+            success: function (response) {
+                if (SUCCESS_CODE === response.code) {
+                    // Refresh the page
+                    location.href = contextPath + "background";
+                } else {
+                    showNoticeModal(response.code, response.msg);
+                }
+            },
+            error: function () {
+                showNoticeModal(DANGER_CODE, "请求删除背景图片失败");
             }
         })
     });

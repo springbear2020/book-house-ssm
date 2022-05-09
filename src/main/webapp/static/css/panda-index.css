@@ -96,3 +96,7 @@ hr {
 .form-inline {
     margin-bottom: 20px;
 }
+
+.dropdown-menu li {
+    text-align: center;
+}

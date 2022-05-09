@@ -6,6 +6,7 @@ import edu.whut.bear.panda.service.PictureService;
 import edu.whut.bear.panda.service.RecordService;
 import edu.whut.bear.panda.service.TransferService;
 import edu.whut.bear.panda.util.DateUtils;
+import edu.whut.bear.panda.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,7 +75,7 @@ public class TransferController {
         if (!recordService.saveUpload(upload)) {
             return Response.danger("图片上传记录保存失败");
         }
-        if (type == Upload.TYPE_IMAGE_BACKGROUND && !pictureService.saveBackground(new Background(null, user.getId(), upload.getId(), new Date(), token[0] + key))) {
+        if (type == Upload.TYPE_IMAGE_BACKGROUND && !pictureService.saveBackground(new Background(null, user.getId(), upload.getId(), new Date(), token[0] + key, Background.STATUS_NORMAL))) {
             return Response.danger("背景上传记录保存失败");
         }
         return Response.success("").put("key", key).put("token", token[2]).put("imgPath", token[0] + key).put("imageUploadId", upload.getId());
@@ -91,7 +92,7 @@ public class TransferController {
             return Response.info("图书资源不存在");
         }
         String bookPath = book.getBookPath();
-        String key = bookPath.substring(bookPath.lastIndexOf('/') + 1);
+        String key = StringUtils.getContentAfterDomain(bookPath);
         // Get a private download url of the book file
         return Response.success("").put("downloadUrl", transferService.getBookDownloadUrl(key));
     }
