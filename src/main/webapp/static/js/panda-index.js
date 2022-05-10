@@ -73,7 +73,7 @@ $(function () {
             backdrop: "static"
         })
     });
-    
+
     // Verify login username format
     var verify_login_username_format = function () {
         var $usernameObj = $("#input-login-username");
@@ -86,7 +86,7 @@ $(function () {
             return true;
         }
     };
-    
+
     // Verify login password format
     var verify_login_password_format = function () {
         var $passwordObj = $("#input-login-password");

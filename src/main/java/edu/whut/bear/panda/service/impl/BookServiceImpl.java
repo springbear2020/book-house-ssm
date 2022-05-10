@@ -36,14 +36,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public int getTotalPages() {
-        int totalCounts = bookMapper.getBooksTotalCount();
-        int pages = totalCounts / pandaUtils.getPageSize();
-        pages = totalCounts % pandaUtils.getPageSize() == 0 ? pages : pages + 1;
-        return pages;
-    }
-
-    @Override
     public boolean saveBook(Book book) {
         return bookMapper.saveBook(book) == 1;
     }

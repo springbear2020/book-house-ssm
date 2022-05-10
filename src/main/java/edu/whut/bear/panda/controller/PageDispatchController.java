@@ -54,13 +54,13 @@ public class PageDispatchController {
         return "book_add";
     }
 
-    @GetMapping("/admin")
-    public String admin(HttpSession session) {
+    @GetMapping("/poem")
+    public String poem(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/";
         }
-        return "admin";
+        return "poem";
     }
 
     @GetMapping("/history")
@@ -70,5 +70,14 @@ public class PageDispatchController {
             return "redirect:/";
         }
         return "history";
+    }
+
+    @GetMapping("/admin")
+    public String admin(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/";
+        }
+        return "admin";
     }
 }

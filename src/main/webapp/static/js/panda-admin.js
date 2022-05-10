@@ -31,27 +31,6 @@ $(function () {
         $("#div-notice-modal").modal('show');
     };
 
-    /* =================================================== Show hitokoto ============================================ */
-    var SENTENCE;
-    var getHitokoto = function () {
-        $.ajax({
-            url: 'https://v1.hitokoto.cn',
-            dataType: 'json',
-            async: false,
-            success(response) {
-                SENTENCE = response.hitokoto;
-            }
-        })
-        return SENTENCE;
-    };
-
-    // After page loaded, get the first sentence at first
-    $(".lead").text(getHitokoto());
-
-    setInterval(function () {
-        $(".lead").text(getHitokoto());
-    }, 6000);
-
     /* ====================================================== Login =============================================== */
     // Validation type
     var STATUS_SUCCESS = "success";

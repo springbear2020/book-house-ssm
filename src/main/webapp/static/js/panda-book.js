@@ -153,7 +153,6 @@ $(function () {
         } else {
             $last_page_a.attr("style", "background-color: #eee");
         }
-        // TODO Resolve the problem that the page nav can not display in one line at phone equipment
         // Deal with the nex page link click event
         if (response.resultMap.bookPageData.hasNextPage) {
             $next_page_a.attr("role", "button").attr("id", "link-next-page");

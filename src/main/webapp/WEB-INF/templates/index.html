@@ -159,7 +159,7 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="navbar-brand">
-                <a th:href="@{/}"><img alt="Panda" th:src="@{/static/img/panda.png}" height="40px" width="40px"></a>
+                <a th:href="@{/about}"><img alt="Panda" th:src="@{/static/img/panda.png}" height="40px" width="40px"></a>
             </div>
         </div>
         <!-- Right icon -->
@@ -167,20 +167,6 @@
             <ul class="nav navbar-nav navbar-right text-center">
                 <li class="nav-item"><a role="button" id="link-login">登录</a></li>
                 <li class="nav-item"><a role="button" id="link-register">注册</a></li>
-                <li class="nav-item"><a role="button">关于</a></li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">友链 <span class="caret"></span></a>
-                    <ul class="dropdown-menu" >
-                        <li><a href="https://pixabay.com/" target="_blank">Pixabay</a></li>
-                        <li><a href="https://v3.bootcss.com/" target="_blank">Bootstrap</a></li>
-                        <li><a href="https://www.glyphicons.com/" target="_blank">Glyphicons</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="https://hitokoto.cn/" target="_blank">一言</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="https://www.qiniu.com/" target="_blank">七牛云</a></li>
-                        <li><a href="https://cloud.tencent.com/" target="_blank">腾讯云</a></li>
-                    </ul>
-                </li>
             </ul>
         </div>
     </div><!-- /END THE NAVBAR-->
@@ -205,6 +191,25 @@
 <!-- Footer -->
 <footer class="footer">
     <p>&copy; 2022 Spring-_-Bear</p>
+    <p id="runtime_span"></p>
+    <!-- Set run time of the website -->
+    <script type="text/javascript">function show_runtime() {
+        window.setTimeout("show_runtime()", 1000);
+        X = new Date("05/10/2022 00:00:00");
+        Y = new Date();
+        T = (Y.getTime() - X.getTime());
+        M = 24 * 60 * 60 * 1000;
+        a = T / M;
+        A = Math.floor(a);
+        b = (a - A) * 24;
+        B = Math.floor(b);
+        c = (b - B) * 60;
+        C = Math.floor((b - B) * 60);
+        D = Math.floor((c - C) * 60);
+        runtime_span.innerHTML =A + " 天 " + B + " 时 " + C + " 分 " + D + " 秒"
+    }
+    show_runtime();
+    </script>
 </footer>
 
 <!-- Bootstrap core JavaScript

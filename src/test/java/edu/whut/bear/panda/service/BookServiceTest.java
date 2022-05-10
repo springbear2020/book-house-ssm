@@ -25,9 +25,4 @@ public class BookServiceTest {
         PageInfo<Book> bookPageData = bookService.getBookPageData("", 1);
         System.out.println(bookPageData);
     }
-
-    @Test
-    public void getTotalPages() {
-        System.out.println(bookService.getTotalPages());
-    }
 }

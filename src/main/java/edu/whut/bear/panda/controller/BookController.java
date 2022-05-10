@@ -33,12 +33,6 @@ public class BookController {
         // Trim the blank in the title entered by user
         title = StringUtils.trimAllBlank(title);
 
-        // If the page number is wrong, get the first page data by default
-        int maxPageNum = bookService.getTotalPages();
-        if (pageNum == null || pageNum <= 0 || pageNum > maxPageNum) {
-            pageNum = 1;
-        }
-
         PageInfo<Book> bookPageInfo = bookService.getBookPageData(title, pageNum);
         // No book data queried
         if (bookPageInfo == null || bookPageInfo.getList() == null || bookPageInfo.getList().size() == 0) {

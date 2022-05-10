@@ -32,9 +32,6 @@ public class RecordController {
         if (!(Record.TYPE_UPLOAD == type || Record.TYPE_DOWNLOAD == type)) {
             return Response.danger("请求操作记录类型不正确");
         }
-        if (pageNum == null || pageNum <= 0) {
-            pageNum = 1;
-        }
         PageInfo<Record> recordPageData = recordService.getRecordPageData(user.getId(), type, pageNum);
         if (recordPageData == null || recordPageData.getList() == null || recordPageData.getList().size() == 0) {
             return Response.info("暂无您的个人记录");
@@ -47,10 +44,6 @@ public class RecordController {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return Response.info("请先登录您的账号");
-        }
-        // TODO judge the correctness of the page number
-        if (pageNum == null || pageNum <= 0) {
-            pageNum = 1;
         }
         PageInfo<Login> loginPageData = recordService.getLoginPageData(user.getId(), pageNum);
         if (loginPageData == null || loginPageData.getList() == null || loginPageData.getList().size() == 0) {
