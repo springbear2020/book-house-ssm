@@ -805,369 +805,469 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     <user id="233" parent="1" name="root">
       <Host>localhost</Host>
     </user>
-    <table id="234" parent="4" name="t_admin"/>
-    <table id="235" parent="4" name="t_background"/>
-    <table id="236" parent="4" name="t_book"/>
-    <table id="237" parent="4" name="t_pixabay"/>
-    <table id="238" parent="4" name="t_upload"/>
-    <table id="239" parent="4" name="t_user"/>
-    <column id="240" parent="234" name="id">
+    <table id="234" parent="4" name="log_login"/>
+    <table id="235" parent="4" name="t_admin"/>
+    <table id="236" parent="4" name="t_background"/>
+    <table id="237" parent="4" name="t_book"/>
+    <table id="238" parent="4" name="t_pixabay"/>
+    <table id="239" parent="4" name="t_record"/>
+    <table id="240" parent="4" name="t_upload"/>
+    <table id="241" parent="4" name="t_user"/>
+    <column id="242" parent="234" name="id">
+      <Position>1</Position>
+      <Comment>登录日志 id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="243" parent="234" name="user_id">
+      <Position>2</Position>
+      <Comment>用户 id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="244" parent="234" name="username">
+      <Position>3</Position>
+      <Comment>用户名</Comment>
+      <DataType>varchar(32)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="245" parent="234" name="ip">
+      <Position>4</Position>
+      <Comment>登录 ip</Comment>
+      <DataType>char(15)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="246" parent="234" name="location">
+      <Position>5</Position>
+      <Comment>登录位置</Comment>
+      <DataType>varchar(512)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="247" parent="234" name="time">
+      <Position>6</Position>
+      <Comment>登录时间</Comment>
+      <DataType>timestamp|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+      <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
+    </column>
+    <key id="248" parent="234" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="249" parent="235" name="id">
       <Position>1</Position>
       <Comment>管理员 id</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="241" parent="234" name="username">
+    <column id="250" parent="235" name="username">
       <Position>2</Position>
       <Comment>管理员用户名</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="242" parent="234" name="password">
+    <column id="251" parent="235" name="password">
       <Position>3</Position>
       <Comment>管理员密码</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="243" parent="234" name="status">
+    <column id="252" parent="235" name="status">
       <Position>4</Position>
       <Comment>管理员状态（正常、异常）</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="244" parent="234" name="register_date">
+    <column id="253" parent="235" name="register_date">
       <Position>5</Position>
       <Comment>注册日期</Comment>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="245" parent="234" name="PRIMARY">
+    <key id="254" parent="235" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="246" parent="235" name="id">
+    <column id="255" parent="236" name="id">
       <Position>1</Position>
       <Comment>背景 id</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="247" parent="235" name="user_id">
+    <column id="256" parent="236" name="user_id">
       <Position>2</Position>
       <Comment>用户 id（外键约束于 t_user）</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="248" parent="235" name="upload_id">
+    <column id="257" parent="236" name="upload_id">
       <Position>3</Position>
       <Comment>上传记录 id（外键约束于 t_upload）</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="249" parent="235" name="upload_time">
+    <column id="258" parent="236" name="status">
       <Position>4</Position>
-      <Comment>添加时间</Comment>
-      <DataType>date|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="250" parent="235" name="url">
-      <Position>5</Position>
-      <Comment>访问地址 url</Comment>
-      <DataType>varchar(512)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="251" parent="235" name="status">
-      <Position>6</Position>
       <Comment>记录状态（正常、异常）</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="252" parent="235" name="PRIMARY">
+    <column id="259" parent="236" name="upload_time">
+      <Position>5</Position>
+      <Comment>添加时间</Comment>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="260" parent="236" name="url">
+      <Position>6</Position>
+      <Comment>访问地址 url</Comment>
+      <DataType>varchar(512)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="261" parent="236" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="253" parent="236" name="id">
+    <column id="262" parent="237" name="id">
       <Position>1</Position>
       <Comment>图书 id</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="254" parent="236" name="title">
+    <column id="263" parent="237" name="title">
       <Position>2</Position>
       <Comment>书名</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="255" parent="236" name="author">
+    <column id="264" parent="237" name="author">
       <Position>3</Position>
       <Comment>作者</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="256" parent="236" name="translator">
+    <column id="265" parent="237" name="translator">
       <Position>4</Position>
       <Comment>译者</Comment>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="257" parent="236" name="downloads">
+    <column id="266" parent="237" name="downloads">
       <Position>5</Position>
       <Comment>下载量</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="258" parent="236" name="book_state">
+    <column id="267" parent="237" name="book_state">
       <Position>6</Position>
       <Comment>图书状态（上架、下架、待处理）</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="259" parent="236" name="book_upload_id">
+    <column id="268" parent="237" name="book_upload_id">
       <Position>7</Position>
       <Comment>图书上传记录 id</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="260" parent="236" name="cover_upload_id">
+    <column id="269" parent="237" name="cover_upload_id">
       <Position>8</Position>
       <Comment>封面上传记录 id</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="261" parent="236" name="upload_user_id">
+    <column id="270" parent="237" name="upload_user_id">
       <Position>9</Position>
       <Comment>上传用户 id</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="262" parent="236" name="upload_username">
+    <column id="271" parent="237" name="upload_username">
       <Position>10</Position>
       <Comment>上传用户名</Comment>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="263" parent="236" name="upload_time">
+    <column id="272" parent="237" name="upload_time">
       <Position>11</Position>
       <Comment>上传时间</Comment>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="264" parent="236" name="book_path">
+    <column id="273" parent="237" name="book_path">
       <Position>12</Position>
       <Comment>图书保存路径</Comment>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="265" parent="236" name="cover_path">
+    <column id="274" parent="237" name="cover_path">
       <Position>13</Position>
       <Comment>封面保存路径</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="266" parent="236" name="comments">
+    <column id="275" parent="237" name="comments">
       <Position>14</Position>
       <Comment>图书评价</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="267" parent="236" name="PRIMARY">
+    <key id="276" parent="237" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="268" parent="237" name="id">
+    <column id="277" parent="238" name="id">
       <Position>1</Position>
       <Comment>图片 id</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="269" parent="237" name="condition">
+    <column id="278" parent="238" name="condition">
       <Position>2</Position>
       <Comment>检索条件</Comment>
       <DataType>varchar(64)|0s</DataType>
     </column>
-    <column id="270" parent="237" name="tags">
+    <column id="279" parent="238" name="tags">
       <Position>3</Position>
       <Comment>标签</Comment>
       <DataType>varchar(64)|0s</DataType>
     </column>
-    <column id="271" parent="237" name="views">
+    <column id="280" parent="238" name="views">
       <Position>4</Position>
       <Comment>浏览量</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="272" parent="237" name="downloads">
+    <column id="281" parent="238" name="downloads">
       <Position>5</Position>
       <Comment>下载量</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="273" parent="237" name="collections">
+    <column id="282" parent="238" name="collections">
       <Position>6</Position>
       <Comment>收藏量</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="274" parent="237" name="likes">
+    <column id="283" parent="238" name="likes">
       <Position>7</Position>
       <Comment>点赞量</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="275" parent="237" name="comments">
+    <column id="284" parent="238" name="comments">
       <Position>8</Position>
       <Comment>评论量</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="276" parent="237" name="add_time">
+    <column id="285" parent="238" name="add_time">
       <Position>9</Position>
       <Comment>添加时间</Comment>
       <DataType>date|0s</DataType>
     </column>
-    <column id="277" parent="237" name="url">
+    <column id="286" parent="238" name="url">
       <Position>10</Position>
       <Comment>图片访问地址</Comment>
       <DataType>varchar(512)|0s</DataType>
     </column>
-    <key id="278" parent="237" name="PRIMARY">
+    <key id="287" parent="238" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="279" parent="238" name="id">
+    <column id="288" parent="239" name="id">
+      <Position>1</Position>
+      <Comment>记录 id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="289" parent="239" name="user_id">
+      <Position>2</Position>
+      <Comment>用户 id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="290" parent="239" name="book_id">
+      <Position>3</Position>
+      <Comment>图书 id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="291" parent="239" name="type">
+      <Position>4</Position>
+      <Comment>记录类型（上传图书、下载图书）</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="292" parent="239" name="status">
+      <Position>5</Position>
+      <Comment>记录状态</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="293" parent="239" name="time">
+      <Position>6</Position>
+      <Comment>操作时间</Comment>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="294" parent="239" name="title">
+      <Position>7</Position>
+      <Comment>书名</Comment>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="295" parent="239" name="author">
+      <Position>8</Position>
+      <Comment>作者</Comment>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="296" parent="239" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="297" parent="240" name="id">
       <Position>1</Position>
       <Comment>上传记录 id</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="280" parent="238" name="user_id">
+    <column id="298" parent="240" name="user_id">
       <Position>2</Position>
       <Comment>用户 id</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="281" parent="238" name="user_type">
+    <column id="299" parent="240" name="user_type">
       <Position>3</Position>
       <Comment>用户类型（普通用户、管理员）</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="282" parent="238" name="username">
+    <column id="300" parent="240" name="username">
       <Position>4</Position>
       <Comment>用户名</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="283" parent="238" name="type">
+    <column id="301" parent="240" name="type">
       <Position>5</Position>
       <Comment>上传记录类型（图书、封面、头像、背景）</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="284" parent="238" name="status">
+    <column id="302" parent="240" name="status">
       <Position>6</Position>
       <Comment>上传记录状态（已处理、未处理）</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="285" parent="238" name="upload_time">
+    <column id="303" parent="240" name="upload_time">
       <Position>7</Position>
       <Comment>上传时间</Comment>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="286" parent="238" name="bucket">
+    <column id="304" parent="240" name="bucket">
       <Position>8</Position>
       <Comment>资源所在空间名</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="287" parent="238" name="domain">
+    <column id="305" parent="240" name="domain">
       <Position>9</Position>
       <Comment>资源访问域名</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="288" parent="238" name="key">
+    <column id="306" parent="240" name="key">
       <Position>10</Position>
       <Comment>资源保存路径</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="289" parent="238" name="PRIMARY">
+    <key id="307" parent="240" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="290" parent="239" name="id">
+    <column id="308" parent="241" name="id">
       <Position>1</Position>
       <Comment>用户 id</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="291" parent="239" name="username">
+    <column id="309" parent="241" name="username">
       <Position>2</Position>
       <Comment>用户名</Comment>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="292" parent="239" name="password">
+    <column id="310" parent="241" name="password">
       <Position>3</Position>
       <Comment>密码</Comment>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="293" parent="239" name="email">
+    <column id="311" parent="241" name="email">
       <Position>4</Position>
       <Comment>邮箱地址</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="294" parent="239" name="type">
+    <column id="312" parent="241" name="type">
       <Position>5</Position>
       <Comment>用户类型（普通用户、管理员）</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="295" parent="239" name="status">
+    <column id="313" parent="241" name="status">
       <Position>6</Position>
       <Comment>用户状态（正常、异常）</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="296" parent="239" name="register_date">
+    <column id="314" parent="241" name="register_date">
       <Position>7</Position>
       <Comment>注册时间</Comment>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="297" parent="239" name="portrait_path">
+    <column id="315" parent="241" name="portrait_path">
       <Position>8</Position>
       <Comment>头像保存路径</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="298" parent="239" name="uniq_user_username">
+    <index id="316" parent="241" name="uniq_user_username">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="299" parent="239" name="uniq_user_email">
+    <index id="317" parent="241" name="uniq_user_email">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="300" parent="239" name="PRIMARY">
+    <key id="318" parent="241" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="301" parent="239" name="uniq_user_username">
+    <key id="319" parent="241" name="uniq_user_username">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>uniq_user_username</UnderlyingIndexName>
     </key>
-    <key id="302" parent="239" name="uniq_user_email">
+    <key id="320" parent="241" name="uniq_user_email">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>uniq_user_email</UnderlyingIndexName>
     </key>

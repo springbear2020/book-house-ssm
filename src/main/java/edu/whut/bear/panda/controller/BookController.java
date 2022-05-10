@@ -2,9 +2,11 @@ package edu.whut.bear.panda.controller;
 
 import com.github.pagehelper.PageInfo;
 import edu.whut.bear.panda.pojo.Book;
+import edu.whut.bear.panda.pojo.Record;
 import edu.whut.bear.panda.pojo.Response;
 import edu.whut.bear.panda.pojo.User;
 import edu.whut.bear.panda.service.BookService;
+import edu.whut.bear.panda.service.RecordService;
 import edu.whut.bear.panda.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,8 @@ import java.util.Date;
 public class BookController {
     @Autowired
     private BookService bookService;
+    @Autowired
+    private RecordService recordService;
 
     @GetMapping("/book/{pageNum}")
     public Response getBookPageData(@RequestParam("title") String title, @PathVariable("pageNum") Integer pageNum) {
@@ -58,6 +62,10 @@ public class BookController {
         book.setComments(StringUtils.trimAllBlank(book.getComments()));
         if (!bookService.saveBook(book)) {
             return Response.danger("图书记录保存失败");
+        }
+        Record record = new Record(null, user.getId(), book.getId(), Record.TYPE_UPLOAD, Record.STATUS_NORMAL, new Date(), book.getTitle(), book.getAuthor());
+        if (!recordService.saveRecord(record)) {
+            return Response.danger("图书上传记录保存失败");
         }
         return Response.success("图书保存成功，感谢您的共享");
     }

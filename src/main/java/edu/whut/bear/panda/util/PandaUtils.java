@@ -22,6 +22,10 @@ public class PandaUtils {
     private Integer pageSize;
     @Value("${panda.bookNavigationPages}")
     private Integer bookNavigationPages;
+    @Value("${panda.recordPageSize}")
+    private Integer recordPageSize;
+    @Value("${panda.recordNavigationPages}")
+    private Integer recordNavigationPages;
 
     /**
      * Qiniu config data

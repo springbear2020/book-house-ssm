@@ -69,7 +69,7 @@ $(function () {
             $translator_p.append($translator_strong).append($translator_span);
             $book_Info_parent.append($translator_p);
             // Build the downloads element <p></p>
-            var $download_strong = $("<strong></strong>").append("下&nbsp;&nbsp;载&nbsp;&nbsp;量：");
+            var $download_strong = $("<strong></strong>").append("点&nbsp;&nbsp;击&nbsp;&nbsp;量：");
             var $download_span = $("<span></span>").append(item.downloads);
             var $download_p = $("<p></p>").addClass("lead");
             $download_p.append($download_strong).append($download_span);
@@ -108,7 +108,6 @@ $(function () {
             var $parent = $("<div></div>").addClass("row featurette");
             $parent.append($book_Info_parent).append($cover_parent).appendTo($divBookInfo);
             isCoverLeft = !isCoverLeft;
-
             // Book download click event
             $downloadLink.click(function () {
                 downloadBook(item.id);
@@ -135,10 +134,10 @@ $(function () {
         var $cur_page_li = $("<li></li>").append($cur_page_a);
         $ul_page_parent_1.append($cur_page_li);
         // Build the total record counts
-        var $total_counts_span = $("<span></span>").append(response.resultMap.bookPageData.total);
-        var $total_counts_a = $("<a></a>").append("共 ").append($total_counts_span).append(" 条").attr("style", "background-color: #eee");
-        var $total_counts_li = $("<li></li>").append($total_counts_a);
-        $ul_page_parent_1.append($total_counts_li);
+        // var $total_counts_span = $("<span></span>").append(response.resultMap.bookPageData.total);
+        // var $total_counts_a = $("<a></a>").append("共 ").append($total_counts_span).append(" 条").attr("style", "background-color: #eee");
+        // var $total_counts_li = $("<li></li>").append($total_counts_a);
+        // $ul_page_parent_1.append($total_counts_li);
         // Build the next page
         var $next_page_span = $("<span></span>").addClass("glyphicon glyphicon-chevron-right").attr("aria-hidden", "true");
         var $next_page_a = $("<a></a>").append("下一页").append($next_page_span);
@@ -154,6 +153,7 @@ $(function () {
         } else {
             $last_page_a.attr("style", "background-color: #eee");
         }
+        // TODO Resolve the problem that the page nav can not display in one line at phone equipment
         // Deal with the nex page link click event
         if (response.resultMap.bookPageData.hasNextPage) {
             $next_page_a.attr("role", "button").attr("id", "link-next-page");
@@ -222,7 +222,12 @@ $(function () {
             success: function (response) {
                 if (SUCCESS_CODE === response.code) {
                     // Go to download book
-                    window.open(response.resultMap.downloadUrl);
+                    var downloadUrl = response.resultMap.downloadUrl;
+                    if (downloadUrl.length <= 0) {
+                        showNoticeModal(WARNING_CODE, "暂无该图书资源");
+                    } else {
+                        window.open(downloadUrl);
+                    }
                 } else if (INFO_CODE === response.code) {
                     $("#modal-login").modal({backdrop: "static"});
                 } else {

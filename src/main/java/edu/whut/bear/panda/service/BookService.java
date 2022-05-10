@@ -13,8 +13,8 @@ public interface BookService {
     /**
      * Get a book page data randomly
      *
-     * @param title           The title of the book which user want to search
-     * @param pageNum         The page num
+     * @param title   The title of the book which user want to search
+     * @param pageNum The page num
      * @return Book page info
      */
     PageInfo<Book> getBookPageData(String title, Integer pageNum);
@@ -41,4 +41,12 @@ public interface BookService {
      * @return Book or null
      */
     Book getBookById(Integer id);
+
+    /**
+     * Increase the book downloads(default increase one)
+     *
+     * @param id Id of book
+     * @return true - Increase successfully
+     */
+    boolean increaseBookDownloads(Integer id);
 }

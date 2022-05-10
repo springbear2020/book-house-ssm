@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.whut.bear.panda.dao.LoginMapper">
+    <!-- int saveLoginLog(Login login); -->
+    <insert id="saveLoginLog">
+        insert into log_login (user_id, username, ip, location, time)
+        VALUES (#{userId}, #{username}, #{ip}, #{location}, #{time})
+    </insert>
+
+    <!-- List<Login> getLoginLogByUserId(@Param("userId") Integer userId); -->
+    <select id="getLoginLogByUserId" resultType="Login">
+        select id, user_id, username, ip, location, time
+        from log_login
+        where user_id = #{userId}
+    </select>
+</mapper>

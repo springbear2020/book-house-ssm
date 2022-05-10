@@ -37,4 +37,9 @@ public class BookMapperTest {
         String bookPath = book.getBookPath();
         System.out.println(bookPath);
     }
+
+    @Test
+    public void bookDownloadsIncreaseOne() {
+        System.out.println(bookMapper.bookDownloadsIncreaseOne(2));
+    }
 }

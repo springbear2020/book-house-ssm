@@ -88,11 +88,21 @@ public class TransferController {
             return Response.info("请先登录您的账号");
         }
         Book book = bookService.getBookById(id);
-        if (book == null || book.getBookPath() == null || book.getBookPath().length() == 0) {
-            return Response.info("图书资源不存在");
+        // Update book downloads, display the downloads as clicked amounts actually
+        if (!bookService.increaseBookDownloads(book.getId())) {
+            return Response.danger("图书下载量自增 1 失败");
+        }
+        // Empty book download url
+        if (book.getBookPath() == null || book.getBookPath().length() == 0) {
+            return Response.danger("暂无该图书资源");
         }
         String bookPath = book.getBookPath();
         String key = StringUtils.getContentAfterDomain(bookPath);
+        // Save user book download record
+        Record record = new Record(null, user.getId(), book.getId(), Record.TYPE_DOWNLOAD, Record.STATUS_NORMAL, new Date(), book.getTitle(), book.getAuthor());
+        if (!recordService.saveRecord(record)) {
+            return Response.danger("图书下载记录保存失败");
+        }
         // Get a private download url of the book file
         return Response.success("").put("downloadUrl", transferService.getBookDownloadUrl(key));
     }

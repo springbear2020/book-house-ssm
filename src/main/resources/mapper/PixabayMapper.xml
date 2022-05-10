@@ -16,7 +16,7 @@
                add_time,
                url
         from t_pixabay
-        LIMIT 1;
+        LIMIT 1
     </select>
 
     <!-- int deletePixabayById(@Param("id") Integer id); -->

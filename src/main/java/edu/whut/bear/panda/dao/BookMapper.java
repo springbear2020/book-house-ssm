@@ -49,4 +49,12 @@ public interface BookMapper {
      * @return Book or null
      */
     Book getBookById(@Param("id") Integer id);
+
+    /**
+     * Increase the book's downloads by one
+     *
+     * @param id Id of book
+     * @return 1 - Increase successfully
+     */
+    int bookDownloadsIncreaseOne(@Param("id") Integer id);
 }

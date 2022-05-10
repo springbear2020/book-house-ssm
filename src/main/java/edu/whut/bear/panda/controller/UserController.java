@@ -1,13 +1,17 @@
 package edu.whut.bear.panda.controller;
 
 import edu.whut.bear.panda.pojo.Admin;
+import edu.whut.bear.panda.pojo.Login;
 import edu.whut.bear.panda.pojo.Response;
 import edu.whut.bear.panda.pojo.User;
+import edu.whut.bear.panda.service.RecordService;
 import edu.whut.bear.panda.service.UserService;
 import edu.whut.bear.panda.util.StringUtils;
+import edu.whut.bear.panda.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
@@ -19,9 +23,11 @@ import java.util.Date;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RecordService recordService;
 
     @GetMapping("/user/{username}/{password}")
-    public Response login(@PathVariable("username") String username, @PathVariable("password") String password, HttpSession session) {
+    public Response login(@PathVariable("username") String username, @PathVariable("password") String password, HttpServletRequest request) {
         // Empty username or password parameters
         if (username == null || username.length() == 0 || password == null || password.length() == 0) {
             return Response.info("用户名或密码不能为空");
@@ -36,7 +42,12 @@ public class UserController {
         if (User.USER_STATUS_ABNORMAL == user.getStatus()) {
             return Response.danger("账号状态异常，暂时不能登录");
         }
-        session.setAttribute("user", user);
+        String ip = WebUtils.getIpAddress(request);
+        Login login = new Login(null, user.getId(), user.getUsername(), ip, "未知地点", new Date());
+        if (!recordService.saveLoginLog(login)) {
+            return Response.danger("登录记录保存失败");
+        }
+        request.getSession().setAttribute("user", user);
         return Response.success("");
     }
 

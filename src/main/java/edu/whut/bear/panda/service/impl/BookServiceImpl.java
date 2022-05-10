@@ -52,4 +52,9 @@ public class BookServiceImpl implements BookService {
     public Book getBookById(Integer id) {
         return bookMapper.getBookById(id);
     }
+
+    @Override
+    public boolean increaseBookDownloads(Integer id) {
+        return bookMapper.bookDownloadsIncreaseOne(id) == 1;
+    }
 }
