@@ -43,7 +43,12 @@ public class UserController {
             return Response.danger("账号状态异常，暂时不能登录");
         }
         String ip = WebUtils.getIpAddress(request);
-        Login login = new Login(null, user.getId(), user.getUsername(), ip, "未知地点", new Date());
+        String location = "未知地点";
+        String parseIp = WebUtils.parseIp(ip);
+        if (parseIp != null) {
+            location = parseIp;
+        }
+        Login login = new Login(null, user.getId(), user.getUsername(), ip, location, new Date());
         if (!recordService.saveLoginLog(login)) {
             return Response.danger("登录记录保存失败");
         }
