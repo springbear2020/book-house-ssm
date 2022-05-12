@@ -138,4 +138,89 @@ $(function () {
             }
         })
     });
+
+    /* ================================================= Background upload ========================================== */
+    // Background upload click event
+    $("#btn-background-upload").click(function () {
+        $("#modal-upload-background").modal({
+            backdrop: "static"
+        })
+    });
+
+    // Close the upload modal event
+    $("#btn-background-upload-modal-close").click(function () {
+        $("#input-background-upload").attr("disabled", false);
+        $("#btn-background-start-upload").attr("disabled", false);
+    });
+
+    // File upload service by Qiniu Cloud
+    var qiniuCloudFileUpload = function (file, key, token) {
+        var putExtra = {
+            fname: {key},
+            params: {},
+            mimeType: ["image/*"]
+        }
+        var config = {
+            shouldUseQiniuFileName: false,
+            region: qiniu.region.z2,
+            forceDirect: true,
+        };
+
+        // Get a upload service obj
+        var observable = qiniu.upload(file, key, token, putExtra, config);
+
+        var observer = {
+            next(res) {
+                // Show the progress of the book upload
+                var rate = res.total.percent + "";
+            },
+            error() {
+                showNoticeModal(DANGER_CODE, "背景图片上传失败");
+            },
+            complete() {
+                showNoticeModal(SUCCESS_CODE, "背景图片上传成功，感谢您的共享");
+                $("#modal-upload-background").modal('hide');
+                $("#input-background-upload").attr("disabled", false);
+                $("#btn-background-start-upload").attr("disabled", false);
+            }
+        }
+
+        // Start upload
+        observable.subscribe(observer);
+    };
+
+    // Listening the content change of the file choose input element
+    var file;
+    var suffix;
+    $("#input-background-upload").on("change", function (e) {
+        file = e.target.files[0];
+        var srcFileName = $("#input-background-upload").val();
+        suffix = srcFileName.substring(srcFileName.lastIndexOf("."));
+    });
+
+    // Start uploading book button event
+    $("#btn-background-start-upload").click(function () {
+        if (!(".png" === suffix || ".jpg" === suffix)) {
+            showNoticeModal(WARNING_CODE, "请选择图片文件")
+            return false;
+        }
+        $(this).attr("disabled", "disabled");
+        $("#input-background-upload").attr("disabled", "disabled");
+        // Ask server the save image file
+        $.ajax({
+            url: contextPath + "transfer/upload/wallpaper",
+            dataType: "json",
+            type: "post",
+            success: function (response) {
+                if (SUCCESS_CODE === response.code) {
+                    qiniuCloudFileUpload(file, response.resultMap.key, response.resultMap.token);
+                } else {
+                    showNoticeModal(response.code, response.msg);
+                }
+            },
+            error: function () {
+                showNoticeModal(DANGER_CODE, "请求上传背景图片文件失败");
+            }
+        })
+    });
 });

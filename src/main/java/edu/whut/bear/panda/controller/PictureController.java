@@ -61,15 +61,11 @@ public class PictureController {
         return Response.success("Pixabay 已新增 " + pages * 20 + " 条记录");
     }
 
-    @GetMapping("/background/all")
-    public Response getUserBackgrounds(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return Response.info("请先登录您的账号");
-        }
-        List<Background> backgroundList = pictureService.getUserAllBackgrounds(user.getId());
+    @GetMapping("/wallpaper/all")
+    public Response getUserBackgrounds() {
+        List<Background> backgroundList = pictureService.getAllWallpapers();
         if (backgroundList == null || backgroundList.size() == 0) {
-            return Response.info("暂无您的个人背景图数据");
+            return Response.info("暂无壁纸数据");
         }
         return Response.success("").put("backgroundList", backgroundList).put("length", backgroundList.size());
     }
@@ -88,14 +84,14 @@ public class PictureController {
         if (!pictureService.updateBackgroundStatus(id, Background.STATUS_ABNORMAL)) {
             return Response.danger("更新图片记录失败");
         }
-        /*
-         * Delete the file in the Qiniu cloud
-         * String imgUrl = background.getUrl();
-         * String key = StringUtils.getContentAfterDomain(imgUrl);
-         * if (!transferService.deleteFileByKey(key, Upload.TYPE_IMAGE)) {
-         *    return Response.danger("背景图片文件删除失败");
-         * }
-         */
+
+        // Delete the file in the Qiniu cloud
+        String imgUrl = background.getUrl();
+        String key = StringUtils.getContentAfterDomain(imgUrl);
+        if (!transferService.deleteFileByKey(key, Upload.TYPE_IMAGE)) {
+            return Response.danger("背景图片文件删除失败");
+        }
+
         return Response.success("");
     }
 }

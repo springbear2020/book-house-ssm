@@ -9,19 +9,19 @@
     <meta name="author" content="Spring-_-Bear">
     <link rel="icon" th:href="@{/static/img/panda.png}">
 
-    <title>Pixabay - 熊猫书屋</title>
+    <title>Pixabay</title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link th:href="@{/static/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link th:href="@{/static/css/panda-picture.css}" rel="stylesheet">
+    <link th:href="@{/static/css/panda-wallpaper.css}" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script th:src="@{/static/js/html5shiv.min.js}"></script>
-    <script th:src="@{/static/js/respond.min.js}"></script>
+    <script th:src="@{/static/js/html5shiv.min.js}" charset="UTF-8"></script>
+    <script th:src="@{/static/js/respond.min.js}" charset="UTF-8"></script>
     <![endif]-->
 
     <!-- Custom java script -->
@@ -69,6 +69,26 @@
     </div>
 </div>
 
+<!-- Background image upload -->
+<div class="modal fade" id="modal-upload-background" tabindex="-1" role="dialog" aria-labelledby="modal-upload-background">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <!-- Title -->
+            <div class="modal-header text-center">
+                <button type="button" id="btn-background-upload-modal-close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>壁纸上传</strong></h4>
+            </div>
+            <!-- Image file choose -->
+            <input type="file" class="btn btn-block btn-info" accept="image/png,image/jpeg" id="input-background-upload"/>
+            <hr class="featurette-divider">
+            <!-- Start upload button -->
+            <div>
+                <button class="btn btn-block btn-primary" id="btn-background-start-upload">开始上传</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Notice modal -->
 <div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice" aria-hidden="true">
     <div class="modal-dialog modal-sm">
@@ -97,10 +117,14 @@
         <!-- Right icon -->
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right text-center">
-                <!-- Delete current pixabay record -->
-                <li><a role="button" id="btn-pixabay-delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></li>
+                <!-- Pixabay -->
+                <li><a href="https://pixabay.com/" target="_blank"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a></li>
+                <!-- Upload new background -->
+                <li><a role="button" id="btn-background-upload"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span></a></li>
                 <!-- Clear all pixabay record then insert new -->
                 <li><a role="button" id="btn-pixabay-open-modal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></li>
+                <!-- Delete current pixabay record -->
+                <li><a role="button" id="btn-pixabay-delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></li>
             </ul>
         </div>
     </div>
@@ -126,10 +150,10 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script th:src="@{/static/js/jquery-1.12.4.min.js}"></script>
-<script>window.jQuery || document.write('<script th:src="@{/static/js/jquery.min.js}"><\/script>')</script>
-<script th:src="@{/static/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/js/jquery-1.12.4.min.js}" charset="UTF-8"></script>
+<script>window.jQuery || document.write('<script th:src="@{/static/js/jquery.min.js}" charset="UTF-8"><\/script>')</script>
+<script th:src="@{/static/js/bootstrap.min.js}" charset="UTF-8"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script th:src="@{/static/js/ie10-viewport-bug-workaround.js}"></script>
+<script th:src="@{/static/js/ie10-viewport-bug-workaround.js}" charset="UTF-8"></script>
 </body>
 </html>

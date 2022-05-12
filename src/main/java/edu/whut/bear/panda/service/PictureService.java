@@ -45,10 +45,9 @@ public interface PictureService {
     /**
      * Get all background record of the specified user
      *
-     * @param userId Id of user
      * @return Background list or null
      */
-    List<Background> getUserAllBackgrounds(Integer userId);
+    List<Background> getAllWallpapers();
 
     /**
      * Execute the python spider to get new pixabay data

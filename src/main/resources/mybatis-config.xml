@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- Convert camel case -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <typeAliases>
+        <!-- POJO class alias -->
+        <package name="edu.whut.bear.panda.pojo"/>
+    </typeAliases>
+    <plugins>
+        <!-- Page helper -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"/>
+    </plugins>
+</configuration>

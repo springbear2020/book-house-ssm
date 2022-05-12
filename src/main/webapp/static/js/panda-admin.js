@@ -110,7 +110,7 @@ $(function () {
             success: function (response) {
                 if (SUCCESS_CODE === response.code) {
                     // Username and password are correct, ask the server for page dispatching
-                    location.href = contextPath + "user";
+                    location.href = contextPath + "pixabay";
                 } else {
                     showNoticeModal(response.code, response.msg);
                 }
@@ -120,4 +120,25 @@ $(function () {
             }
         })
     });
+
+    /* ================================================= Set poem =================================================== */
+    // After page loaded, get the first poem at first
+    jinrishici.load(function (result) {
+        var poem = result.data.content;
+        var author = result.data.origin.author;
+        var dynasty = result.data.origin.dynasty;
+        $(".cover-heading").text(poem);
+        $(".lead").text(dynasty + " - " + author);
+    });
+
+    // Get the poem in turn(time interval is 11 seconds)
+    setInterval(function () {
+        jinrishici.load(function (result) {
+            var poem = result.data.content;
+            var author = result.data.origin.author;
+            var dynasty = result.data.origin.dynasty;
+            $(".cover-heading").text(poem);
+            $(".lead").text(dynasty + " - " + author);
+        });
+    }, 6000);
 });

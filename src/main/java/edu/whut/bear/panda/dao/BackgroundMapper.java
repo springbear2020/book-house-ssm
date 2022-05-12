@@ -23,10 +23,9 @@ public interface BackgroundMapper {
     /**
      * Get the all background picture record of the user
      *
-     * @param userId Id of user
      * @return Background list or null
      */
-    List<Background> getUserBackgroundsByUserId(@Param("userId") Integer userId);
+    List<Background> getAllBackground();
 
     /**
      * Get a background record by id

@@ -9,12 +9,10 @@
         VALUES (#{userId}, #{uploadId}, #{uploadTime}, #{url}, #{status})
     </insert>
 
-    <!-- List<Background> getUserBackgroundsByUserId(@Param("userId") Integer userId); -->
-    <select id="getUserBackgroundsByUserId" resultType="Background">
+    <!-- List<Background> getAllBackground(); -->
+    <select id="getAllBackground" resultType="Background">
         select id, user_id, upload_id, upload_time, url, status
         from t_background
-        where user_id = #{userId}
-          and status = 0
     </select>
 
     <!-- Background getBackgroundById(@Param("id") Integer id); -->

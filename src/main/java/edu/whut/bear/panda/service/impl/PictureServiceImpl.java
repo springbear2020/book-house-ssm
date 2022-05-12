@@ -40,8 +40,8 @@ public class PictureServiceImpl implements PictureService {
     }
 
     @Override
-    public List<Background> getUserAllBackgrounds(Integer userId) {
-        return backgroundMapper.getUserBackgroundsByUserId(userId);
+    public List<Background> getAllWallpapers() {
+        return backgroundMapper.getAllBackground();
     }
 
     @Override

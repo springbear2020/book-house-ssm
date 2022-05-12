@@ -5,32 +5,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="Background page">
+    <meta name="description" content="Wallpaper page of the panda website">
     <meta name="author" content="Spring-_-Bear">
     <link rel="icon" th:href="@{/static/img/panda.png}">
 
-    <title>背景 - 熊猫书屋</title>
+    <title>熊猫壁纸</title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link th:href="@{/static/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link th:href="@{/static/css/panda-picture.css}" rel="stylesheet">
+    <link th:href="@{/static/css/panda-wallpaper.css}" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script th:src="@{/static/js/html5shiv.min.js}"></script>
-    <script th:src="@{/static/js/respond.min.js}"></script>
+    <script th:src="@{/static/js/html5shiv.min.js}" charset="UTF-8"></script>
+    <script th:src="@{/static/js/respond.min.js}" charset="UTF-8"></script>
     <![endif]-->
 
     <!-- Custom java script -->
-    <script th:src="@{/static/js/jquery-1.7.2.js}"></script>
-    <script th:src="@{/static/js/panda-background.js}"></script>
-    <script th:src="@{/static/js/qiniu.min.js}"></script>
+    <script th:src="@{/static/js/jquery-1.7.2.js}" charset="UTF-8"></script>
+    <script th:src="@{/static/js/panda-wallpaper.js}" charset="UTF-8"></script>
 
     <!-- Get the context path dynamically -->
-    <script th:inline="javascript" type="text/javascript">
+    <script th:inline="javascript" type="text/javascript" charset="UTF-8">
         var contextPath = /*[[@{/}]]*/'';
         $("#span-context-path").val(contextPath);
     </script>
@@ -38,26 +37,6 @@
 <body>
 <!-- Context path -->
 <span id="span-context-path" style="display: none;opacity: 100%"></span>
-
-<!-- Background image upload -->
-<div class="modal fade" id="modal-upload-background" tabindex="-1" role="dialog" aria-labelledby="modal-upload-background">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <!-- Title -->
-            <div class="modal-header text-center">
-                <button type="button" id="btn-background-upload-modal-close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><strong>背景上传</strong></h4>
-            </div>
-            <!-- Image file choose -->
-            <input type="file" class="btn btn-block btn-info" accept="image/png,image/jpeg" id="input-background-upload"/>
-            <hr class="featurette-divider">
-            <!-- Start upload button -->
-            <div>
-                <button class="btn btn-block btn-primary" id="btn-background-start-upload">开始上传</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Notice modal -->
 <div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice" aria-hidden="true">
@@ -87,35 +66,43 @@
         <!-- Right icon -->
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right text-center">
-                <!-- Delete current background -->
-                <li><a role="button" id="btn-background-delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></li>
-                <!-- Upload new background -->
-                <li><a role="button" id="btn-background-upload"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></a></li>
+                <!-- Pixabay -->
+                <li><a href="https://pixabay.com/" target="_blank"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a></li>
             </ul>
         </div>
     </div>
 </nav>
 
-<!-- Background -->
+<!-- Wallpaper -->
 <div class="container">
     <!-- Carousel -->
     <div id="background-carousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="" data-slide-to="0" class="active"></li>
+            <li data-target="" data-slide-to="1"></li>
+            <li data-target="" data-slide-to="2"></li>
+        </ol>
         <div class="carousel-inner" role="listbox">
             <!-- First -->
             <div class="item active">
                 <a href="" target="_blank"><img class="first-slide" src="" alt="First slide"></a>
-                <div class="carousel-caption"><h4>正在加载今日一言······</h4></div>
             </div>
             <!-- Second -->
             <div class="item">
                 <a href="" target="_blank"><img class="second-slide" src="" alt="Second slide"></a>
-                <div class="carousel-caption"><h4>正在加载今日一言······</h4></div>
             </div>
             <!-- Third -->
             <div class="item">
                 <a href="" target="_blank"><img class="third-slide" src="" alt="Third slide"></a>
-                <div class="carousel-caption"><h4>正在加载今日一言······</h4></div>
             </div>
+            <a class="left carousel-control" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </div>
 </div>
@@ -128,10 +115,10 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script th:src="@{/static/js/jquery-1.12.4.min.js}"></script>
-<script>window.jQuery || document.write('<script th:src="@{/static/js/jquery.min.js}"><\/script>')</script>
-<script th:src="@{/static/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/js/jquery-1.12.4.min.js}" charset="UTF-8"></script>
+<script>window.jQuery || document.write('<script th:src="@{/static/js/jquery.min.js}" charset="UTF-8"><\/script>')</script>
+<script th:src="@{/static/js/bootstrap.min.js}" charset="UTF-8"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script th:src="@{/static/js/ie10-viewport-bug-workaround.js}"></script>
+<script th:src="@{/static/js/ie10-viewport-bug-workaround.js}" charset="UTF-8"></script>
 </body>
 </html>

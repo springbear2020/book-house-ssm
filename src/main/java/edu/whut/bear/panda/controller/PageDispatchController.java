@@ -1,5 +1,6 @@
 package edu.whut.bear.panda.controller;
 
+import edu.whut.bear.panda.pojo.Admin;
 import edu.whut.bear.panda.pojo.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,24 +28,6 @@ public class PageDispatchController {
         return "redirect:/";
     }
 
-    @GetMapping("/background")
-    public String background(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/";
-        }
-        return "background";
-    }
-
-    @GetMapping("/pixabay")
-    public String pixabay(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/";
-        }
-        return "pixabay";
-    }
-
     @GetMapping("/bookAdd")
     public String bookAdd(HttpSession session) {
         User user = (User) session.getAttribute("user");
@@ -52,15 +35,6 @@ public class PageDispatchController {
             return "redirect:/";
         }
         return "book_add";
-    }
-
-    @GetMapping("/poem")
-    public String poem(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/";
-        }
-        return "poem";
     }
 
     @GetMapping("/history")
@@ -72,12 +46,12 @@ public class PageDispatchController {
         return "history";
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/pixabay")
     public String admin(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/";
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/admin";
         }
-        return "admin";
+        return "pixabay";
     }
 }

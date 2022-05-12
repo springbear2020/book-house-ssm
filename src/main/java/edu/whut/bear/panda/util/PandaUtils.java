@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@PropertySource("classpath:panda.properties")
-@PropertySource("classpath:qiniu.properties")
+@PropertySource("classpath:properties/panda.properties")
+@PropertySource("classpath:properties/qiniu.properties")
 public class PandaUtils {
     /**
      * Panda config data

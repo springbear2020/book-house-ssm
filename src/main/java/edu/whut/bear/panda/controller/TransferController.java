@@ -81,6 +81,23 @@ public class TransferController {
         return Response.success("").put("key", key).put("token", token[2]).put("imgPath", token[0] + key).put("imageUploadId", upload.getId());
     }
 
+    @PostMapping("/transfer/upload/wallpaper")
+    public Response wallpaperUpload( ) {
+        String key = "wallpaper/" + DateUtils.dateIntoFileName(new Date()) + "-" + 0 + ".png";
+        // token[0]:domain    token[0]:bucket   token[0]:uploadToken
+        String[] token = transferService.getFileUploadToken(key, Upload.TYPE_IMAGE);
+
+        // Save the upload record to database
+        Upload upload = new Upload(null, 0, 0, "admin", Upload.TYPE_IMAGE_COVER, Upload.STATUS_UNPROCESSED, new Date(), token[0], key, token[1]);
+        if (!recordService.saveUpload(upload)) {
+            return Response.danger("图片上传记录保存失败");
+        }
+        if (!pictureService.saveBackground(new Background(null, 0, upload.getId(), new Date(), token[0] + key, Background.STATUS_NORMAL))) {
+            return Response.danger("壁纸上传记录保存失败");
+        }
+        return Response.success("").put("key", key).put("token", token[2]).put("imgPath", token[0] + key).put("imageUploadId", upload.getId());
+    }
+
     @GetMapping("/transfer/download/book/{id}")
     public Response bookDownload(@PathVariable("id") Integer id, HttpSession session) {
         User user = (User) session.getAttribute("user");
