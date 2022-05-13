@@ -4,6 +4,7 @@ import edu.whut.bear.panda.pojo.Admin;
 import edu.whut.bear.panda.pojo.Login;
 import edu.whut.bear.panda.pojo.Response;
 import edu.whut.bear.panda.pojo.User;
+import edu.whut.bear.panda.service.EmailService;
 import edu.whut.bear.panda.service.RecordService;
 import edu.whut.bear.panda.service.UserService;
 import edu.whut.bear.panda.util.StringUtils;
@@ -25,36 +26,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private RecordService recordService;
-
-    @GetMapping("/user/{username}/{password}")
-    public Response login(@PathVariable("username") String username, @PathVariable("password") String password, HttpServletRequest request) {
-        // Empty username or password parameters
-        if (username == null || username.length() == 0 || password == null || password.length() == 0) {
-            return Response.info("用户名或密码不能为空");
-        }
-
-        User user = userService.getUserByUsernameAndPassword(username, password);
-        // Wrong username or password
-        if (user == null) {
-            return Response.danger("用户名不存在或密码错误");
-        }
-        // Judge the user status, whether it is abnormal
-        if (User.USER_STATUS_ABNORMAL == user.getStatus()) {
-            return Response.danger("账号状态异常，暂时不能登录");
-        }
-        String ip = WebUtils.getIpAddress(request);
-        String location = "未知地点";
-        String parseIp = WebUtils.parseIp(ip);
-        if (parseIp != null) {
-            location = parseIp;
-        }
-        Login login = new Login(null, user.getId(), user.getUsername(), ip, location, new Date());
-        if (!recordService.saveLoginLog(login)) {
-            return Response.danger("登录记录保存失败");
-        }
-        request.getSession().setAttribute("user", user);
-        return Response.success("");
-    }
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("user/{username}")
     public Response verifyUsernameExistence(@PathVariable("username") String username) {
@@ -68,6 +41,41 @@ public class UserController {
             return Response.info("用户名已被占用，请重新输入");
         }
         return Response.success("");
+    }
+
+    @GetMapping("/email")
+    public Response verifyEmailExistence(@RequestParam("email") String email) {
+        if (email == null || email.length() == 0) {
+            return Response.info("邮箱地址不能为空");
+        }
+        if (!email.matches(User.EMAIL_REG_EXP)) {
+            return Response.danger("无效的邮箱地址");
+        }
+
+        // Verify the existence of email
+        User user = userService.getUserByEmail(email);
+        if (user != null) {
+            return Response.info("邮箱已被占用，请重新输入");
+        }
+        return Response.success("");
+    }
+
+    @PostMapping("/email/{email}")
+    public Response sendEmailVerifyCode(@PathVariable("email") String email, HttpSession session) {
+        if (email == null || email.length() == 0) {
+            return Response.info("邮箱地址不能为空");
+        }
+        if (!email.matches(User.EMAIL_REG_EXP)) {
+            return Response.danger("无效的邮箱地址");
+        }
+
+        // Send an verify code email to the specified email address
+        String verifyCode = emailService.sendEmailVerifyCode(email);
+        if (verifyCode == null) {
+            return Response.info("服务器繁忙，验证码发送失败");
+        }
+        session.setAttribute("verifyCode", verifyCode);
+        return Response.success("邮箱验证码发送成功");
     }
 
     @PostMapping("/user/{verifyCode}")
@@ -98,8 +106,38 @@ public class UserController {
         return Response.success("注册成功，快登录吧");
     }
 
+    @GetMapping("/user/{username}/{password}")
+    public Response userLogin(@PathVariable("username") String username, @PathVariable("password") String password, HttpServletRequest request) {
+        // Empty username or password parameters
+        if (username == null || username.length() == 0 || password == null || password.length() == 0) {
+            return Response.info("用户名或密码不能为空");
+        }
+
+        User user = userService.getUserByUsernameAndPassword(username, password);
+        // Wrong username or password
+        if (user == null) {
+            return Response.danger("用户名不存在或密码错误");
+        }
+        // Judge the user status, whether it is abnormal
+        if (User.USER_STATUS_ABNORMAL == user.getStatus()) {
+            return Response.danger("账号状态异常，暂时不能登录");
+        }
+        String ip = WebUtils.getIpAddress(request);
+        String location = "未知地点";
+        String parseIp = WebUtils.parseIp(ip);
+        if (parseIp != null) {
+            location = parseIp;
+        }
+        Login login = new Login(null, user.getId(), user.getUsername(), ip, location, new Date());
+        if (!recordService.saveLoginLog(login)) {
+            return Response.danger("登录记录保存失败");
+        }
+        request.getSession().setAttribute("user", user);
+        return Response.success("");
+    }
+
     @GetMapping("/admin/{username}/{password}")
-    public Response admin(@PathVariable("username") String username, @PathVariable("password") String password, HttpSession session) {
+    public Response adminLogin(@PathVariable("username") String username, @PathVariable("password") String password, HttpSession session) {
         // Empty username or password parameters
         if (username == null || username.length() == 0 || password == null || password.length() == 0) {
             return Response.info("用户名或密码不能为空");

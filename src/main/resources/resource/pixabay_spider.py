@@ -28,7 +28,7 @@ req_params = {
 }
 
 # Set the database info 
-db = pymysql.connect(host='localhost', user="admin", passwd="admin", port=3306, db='panda', charset='utf8')
+db = pymysql.connect(host='localhost', user="panda", passwd="sJCD3KcJtMnaejC7", port=3306, db='panda', charset='utf8')
 cursor = db.cursor()
 
 saveCount = 0

@@ -8,8 +8,6 @@
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven/>
 
-    <!-- TODO 解决前端 json 响应中文乱码、响应 406 问题 -->
-
     <!-- Thymeleaf -->
     <bean id="viewResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
         <property name="order" value="1"/>

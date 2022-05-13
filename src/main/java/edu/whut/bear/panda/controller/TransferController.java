@@ -74,17 +74,24 @@ public class TransferController {
     }
 
     @PostMapping("/transfer/upload/wallpaper")
-    public Response wallpaperUpload() {
-        String key = "wallpaper/" + DateUtils.dateIntoFileName(new Date()) + "-" + 0 + ".png";
+    public Response wallpaperUpload(HttpSession session) {
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null) {
+            return Response.info("请登录管理员账号");
+        }
+        if (Admin.ADMIN_STATUS_ABNORMAL == admin.getStatus()) {
+            return Response.danger("管理员账号状态异常，暂时不能上传文件");
+        }
+        String key = "wallpaper/" + DateUtils.dateIntoFileName(new Date()) + "-" + admin.getId() + ".png";
         // token[0]:domain    token[0]:bucket   token[0]:uploadToken
         String[] token = transferService.getFileUploadToken(key, Upload.TYPE_IMAGE);
 
         // Save the upload record to database
-        Upload upload = new Upload(null, 0, 0, "admin", Upload.TYPE_IMAGE_COVER, Upload.STATUS_UNPROCESSED, new Date(), token[0], key, token[1]);
+        Upload upload = new Upload(null, admin.getId(), User.USER_TYPE_ADMIN, admin.getUsername(), Upload.TYPE_IMAGE_BACKGROUND, Upload.STATUS_PROCESSED, new Date(), token[0], key, token[1]);
         if (!recordService.saveUpload(upload)) {
             return Response.danger("图片上传记录保存失败");
         }
-        if (!pictureService.saveBackground(new Background(null, 0, upload.getId(), new Date(), token[0] + key, Background.STATUS_NORMAL))) {
+        if (!pictureService.saveBackground(new Background(null, admin.getId(), upload.getId(), new Date(), token[0] + key, Background.STATUS_NORMAL))) {
             return Response.danger("壁纸上传记录保存失败");
         }
         return Response.success("").put("key", key).put("token", token[2]).put("imgPath", token[0] + key).put("imageUploadId", upload.getId());

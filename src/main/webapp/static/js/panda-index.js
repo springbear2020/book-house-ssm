@@ -302,8 +302,9 @@ $(function () {
         var $emailObj = $("#input-register-email");
         var email = $emailObj.val();
         $.ajax({
-            url: contextPath + "email/" + email,
-            type: "GET",
+            url: contextPath + "email",
+            type: "get",
+            data: "email=" + email,
             dataType: "json",
             success: function (response) {
                 if (SUCCESS_CODE === response.code) {

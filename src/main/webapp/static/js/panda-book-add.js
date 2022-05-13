@@ -227,10 +227,10 @@ $(function () {
 
     // Save book click event
     $("#btn-save-book").click(function () {
-        // if (!isPdfUploaded) {
-        //     showNoticeModal(WARNING_CODE, "请先上传 PDF 图书文件");
-        //     return false;
-        // }
+        if (!isPdfUploaded) {
+            showNoticeModal(WARNING_CODE, "请先上传 PDF 图书文件");
+            return false;
+        }
         if (!isCoverUploaded) {
             showNoticeModal(WARNING_CODE, "请先上传图书封面文件");
             return false;
@@ -254,11 +254,7 @@ $(function () {
             showFormItemValidation($("#input-book-comments"), STATUS_SUCCESS);
         }
 
-        var comments = $("#input-book-comments").val();
-        if (comments.length > 200) {
-            showNoticeModal(WARNING_CODE, "图书评价需要控制在 200 字范围内");
-            return false;
-        }
+        // var comments = $("#input-book-comments").val();
 
         // Ask server to save book record
         $.ajax({

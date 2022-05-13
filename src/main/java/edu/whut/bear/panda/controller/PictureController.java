@@ -70,28 +70,28 @@ public class PictureController {
         return Response.success("").put("backgroundList", backgroundList).put("length", backgroundList.size());
     }
 
-    @DeleteMapping("/background/{id}")
-    public Response deleteOneBackgroundById(@PathVariable("id") Integer id, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return Response.info("请先登录您的账号");
-        }
-        Background background = pictureService.getBackgroundById(id);
-        if (background == null) {
-            return Response.danger("无此条背景图片记录信息");
-        }
-        // Update the background record status
-        if (!pictureService.updateBackgroundStatus(id, Background.STATUS_ABNORMAL)) {
-            return Response.danger("更新图片记录失败");
-        }
-
-        // Delete the file in the Qiniu cloud
-        String imgUrl = background.getUrl();
-        String key = StringUtils.getContentAfterDomain(imgUrl);
-        if (!transferService.deleteFileByKey(key, Upload.TYPE_IMAGE)) {
-            return Response.danger("背景图片文件删除失败");
-        }
-
-        return Response.success("");
-    }
+    // @DeleteMapping("/background/{id}")
+    // public Response deleteOneBackgroundById(@PathVariable("id") Integer id, HttpSession session) {
+    //     User user = (User) session.getAttribute("user");
+    //     if (user == null) {
+    //         return Response.info("请先登录您的账号");
+    //     }
+    //     Background background = pictureService.getBackgroundById(id);
+    //     if (background == null) {
+    //         return Response.danger("无此条背景图片记录信息");
+    //     }
+    //     // Update the background record status
+    //     if (!pictureService.updateBackgroundStatus(id, Background.STATUS_ABNORMAL)) {
+    //         return Response.danger("更新图片记录失败");
+    //     }
+    //
+    //     // Delete the file in the Qiniu cloud
+    //     String imgUrl = background.getUrl();
+    //     String key = StringUtils.getContentAfterDomain(imgUrl);
+    //     if (!transferService.deleteFileByKey(key, Upload.TYPE_IMAGE)) {
+    //         return Response.danger("背景图片文件删除失败");
+    //     }
+    //
+    //     return Response.success("");
+    // }
 }

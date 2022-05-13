@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
  * @datetime 2022/4/28 20:46
  */
 @Controller
-public class PageDispatchController {
+public class DispatcherController {
     @GetMapping("/user")
     public String user(HttpSession session) {
         User user = (User) session.getAttribute("user");
