@@ -187,6 +187,16 @@ $(function () {
         })
     });
 
+    /* =========================================== Search book by title ============================================= */
+    $("#btn-upload-book-search").click(function () {
+        var title = $("#input-book-title").val();
+        if (title.length <= 0) {
+            showNoticeModal(WARNING_CODE, "请输入书名");
+            return false;
+        }
+        window.open("https://search.douban.com/book/subject_search?search_text=" + title);
+    });
+
     /* ========================================= Save book record =================================================== */
     // Validation type
     var STATUS_SUCCESS = "success";

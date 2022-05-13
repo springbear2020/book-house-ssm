@@ -120,6 +120,6 @@ public class TransferController {
             return Response.danger("图书下载记录保存失败");
         }
         // Get a private download url of the book file
-        return Response.success("").put("downloadUrl", transferService.getBookDownloadUrl(key));
+        return Response.success("").put("downloadUrl", bookPath);
     }
 }
