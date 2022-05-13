@@ -21,7 +21,7 @@ public class EmailController {
     private EmailService emailService;
 
     @GetMapping("/email/{email}")
-    public Response verifyEmailExistence(@PathVariable("email") String email) {
+    public Object verifyEmailExistence(@PathVariable("email") String email) {
         if (email == null || email.length() == 0) {
             return Response.info("邮箱地址不能为空");
         }

@@ -35,7 +35,7 @@ public class TransferController {
             return Response.danger("登录后方可上传图书文件");
         }
         // Give a new file name of the file will be uploaded
-        String key = DateUtils.dateIntoFileName(new Date()) + "-" + user.getId() + ".pdf";
+        String key = "pdf/" + DateUtils.dateIntoFileName(new Date()) + "-" + user.getId() + ".pdf";
         // token[0]:domain    token[0]:bucket   token[0]:uploadToken
         String[] token = transferService.getFileUploadToken(key, Upload.TYPE_BOOK);
 
@@ -55,15 +55,10 @@ public class TransferController {
         }
         // Set the save directory of the different type image files
         String directory;
-        switch (type) {
-            case Upload.TYPE_IMAGE_COVER:
-                directory = "cover/";
-                break;
-            case Upload.TYPE_IMAGE_BACKGROUND:
-                directory = "background/";
-                break;
-            default:
-                return Response.info("图片保存类别不正确");
+        if (type == Upload.TYPE_IMAGE_COVER) {
+            directory = "cover/";
+        } else {
+            return Response.info("图片保存类别不正确");
         }
 
         String key = directory + DateUtils.dateIntoFileName(new Date()) + "-" + user.getId() + ".png";
@@ -75,14 +70,11 @@ public class TransferController {
         if (!recordService.saveUpload(upload)) {
             return Response.danger("图片上传记录保存失败");
         }
-        if (type == Upload.TYPE_IMAGE_BACKGROUND && !pictureService.saveBackground(new Background(null, user.getId(), upload.getId(), new Date(), token[0] + key, Background.STATUS_NORMAL))) {
-            return Response.danger("背景上传记录保存失败");
-        }
         return Response.success("").put("key", key).put("token", token[2]).put("imgPath", token[0] + key).put("imageUploadId", upload.getId());
     }
 
     @PostMapping("/transfer/upload/wallpaper")
-    public Response wallpaperUpload( ) {
+    public Response wallpaperUpload() {
         String key = "wallpaper/" + DateUtils.dateIntoFileName(new Date()) + "-" + 0 + ".png";
         // token[0]:domain    token[0]:bucket   token[0]:uploadToken
         String[] token = transferService.getFileUploadToken(key, Upload.TYPE_IMAGE);
