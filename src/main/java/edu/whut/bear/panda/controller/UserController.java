@@ -60,8 +60,8 @@ public class UserController {
         return Response.success("");
     }
 
-    @PostMapping("/email/{email}")
-    public Response sendEmailVerifyCode(@PathVariable("email") String email, HttpSession session) {
+    @PostMapping("/email")
+    public Response sendEmailVerifyCode(@RequestParam("email") String email, HttpSession session) {
         if (email == null || email.length() == 0) {
             return Response.info("邮箱地址不能为空");
         }

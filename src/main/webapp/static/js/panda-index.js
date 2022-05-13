@@ -354,8 +354,9 @@ $(function () {
         // Send an ajax to obtain code from server
         var email = $("#input-register-email").val();
         $.ajax({
-            url: contextPath + "email/" + email,
+            url: contextPath + "email",
             type: "post",
+            data: "email=" + email,
             dataType: "json",
             success: function (response) {
                 showNoticeModal(response.code, response.msg);
