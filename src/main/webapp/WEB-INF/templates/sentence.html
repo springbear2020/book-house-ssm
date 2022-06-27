@@ -24,18 +24,6 @@
     <script th:src="@{/static/js/html5shiv.min.js}" charset="UTF-8"></script>
     <script th:src="@{/static/js/respond.min.js}" charset="UTF-8"></script>
     <![endif]-->
-
-    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-
-    <!-- Custom java script -->
-    <script th:src="@{/static/js/jquery-1.7.2.js}" charset="UTF-8"></script>
-    <script th:src="@{/static/js/panda-sentence.js}" charset="UTF-8"></script>
-
-    <!-- Get the context path dynamically -->
-    <script th:inline="javascript" type="text/javascript" charset="UTF-8">
-        var contextPath = /*[[@{/}]]*/'';
-        $("#span-context-path").val(contextPath);
-    </script>
 </head>
 <body>
 <!-- Context path -->
@@ -56,12 +44,11 @@
         <div class="cover-container">
             <div class="masthead clearfix">
                 <div class="inner">
-                    <h3 class="masthead-brand"><a th:href="@{/user}"><img alt="Brand" th:src="@{/static/img/panda.png}" height="44px" width="44px"></a></h3>
+                    <h3 class="masthead-brand"><a th:href="@{/home.html}"><img alt="Brand" th:src="@{/static/img/panda.png}" height="44px" width="44px"></a></h3>
                     <nav>
                         <ul class="nav masthead-nav">
                             <li><a role="button" id="hitokoto">一言</a></li>
                             <li><a role="button" id="jinrishici">诗词</a></li>
-                            <li><a href="https://hitokoto.cn/" target="_blank">友链</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -88,5 +75,15 @@
 <script th:src="@{/static/js/bootstrap.min.js}" charset="UTF-8"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script th:src="@{/static/js/ie10-viewport-bug-workaround.js}" charset="UTF-8"></script>
+
+<!-- Custom java script -->
+<script th:src="@{/static/js/panda-sentence.js}" charset="UTF-8"></script>
+<script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+<!-- Get the context path dynamically -->
+<script th:inline="javascript" type="text/javascript" charset="UTF-8">
+    var contextPath = /*[[@{/}]]*/'';
+    $("#span-context-path").val(contextPath);
+</script>
 </body>
 </html>

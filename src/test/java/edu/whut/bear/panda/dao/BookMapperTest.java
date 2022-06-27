@@ -24,21 +24,4 @@ public class BookMapperTest {
         List<Book> allBooks = bookMapper.getAllBooks();
         allBooks.forEach(System.out::println);
     }
-
-    @Test
-    public void getBookTotalCounts() {
-        System.out.println(bookMapper.getBooksTotalCount());
-    }
-
-    @Test
-    public void getBookById() {
-        Book book = bookMapper.getBookById(6);
-        String bookPath = book.getBookPath();
-        System.out.println(bookPath);
-    }
-
-    @Test
-    public void bookDownloadsIncreaseOne() {
-        System.out.println(bookMapper.bookDownloadsIncreaseOne(2));
-    }
 }

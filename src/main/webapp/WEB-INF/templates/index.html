@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="Index page of the panda book house website">
+    <meta name="description" content="User main page">
     <meta name="author" content="Spring-_-Bear">
     <link rel="icon" th:href="@{/static/img/panda.png}">
 
@@ -23,17 +23,6 @@
     <script th:src="@{/static/js/html5shiv.min.js}" charset="UTF-8"></script>
     <script th:src="@{/static/js/respond.min.js}" charset="UTF-8"></script>
     <![endif]-->
-
-    <!-- Custom java script -->
-    <script th:src="@{/static/js/jquery-1.7.2.js}" charset="UTF-8"></script>
-    <script th:src="@{/static/js/panda-book.js}" charset="UTF-8"></script>
-    <script th:src="@{/static/js/panda-index.js}" charset="UTF-8"></script>
-
-    <!-- Get the context path dynamically -->
-    <script th:inline="javascript" type="text/javascript" charset="UTF-8">
-        var contextPath = /*[[@{/}]]*/'';
-        $("#span-context-path").val(contextPath);
-    </script>
 </head>
 <body>
 <!-- Context path -->
@@ -144,30 +133,29 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="navbar-brand">
-                <a th:href="@{/user}"><img alt="Panda" th:src="@{/static/img/panda.png}" height="40px" width="40px"></a>
+                <a th:href="@{/}"><img alt="Brand" th:src="@{/static/img/panda.png}" height="40px" width="40px" src=""></a>
             </div>
         </div>
         <!-- Right icon -->
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right text-center">
-                <li class="nav-item"><a th:href="@{/sentence}" role="button">文字</a></li>
-                <li class="nav-item"><a th:href="@{/wallpaper}" role="button">壁纸</a></li>
-                <li class="nav-item"><a role="button" id="link-register">注册</a></li>
-                <li class="nav-item"><a role="button" id="link-login">登录</a></li>
+                <li><a role="button" id="link-register">注册</a></li>
+                <li><a role="button" id="link-login">登录</a></li>
             </ul>
         </div>
-    </div><!-- /END THE NAVBAR-->
+    </div>
 </nav>
+<!-- /END THE NAVBAR-->
 
-<!-- Book search -->
+<!-- Book search form -->
 <div class="container text-center">
     <form class="form-inline">
-        <!-- Book title -->
+        <!-- Book title item -->
         <div class="input-group">
             <label for="input-book-search-title" class="sr-only"></label><input id="input-book-search-title" type="text" class="form-control" placeholder="请输入书名">
             <span class="input-group-btn">
-                <button class="btn btn-success" id="btn-book-search" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-            </span>
+            <button class="btn btn-success" id="btn-book-search" type="button"><span class="glyphicon glyphicon-search"  aria-hidden="true"></span></button>
+        </span>
         </div>
     </form>
 </div>
@@ -178,27 +166,6 @@
 <!-- Footer -->
 <footer class="footer">
     <p>&copy; 2022 Spring-_-Bear</p>
-    <p id="runtime_span"></p>
-    <!-- Set run time of the website -->
-    <script type="text/javascript" charset="UTF-8">
-        function show_runtime() {
-            window.setTimeout("show_runtime()", 1000);
-            X = new Date("05/15/2022 05:15:00");
-            Y = new Date();
-            T = (Y.getTime() - X.getTime());
-            M = 24 * 60 * 60 * 1000;
-            a = T / M;
-            A = Math.floor(a);
-            b = (a - A) * 24;
-            B = Math.floor(b);
-            c = (b - B) * 60;
-            C = Math.floor((b - B) * 60);
-            D = Math.floor((c - C) * 60);
-            runtime_span.innerHTML = "小破站已运行：" + A + " 天 " + B + " 时 " + C + " 分 " + D + " 秒"
-        }
-
-        show_runtime();
-    </script>
 </footer>
 
 <!-- Bootstrap core JavaScript
@@ -209,5 +176,15 @@
 <script th:src="@{/static/js/bootstrap.min.js}" charset="UTF-8"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script th:src="@{/static/js/ie10-viewport-bug-workaround.js}" charset="UTF-8"></script>
+
+<!-- Custom java script -->
+<script th:src="@{/static/js/panda-index.js}" charset="UTF-8"></script>
+<script th:src="@{/static/js/panda-book.js}" charset="UTF-8"></script>
+
+<!-- Get the context path dynamically -->
+<script th:inline="javascript" type="text/javascript" charset="UTF-8">
+    var contextPath = /*[[@{/}]]*/'';
+    $("#span-context-path").val(contextPath);
+</script>
 </body>
 </html>

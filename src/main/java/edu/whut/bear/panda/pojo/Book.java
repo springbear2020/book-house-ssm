@@ -16,7 +16,6 @@ import java.util.Date;
 public class Book {
     public static final int ON = 0;
     public static final int OFF = 1;
-    public static final int WAIT = 2;
 
     private Integer id;
     private String title;
@@ -24,14 +23,11 @@ public class Book {
     private String translator;
     private Integer downloads;
     private Integer bookState;
-    private Integer bookUploadId;
-    private Integer coverUploadId;
     private Integer uploadUserId;
     private String uploadUsername;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date uploadTime;
-    private String bookPath;
     private String coverPath;
     private String comments;
 }

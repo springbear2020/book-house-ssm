@@ -6,19 +6,10 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author Spring-_-Bear
- * @datetime 2022/4/26 20:08
+ * @datetime 2022-06-27 08:15 Monday
  */
 @Service
 public interface BookService {
-    /**
-     * Get a book page data randomly
-     *
-     * @param title   The title of the book which user want to search
-     * @param pageNum The page num
-     * @return Book page info
-     */
-    PageInfo<Book> getBookPageData(String title, Integer pageNum);
-
     /**
      * Save a book record
      *
@@ -28,18 +19,11 @@ public interface BookService {
     boolean saveBook(Book book);
 
     /**
-     * Get book info by id
+     * Get a book page data randomly
      *
-     * @param id Id of book record
-     * @return Book or null
+     * @param title   The title of the book which user want to search
+     * @param pageNum The page num
+     * @return Book page info
      */
-    Book getBookById(Integer id);
-
-    /**
-     * Increase the book downloads(default increase one)
-     *
-     * @param id Id of book
-     * @return true - Increase successfully
-     */
-    boolean increaseBookDownloads(Integer id);
+    PageInfo<Book> getBookPageData(String title, Integer pageNum);
 }

@@ -115,12 +115,12 @@ $(function () {
 
     /* ==================================== Display book upload and download record ================================= */
     // Build the record data display table
-    var buildRecordInfoTable = function (response) {
+    var buildRecordInfoTable = function (response, type) {
         $infoDisplayTable.empty();
 
         var recordList = response.resultMap.recordPageData.list;
 
-        var headTitle = recordList[0].type === 0 ? "上传记录" : "下载记录";
+        var headTitle = type === 0 ? "上传记录" : "下载记录";
         // Head title of the page
         $("<h2></h2>").append(headTitle).addClass("sub-header").appendTo($infoDisplayTable);
         // Parent of table
@@ -142,9 +142,9 @@ $(function () {
             var pageNum = response.resultMap.recordPageData.pageNum;
             var num = (pageNum - 1) * pageSize + index + 1;
             $("<td></td>").append(num).appendTo($trOfBody);
-            var operation = record.type === 0 ? "上传图书" : "下载图书";
+            var operation = type === 0 ? "上传图书" : "下载图书";
             $("<td></td>").append(operation).appendTo($trOfBody);
-            $("<td></td>").append(record.time).appendTo($trOfBody);
+            $("<td></td>").append(record.uploadTime).appendTo($trOfBody);
             $("<td></td>").append(record.title).appendTo($trOfBody);
             $("<td></td>").append(record.author).appendTo($trOfBody);
         });
@@ -159,7 +159,7 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 if (SUCCESS_CODE === response.code) {
-                    buildRecordInfoTable(response);
+                    buildRecordInfoTable(response, type);
                     buildPageNavigation(response.resultMap.recordPageData, type);
                 } else {
                     showNoticeModal(response.code, response.msg);
@@ -177,9 +177,9 @@ $(function () {
     });
 
     // Book download record view click event
-    $(".link-download-record").click(function () {
-        getBookRecordPageData(1, DOWNLOAD_RECORD);
-    });
+    // $(".link-download-record").click(function () {
+    //     getBookRecordPageData(1, DOWNLOAD_RECORD);
+    // });
 
     /* ========================================== Display user login record ========================================= */
     // Build the user's login record page data display table

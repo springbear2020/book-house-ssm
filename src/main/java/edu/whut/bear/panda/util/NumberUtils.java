@@ -1,5 +1,6 @@
 package edu.whut.bear.panda.util;
 
+import javax.swing.*;
 import java.util.Random;
 
 /**
@@ -19,5 +20,17 @@ public class NumberUtils {
             builder.append("1793506824".charAt(randomNum));
         }
         return builder.toString();
+    }
+
+    /**
+     * Randomly generate a random number with a specified upper limit
+     *
+     * @param bound Bound
+     * @return Integer number
+     */
+    public static int generateOneNumberInBoundRandomly(int bound) {
+        Random random = new Random();
+        int number = random.nextInt(bound);
+        return number == 0 ? number + 1 : number;
     }
 }

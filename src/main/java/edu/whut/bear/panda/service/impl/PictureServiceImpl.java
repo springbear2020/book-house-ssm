@@ -13,16 +13,38 @@ import java.util.List;
 
 /**
  * @author Spring-_-Bear
- * @datetime 2022/5/3 20:55
+ * @datetime 2022-06-27 10:14 Monday
  */
 @Service
 public class PictureServiceImpl implements PictureService {
     @Autowired
-    private PixabayMapper pixabayMapper;
-    @Autowired
     private BackgroundMapper backgroundMapper;
     @Autowired
+    private PixabayMapper pixabayMapper;
+    @Autowired
     private SpiderUtils spiderUtils;
+
+
+    @Override
+    public boolean saveBackground(Background background) {
+        return backgroundMapper.saveBackground(background) == 1;
+    }
+
+    @Override
+    public List<Background> getAllWallpapers() {
+        return backgroundMapper.getAllBackground();
+    }
+
+
+    @Override
+    public int deleteAllPixabay() {
+        return pixabayMapper.deleteAllPixabay();
+    }
+
+    @Override
+    public boolean insertPixabayThoughSpider(String params) {
+        return spiderUtils.executeSpider(spiderUtils.getPixabaySpiderRealPath(), params);
+    }
 
     @Override
     public Pixabay getFirstPixabay() {
@@ -32,35 +54,5 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public boolean deletePixabayById(Integer id) {
         return pixabayMapper.deletePixabayById(id) == 1;
-    }
-
-    @Override
-    public int deleteAllPixabay() {
-        return pixabayMapper.deleteAllPixabay();
-    }
-
-    @Override
-    public List<Background> getAllWallpapers() {
-        return backgroundMapper.getAllBackground();
-    }
-
-    @Override
-    public boolean saveBackground(Background background) {
-        return backgroundMapper.saveBackground(background) == 1;
-    }
-
-    @Override
-    public boolean insertPixabayThoughSpider(String params) {
-        return spiderUtils.executeSpider(spiderUtils.getPixabaySpiderRealPath(), params);
-    }
-
-    @Override
-    public Background getBackgroundById(Integer id) {
-        return backgroundMapper.getBackgroundById(id);
-    }
-
-    @Override
-    public boolean updateBackgroundStatus(Integer id, Integer status) {
-        return backgroundMapper.updateBackgroundStatusById(id, status) == 1;
     }
 }

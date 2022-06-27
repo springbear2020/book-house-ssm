@@ -8,32 +8,10 @@ import java.util.List;
 
 /**
  * @author Spring-_-Bear
- * @datetime 2022/5/3 20:53
+ * @datetime 2022-06-27 10:13 Monday
  */
 @Service
 public interface PictureService {
-    /**
-     * Get the first pixabay record in the "t_pixabay" table
-     *
-     * @return Pixabay or null
-     */
-    Pixabay getFirstPixabay();
-
-    /**
-     * Delete a pixabay picture by id
-     *
-     * @param id Id of pixabay
-     * @return true - Delete successfully
-     */
-    boolean deletePixabayById(Integer id);
-
-    /**
-     * Delete all pixabay
-     *
-     * @return Affected rows of record
-     */
-    int deleteAllPixabay();
-
     /**
      * Save the background
      *
@@ -50,6 +28,13 @@ public interface PictureService {
     List<Background> getAllWallpapers();
 
     /**
+     * Delete all pixabay
+     *
+     * @return Affected rows of record
+     */
+    int deleteAllPixabay();
+
+    /**
      * Execute the python spider to get new pixabay data
      *
      * @param params Python command parameters
@@ -58,19 +43,17 @@ public interface PictureService {
     boolean insertPixabayThoughSpider(String params);
 
     /**
-     * Get a background record by id
+     * Get the first pixabay record in the "t_pixabay" table
      *
-     * @param id Id of background
-     * @return Background or null
+     * @return Pixabay or null
      */
-    Background getBackgroundById(Integer id);
+    Pixabay getFirstPixabay();
 
     /**
-     * Update the background record status
+     * Delete a pixabay picture by id
      *
-     * @param id     Id of background
-     * @param status New status of the background status
-     * @return true - Update successfully
+     * @param id Id of pixabay
+     * @return true - Delete successfully
      */
-    boolean updateBackgroundStatus(Integer id, Integer status);
+    boolean deletePixabayById(Integer id);
 }

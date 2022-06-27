@@ -1,8 +1,6 @@
 package edu.whut.bear.panda.service;
 
-import edu.whut.bear.panda.pojo.Admin;
 import edu.whut.bear.panda.pojo.User;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,14 +19,6 @@ public interface UserService {
     User getUserByUsernameAndPassword(String username, String password);
 
     /**
-     * Save user info entered by user
-     *
-     * @param user User
-     * @return true - Save successfully
-     */
-    boolean saveUser(User user);
-
-    /**
      * Get user by username
      *
      * @param username Username
@@ -45,11 +35,10 @@ public interface UserService {
     User getUserByEmail(String email);
 
     /**
-     * Get admin info by username and password
+     * Save user info entered by user
      *
-     * @param username Username
-     * @param password Password
-     * @return Admin or null
+     * @param user User
+     * @return true - Save successfully
      */
-    Admin getAdminByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+    boolean saveUser(User user);
 }

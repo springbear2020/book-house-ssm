@@ -45,7 +45,7 @@ $(function () {
      * After page loaded successfully, get user personal background data
      */
     $.ajax({
-        url: contextPath + "wallpaper/all",
+        url: contextPath + "wallpaper",
         type: "get",
         dataType: "json",
         async: false,
@@ -119,4 +119,55 @@ $(function () {
             changeTimeOfImg3 = pastSeconds;
         }
     }, 1000);
+
+    /* ================================================= Background upload ========================================== */
+    // Background upload click event
+    $("#btn-background-upload").click(function () {
+        $("#modal-upload-background").modal({
+            backdrop: "static"
+        })
+    });
+
+    // Close the upload modal event
+    $("#btn-background-upload-modal-close").click(function () {
+        $("#input-background-upload").attr("disabled", false);
+        $("#btn-background-start-upload").attr("disabled", false);
+    });
+
+    // Listening the content change of the file choose input element
+    var wallPaperFile;
+    var suffix;
+    $("#input-background-upload").on("change", function (e) {
+        wallPaperFile = e.target.files[0];
+        var srcFileName = $("#input-background-upload").val();
+        suffix = srcFileName.substring(srcFileName.lastIndexOf("."));
+    });
+
+    // Start uploading book button event
+    $("#btn-background-start-upload").click(function () {
+        if (!(".png" === suffix || ".jpg" === suffix)) {
+            showNoticeModal(WARNING_CODE, "请选择图片文件")
+            return false;
+        }
+
+        var formData = new FormData();
+        formData.append("wallpaperFile", wallPaperFile);
+
+        // Ask server the save image file
+        $.ajax({
+            url: contextPath + "wallpaper",
+            type: "post",
+            dataType: "json",
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                showNoticeModal(response.code, response.msg);
+            },
+            error: function () {
+                showNoticeModal(DANGER_CODE, "请求上传背景图片文件失败");
+            }
+        });
+    });
 });

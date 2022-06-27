@@ -137,7 +137,7 @@ $(function () {
             success: function (response) {
                 // Username and password are correct, resend an request to server for page redirect
                 if (SUCCESS_CODE === response.code) {
-                    location.href = contextPath + "user";
+                    location.href = contextPath + "home.html";
                 } else {
                     showNoticeModal(response.code, response.msg);
                 }

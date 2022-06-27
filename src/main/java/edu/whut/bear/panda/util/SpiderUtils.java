@@ -20,7 +20,7 @@ public class SpiderUtils {
      */
     public String getPixabaySpiderRealPath() {
         String fileRealPath;
-        Resource resource = new ClassPathResource("resource/pixabay_spider.py");
+        Resource resource = new ClassPathResource("python/pixabay_spider.py");
         try {
             fileRealPath = resource.getURL().toString();
             return fileRealPath.substring(fileRealPath.indexOf('/') + 1);

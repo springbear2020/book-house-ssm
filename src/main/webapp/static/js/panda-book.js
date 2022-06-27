@@ -102,16 +102,12 @@ $(function () {
             var $downloadLink = $("<a></a>").attr("role", "button");
             var $cover_img = $("<img/>");
             $cover_img.addClass("featurette-image img-responsive center-block");
-            $cover_img.attr("src", item.coverPath).attr("width", "333").appendTo($downloadLink);
+            $cover_img.attr("src", contextPath + item.coverPath).attr("width", "333").appendTo($downloadLink);
             $cover_parent.append($downloadLink);
 
             var $parent = $("<div></div>").addClass("row featurette");
             $parent.append($book_Info_parent).append($cover_parent).appendTo($divBookInfo);
             isCoverLeft = !isCoverLeft;
-            // Book download click event
-            $downloadLink.click(function () {
-                downloadBook(item.id);
-            });
         });
     };
 
@@ -210,32 +206,4 @@ $(function () {
         }
         getBookPageData(title, 1);
     });
-
-    /* ================================================== Download book ============================================= */
-    // Download book by id
-    var downloadBook = function (id) {
-        $.ajax({
-            url: contextPath + "transfer/download/book/" + id,
-            type: "get",
-            dataType: "json",
-            success: function (response) {
-                if (SUCCESS_CODE === response.code) {
-                    // Go to download book
-                    var downloadUrl = response.resultMap.downloadUrl;
-                    if (downloadUrl.length <= 0) {
-                        showNoticeModal(WARNING_CODE, "暂无该图书资源");
-                    } else {
-                        window.open(downloadUrl);
-                    }
-                } else if (INFO_CODE === response.code) {
-                    $("#modal-login").modal({backdrop: "static"});
-                } else {
-                    showNoticeModal(response.code, response.msg);
-                }
-            },
-            error: function () {
-                showNoticeModal(DANGER_CODE, "请求下载图书文件失败")
-            }
-        })
-    };
 });

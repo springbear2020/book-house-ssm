@@ -23,20 +23,31 @@
     <script th:src="@{/static/js/html5shiv.min.js}" charset="UTF-8"></script>
     <script th:src="@{/static/js/respond.min.js}" charset="UTF-8"></script>
     <![endif]-->
-
-    <!-- Custom java script -->
-    <script th:src="@{/static/js/jquery-1.7.2.js}" charset="UTF-8"></script>
-    <script th:src="@{/static/js/panda-wallpaper.js}" charset="UTF-8"></script>
-
-    <!-- Get the context path dynamically -->
-    <script th:inline="javascript" type="text/javascript" charset="UTF-8">
-        var contextPath = /*[[@{/}]]*/'';
-        $("#span-context-path").val(contextPath);
-    </script>
 </head>
 <body>
 <!-- Context path -->
 <span id="span-context-path" style="display: none;opacity: 100%"></span>
+
+<!-- Background image upload -->
+<div class="modal fade" id="modal-upload-background" tabindex="-1" role="dialog" aria-labelledby="modal-upload-background">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <!-- Title -->
+            <div class="modal-header text-center">
+                <button type="button" id="btn-background-upload-modal-close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>壁纸上传</strong></h4>
+            </div>
+            <!-- Image file choose -->
+            <input type="file" class="btn btn-block btn-info" accept="image/png,image/jpeg" id="input-background-upload"/>
+            <hr class="featurette-divider">
+            <!-- Start upload button -->
+            <div>
+                <button class="btn btn-block btn-primary" id="btn-background-start-upload">开始上传</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Notice modal -->
 <div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice" aria-hidden="true">
@@ -60,15 +71,15 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="navbar-brand">
-                <a th:href="@{/user}"><img alt="Brand" th:src="@{/static/img/panda.png}" height="40px" width="40px"></a>
+                <a th:href="@{/home.html}"><img alt="Brand" th:src="@{/static/img/panda.png}" height="40px" width="40px"></a>
             </div>
         </div>
         <!-- Right icon -->
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right text-center">
-                <!-- Pixabay -->
-                <li><a href="https://pixabay.com/" target="_blank"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a></li>
-            </ul>
+                <!-- Upload new background -->
+                <li><a role="button" id="btn-background-upload"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 上传</a></li>
+                </ul>
         </div>
     </div>
 </nav>
@@ -85,15 +96,15 @@
         <div class="carousel-inner" role="listbox">
             <!-- First -->
             <div class="item active">
-                <a href="" target="_blank"><img class="first-slide" src="" alt="First slide"></a>
+                <a href="" target="_blank"><img class="first-slide" th:src="@{/static/img/portrait.png}" alt="First slide"></a>
             </div>
             <!-- Second -->
             <div class="item">
-                <a href="" target="_blank"><img class="second-slide" src="" alt="Second slide"></a>
+                <a href="" target="_blank"><img class="second-slide" th:src="@{/static/img/portrait.png}" alt="Second slide"></a>
             </div>
             <!-- Third -->
             <div class="item">
-                <a href="" target="_blank"><img class="third-slide" src="" alt="Third slide"></a>
+                <a href="" target="_blank"><img class="third-slide" th:src="@{/static/img/portrait.png}" alt="Third slide"></a>
             </div>
             <a class="left carousel-control" role="button" data-slide="prev">
                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -120,5 +131,14 @@
 <script th:src="@{/static/js/bootstrap.min.js}" charset="UTF-8"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script th:src="@{/static/js/ie10-viewport-bug-workaround.js}" charset="UTF-8"></script>
+
+<!-- Custom java script -->
+<script th:src="@{/static/js/panda-wallpaper.js}" charset="UTF-8"></script>
+
+<!-- Get the context path dynamically -->
+<script th:inline="javascript" type="text/javascript" charset="UTF-8">
+    var contextPath = /*[[@{/}]]*/'';
+    $("#span-context-path").val(contextPath);
+</script>
 </body>
 </html>

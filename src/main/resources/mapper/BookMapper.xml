@@ -3,83 +3,31 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.whut.bear.panda.dao.BookMapper">
-    <!-- List<Book> getAllBooks(); -->
-    <select id="getAllBooks" resultType="Book">
-        select id,
-               title,
-               author,
-               translator,
-               downloads,
-               book_state,
-               book_upload_id,
-               cover_upload_id,
-               upload_user_id,
-               upload_username,
-               upload_time,
-               book_path,
-               cover_path,
-               comments
-        from t_book
-    </select>
+    <!-- int saveBook(Book book); -->
+    <insert id="saveBook" useGeneratedKeys="true" keyProperty="id">
+        insert into t_book(title, author, translator, downloads, book_state,
+                           upload_user_id, upload_username, upload_time, cover_path, comments)
+        VALUES (#{title}, #{author}, #{translator}, #{downloads}, #{bookState},
+                #{uploadUserId}, #{uploadUsername}, #{uploadTime}, #{coverPath}, #{comments})
+    </insert>
 
     <!-- List<Book> getBooksByTitle(@Param("title") String title); -->
     <select id="getBooksByTitle" resultType="Book">
-        select id,
-               title,
-               author,
-               translator,
-               downloads,
-               book_state,
-               book_upload_id,
-               cover_upload_id,
-               upload_user_id,
-               upload_username,
-               upload_time,
-               book_path,
-               cover_path,
-               comments
+        select *
         from t_book
         where title like '%${title}%'
     </select>
 
-    <!-- int getBooksTotalCount(); -->
-    <select id="getBooksTotalCount" resultType="java.lang.Integer">
-        select count(id)
+    <!-- List<Book> getAllBooks(); -->
+    <select id="getAllBooks" resultType="Book">
+        select *
         from t_book
     </select>
 
-    <!-- int saveBook(Book book); -->
-    <insert id="saveBook" useGeneratedKeys="true" keyProperty="id">
-        insert into t_book(title, author, translator, downloads, book_state, book_upload_id, cover_upload_id,
-                           upload_user_id, upload_username, upload_time, book_path, cover_path, comments)
-        VALUES (#{title}, #{author}, #{translator}, #{downloads}, #{bookState}, #{bookUploadId}, #{coverUploadId},
-                #{uploadUserId}, #{uploadUsername}, #{uploadTime}, #{bookPath}, #{coverPath}, #{comments})
-    </insert>
-
-    <!-- Book getBookById(@Param("id") Integer id); -->
-    <select id="getBookById" resultType="Book">
-        select id,
-               title,
-               author,
-               translator,
-               downloads,
-               book_state,
-               book_upload_id,
-               cover_upload_id,
-               upload_user_id,
-               upload_username,
-               upload_time,
-               book_path,
-               cover_path,
-               comments
+    <!-- List<Book> getUserBookUploadRecord(@Param("userId") Integer userId); -->
+    <select id="getUserBookUploadRecord" resultType="Book">
+        select *
         from t_book
-        where id = #{id}
+        where upload_user_id = #{userId}
     </select>
-
-    <!-- int bookDownloadsIncreaseOne(@Param("id") Integer id); -->
-    <update id="bookDownloadsIncreaseOne">
-        update t_book
-        set downloads = downloads + 1
-        where id = #{id}
-    </update>
 </mapper>

@@ -8,16 +8,17 @@ import java.util.List;
 
 /**
  * @author Spring-_-Bear
- * @datetime 2022/4/26 20:07
+ * @datetime 2022-06-27 08:16 Monday
  */
 @Repository
 public interface BookMapper {
     /**
-     * Get all books record
+     * Save a book record
      *
-     * @return Book list or null
+     * @param book Book
+     * @return 1 - Save successfully
      */
-    List<Book> getAllBooks();
+    int saveBook(Book book);
 
     /**
      * Get books record by the book title
@@ -28,33 +29,17 @@ public interface BookMapper {
     List<Book> getBooksByTitle(@Param("title") String title);
 
     /**
-     * Get the total count of the book record
+     * Get all books record
      *
-     * @return Book total count
+     * @return Book list or null
      */
-    int getBooksTotalCount();
+    List<Book> getAllBooks();
 
     /**
-     * Save a book record
+     * Get the record of the user upload the books history
      *
-     * @param book Book
-     * @return 1 - Save successfully
+     * @param userId Id of user
+     * @return Book list or null
      */
-    int saveBook(Book book);
-
-    /**
-     * Get book record by id
-     *
-     * @param id Id of book record
-     * @return Book or null
-     */
-    Book getBookById(@Param("id") Integer id);
-
-    /**
-     * Increase the book's downloads by one
-     *
-     * @param id Id of book
-     * @return 1 - Increase successfully
-     */
-    int bookDownloadsIncreaseOne(@Param("id") Integer id);
+    List<Book> getUserBookUploadRecord(@Param("userId") Integer userId);
 }

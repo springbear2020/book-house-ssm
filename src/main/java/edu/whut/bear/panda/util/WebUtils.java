@@ -51,7 +51,7 @@ public class WebUtils {
                 }
             }
         }
-        return ip;
+        return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : ip;
     }
 
 

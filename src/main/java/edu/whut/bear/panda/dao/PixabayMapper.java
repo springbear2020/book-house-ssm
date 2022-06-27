@@ -4,14 +4,19 @@ import edu.whut.bear.panda.pojo.Pixabay;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * @author Spring-_-Bear
- * @datetime 2022/5/3 20:49
+ * @datetime 2022-06-27 11:00 Monday
  */
 @Repository
 public interface PixabayMapper {
+    /**
+     * Delete all pixabay record
+     *
+     * @return Number of rows affected
+     */
+    int deleteAllPixabay();
+
     /**
      * Get the first pixabay record in the "t_pixabay" table
      *
@@ -26,11 +31,4 @@ public interface PixabayMapper {
      * @return 1 - Delete successfully
      */
     int deletePixabayById(@Param("id") Integer id);
-
-    /**
-     * Delete all pixabay record
-     *
-     * @return Number of rows affected
-     */
-    int deleteAllPixabay();
 }

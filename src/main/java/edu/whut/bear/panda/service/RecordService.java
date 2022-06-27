@@ -1,13 +1,12 @@
 package edu.whut.bear.panda.service;
 
 import com.github.pagehelper.PageInfo;
+import edu.whut.bear.panda.pojo.Book;
 import edu.whut.bear.panda.pojo.Login;
-import edu.whut.bear.panda.pojo.Record;
-import edu.whut.bear.panda.pojo.Upload;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
-
+import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -15,32 +14,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface RecordService {
-    /**
-     * Save upload record
-     *
-     * @param upload Upload
-     * @return true - Save successfully
-     */
-    boolean saveUpload(Upload upload);
-
-    /**
-     * Save the operation record
-     *
-     * @param record Operation record(download book or upload book)
-     * @return true - Save successfully
-     */
-    boolean saveRecord(Record record);
-
-    /**
-     * Get user's record page data
-     *
-     * @param userId  Id of user
-     * @param type    Operation record type(download or upload book)
-     * @param pageNum The page number
-     * @return Record page data or null
-     */
-    PageInfo<Record> getRecordPageData(@Param("userId") Integer userId, @Param("type") Integer type, Integer pageNum);
-
     /**
      * Save the log of the user
      *
@@ -56,4 +29,13 @@ public interface RecordService {
      * @return Login page data or null
      */
     PageInfo<Login> getLoginPageData(Integer userId, Integer pageNum);
+
+    /**
+     * Get the record of the user upload the books history
+     *
+     * @param userId Id of user
+     * @param pageNum Number of the pages
+     * @return User book upload page info
+     */
+    PageInfo<Book> getUserBookRecord(Integer userId, Integer pageNum);
 }

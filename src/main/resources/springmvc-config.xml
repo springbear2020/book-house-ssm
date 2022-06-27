@@ -4,7 +4,9 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
     <!-- Mvc basic config -->
-    <context:component-scan base-package="edu.whut.bear.panda.controller"/>
+    <context:component-scan base-package="edu.whut.bear.panda.controller,
+                                          edu.whut.bear.panda.interceptor,
+                                          edu.whut.bear.panda.exception"/>
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven/>
 
@@ -27,8 +29,50 @@
     </bean>
     <!-- View controller -->
     <mvc:view-controller path="/" view-name="index"/>
-    <mvc:view-controller path="/sentence" view-name="sentence"/>
-    <mvc:view-controller path="/wallpaper" view-name="wallpaper"/>
-    <mvc:view-controller path="/admin" view-name="admin"/>
-    <mvc:view-controller path="/404" view-name="404"/>
+    <mvc:view-controller path="/home.html" view-name="home"/>
+    <mvc:view-controller path="/book-add.html" view-name="book-add"/>
+    <mvc:view-controller path="/sentence.html" view-name="sentence"/>
+    <mvc:view-controller path="/wallpaper.html" view-name="wallpaper"/>
+    <mvc:view-controller path="/pixabay.html" view-name="pixabay"/>
+    <mvc:view-controller path="/history.html" view-name="history"/>
+
+    <!-- 文件上传解析器 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 10M -->
+        <property name="maxUploadSize" value="10485760"/>
+        <property name="defaultEncoding" value="utf-8"/>
+    </bean>
+
+    <!-- Interceptors -->
+    <mvc:interceptors>
+        <!-- User login interceptor -->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/"/>
+            <!-- login -->
+            <mvc:exclude-mapping path="/user/{username}/{password}"/>
+            <!-- register -->
+            <mvc:exclude-mapping path="/user/{verifyCode}"/>
+            <!-- book page data -->
+            <mvc:exclude-mapping path="/book/{pageNum}"/>
+            <!-- verify username existence -->
+            <mvc:exclude-mapping path="/user/{username}"/>
+            <!-- verify email address existence and send verify code -->
+            <mvc:exclude-mapping path="/email"/>
+            <!-- static resources -->
+            <mvc:exclude-mapping path="/static/**"/>
+            <ref bean="loginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- Exception handler -->
+    <bean  class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="edu.whut.bear.panda.exception.LoginInterceptorException">index</prop>
+            </props>
+        </property>
+        <property name="exceptionAttribute" value="loginMsg"/>
+    </bean>
 </beans>
