@@ -1,4 +1,32 @@
+> 项目部署运行步骤如下：
+>
+> 方案一：
+>
+> 1. 使用 `IntelliJ IDEA` 打开克隆后的仓库，而后使用 `Maven` 工具更新工程依赖，[为工程增加 `Web` 模块](https://springbear.blog.csdn.net/article/details/125467118)
+> 2. 登录 `MySQL` ，创建 `panda_book_house` 数据库，将 `src/main/resources/panda_book_house.sql` 文件中的数据库表导入 panda_book_house 数据库中
+> 3. 修改 `src/main/resources/properties/jdbc.properties` 中的数据库连接信息，设置你自己的数据库用户名和密码 
+> 4. 可选：修改 `src/main/resources/properties/email.properties` 中的邮箱连接信息，设置为你自己的邮箱账号和服务器（不设置则注册时获取邮箱验证码功能不可用）。个人邮箱开启 smtp 功能指导博客：[smtp 开启](https://blog.csdn.net/smilehappiness/article/details/108145215)
+> 5. 在 `IntelliJ IDEA` 中部署 `Tomcat` 即可访问
+>
+> 方案二：
+>
+> 1. 将 `RELEASE` 目录下的 `panda_book_house.war` 包拷贝到 `Tomcat` 安装目录下的 `webapps` 目录中
+>
+> 2. 登录 `MySQL`，创建 `panda_book_house` 数据库，将 `RELEASE/panda_book_house.sql` 文件中的数据库表导入 panda_book_house 数据库中
+>
+> 3. 在 MySQL 控制台创建 `admin` 用户，密码也为 `admin`，并赋予 admin 用户所有操作权限
+>
+>    ```sql
+>    create user 'admin'@'localhost' identified by 'admin';
+>    grant all on panda_book_house.* to 'admin'@'localhost' with grant option;
+>    ```
+>
+> 4. 双击 Tomcat 安装目录下 `bin` 目录中的 `startup.bat` 启动 Tomcat
+>
+> 5. 在浏览器地址栏输入 `http://localhost:8080/panda-book-house` 即可访问
+
 # 一、应用背景描述
+
 随着互联网技术的飞速发展，网络上充斥着越来越多的有用或是无用的资源，要在不计其数的资源中筛选出自己亟需的资源，需要耗费巨大的精力和时间。尤其是各种电子图书资源（主要为 PDF）还涉及到知识产权的法律性问题，导致截至目前为止几乎没有哪个产品能完全满足快速检索电子图书资源和提供相关服务的需求。一般情况下用户所需的电子图书资源都存放在用户的个人云盘中，现有的网站系统几乎是将所有的下载链接进行糅合，杂乱无章的整合让普通用户无所适从、望而却步。对于急需查找电子图书的用户，需要到从繁杂的网页中检索出需要的图书的链接，再根据链接跳转到对应的云盘进行下载。不得不说，这样的方式对一般用户极其不友好，图书资源也不够规范化、有的是盗版图书、有的下载链接早已失效······ 极大程度浪费了用户的精力和时间。因而我们的熊猫书屋系统应运而生，本着开源共享的精神，本站所有的图书资源均由用户上传，站长负责整理发布，只为用户提供一个专业的 PDF 书屋（我们的设想是在不久的将来能联系作者本人解决图书的知识产权问题，尊重知识创造）。
 #  二、系统功能描述
 
