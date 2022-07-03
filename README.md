@@ -23,7 +23,7 @@
 >
 >    ```sql
 >    create user 'admin'@'localhost' identified by 'admin';
->    grant all on online_bookhouse.* to 'admin'@'localhost' with grant option;
+>    grant all on panda_book_house.* to 'admin'@'localhost' with grant option;
 >    ```
 >
 > 5. 启动 Tomcat：双击 Tomcat 安装目录下 `bin` 目录中的 `startup.bat` 启动 Tomcat
