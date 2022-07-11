@@ -1,7 +1,3 @@
-
-> 开源项目：[熊猫书屋](https://github.com/springbear2020/panda-book-house)
-
-
 > 开发时间：2022.04.21 - 2022.05.13
 
 
