@@ -20,7 +20,7 @@ import java.util.Properties;
  */
 @Data
 @Component
-@PropertySource("classpath:properties/email.properties")
+@PropertySource("classpath:email.properties")
 public class EmailUtils {
     /**
      * Email config data

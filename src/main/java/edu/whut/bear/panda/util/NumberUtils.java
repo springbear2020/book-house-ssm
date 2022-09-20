@@ -1,6 +1,5 @@
 package edu.whut.bear.panda.util;
 
-import javax.swing.*;
 import java.util.Random;
 
 /**

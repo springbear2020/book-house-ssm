@@ -10,7 +10,7 @@
                                           edu.whut.bear.panda.util"/>
 
     <!-- Data Source-->
-    <context:property-placeholder location="classpath:properties/jdbc.properties"/>
+    <context:property-placeholder location="classpath:jdbc.properties"/>
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${jdbc.driverClass}"/>
         <property name="url" value="${jdbc.url}"/>

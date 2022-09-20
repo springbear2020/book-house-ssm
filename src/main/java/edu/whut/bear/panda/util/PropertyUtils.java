@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@PropertySource("classpath:properties/panda.properties")
+@PropertySource("classpath:panda.properties")
 public class PropertyUtils {
 
     /**
